@@ -57,8 +57,8 @@
 
 
 
-
-
+    git rm --cached .travis.yml
+    git rm --cached id_rsa.enc
 
 
 

@@ -10,12 +10,12 @@
 
 
 
+        this.query = args[0];
 
 
 
 
-
-
+            if (item.tag.trim() === "Template" && !args[1]) return false;
 
 
 

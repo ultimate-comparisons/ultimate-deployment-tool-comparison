@@ -1,4 +1,4 @@
-
+<div class="page-header" style="padding: 15 15 8 15;margin: 0 0 20 0;">
 
 
         <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
@@ -17,7 +17,7 @@
         <div class="card-content" [innerHTML]="getBody()|citation:[citationServ]|sanitizeHtml"></div>
 
 
-
+    <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
 
 
 
