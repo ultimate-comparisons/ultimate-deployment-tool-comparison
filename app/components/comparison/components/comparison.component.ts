@@ -2,34 +2,34 @@ import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetect
 import * as saveAs from 'file-saver';
 
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
+import { ModalDialogComponent } from '../../modaldialog/index';
 
-
-
-
-
+import { ComparisonConfigService } from './comparison-config.service';
+import { ComparisonDataService } from './comparison-data.service';
+import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 
-
-
-
-
+@Component({
+    selector: 'comparison',
+    templateUrl: '../templates/comparison.template.html',
+    styleUrls: ['../styles/style.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-
-
-
-
-
+    moduleId: module.id
+})
+export class ComparisonComponent {
+    criteriaSelection = [];
+    private query: {[name: string]: CriteriaSelection;} = { };
     private order: Array<String> = new Array<String>(3);
     private orderOption: Array<number> = new Array<number>(3);
     private ctrlCounter:number = 0;
      
-
-
-
+    constructor(
+            public serv: ComparisonService,
+            public dataServ: ComparisonDataService,
             public confServ: ComparisonConfigService,
             public citationServ: ComparisonCitationService,
             private cd: ChangeDetectorRef
-
+        ){
         this.confServ.loadComparison(this.cd);
         this.confServ.loadCriteria(this.cd);
         this.confServ.loadTableData(this.cd);
@@ -41,13 +41,13 @@ import { ComparisonCitationService } from './comparison-citation.service';
         this.orderOption[1] = this.orderOption[2] = 0;
     } 
     
-
-
-
-
+    private criteriaChanged(value:Array<String>, crit:Criteria ){
+        if (value){
+            this.query[crit.tag] = new CriteriaSelection(value,crit);
+        }
         this.cd.markForCheck();
-
-
+    }
+    
     private orderChanged(value:String, pos:number){
         if(this.order.length > pos){
             this.order[pos] = value;
@@ -88,17 +88,17 @@ import { ComparisonCitationService } from './comparison-citation.service';
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
     }
     
-
-
-
-
-
-
-
-
-
-
-
+    @ViewChild('details') detailsModal: ModalDialogComponent;
+    private activeRow: Data = new Data();
+    private showDetails(data:Data){
+        this.activeRow = data;
+        this.detailsModal.open();
+    }
+    
+    @ViewChild('settings') settingsModal: ModalDialogComponent;
+    private showTableProperties(){
+        this.settingsModal.open();
+    }
     
     @ViewChild('latextable') latexTable: ElementRef;
     private downloadLatexTable(){
@@ -118,4 +118,4 @@ import { ComparisonCitationService } from './comparison-citation.service';
             this.latexTable.nativeElement.classList.add("ltable");
         }
     }
-
+}

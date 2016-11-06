@@ -1,50 +1,50 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { Http } from '@angular/http';
+import { Title } from '@angular/platform-browser';
 
-
-
-
-
+import { TableDataSet, CriteriaSet, Comparison } from './../shared/index';
+import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 
-
-
-
-
-
+@Injectable()
+export class ComparisonConfigService {
+    public tableDataSet: TableDataSet;
+    public criteriaSet: CriteriaSet;
+    public comparison: Comparison;
     public description: string;
-
-
-
-
+    
+    constructor(
+            public title: Title,
+            private http: Http,
             private comparisonDataService: ComparisonDataService,
             private comparisonService: ComparisonService
-
-
+        ){}
+        
     public loadTableData(cd: ChangeDetectorRef){
-
-
-
+        this.http.request('comparison-configuration/table.json')
+        .subscribe(res => {
+            this.tableDataSet = new TableDataSet(res.json());
             cd.markForCheck();
             this.comparisonDataService.loadData(this.tableDataSet, cd);
-
-
-
+        })
+    }
+    
     public loadCriteria(cd: ChangeDetectorRef){       
-
-
-
+        this.http.request('comparison-configuration/criteria.json')
+        .subscribe(res => {
+            this.criteriaSet = new CriteriaSet(res.json());
             cd.markForCheck();
-
-
-
+        });
+    }
+    
     public loadComparison(cd: ChangeDetectorRef){
-
-
-
-
+        this.http.request('comparison-configuration/comparison.json')
+        .subscribe(res => {
+            this.comparison = new Comparison(res.json());
+            this.title.setTitle(this.comparison.title);
             cd.markForCheck();
-
-
+        });
+    }
     
     public loadDescription(cd: ChangeDetectorRef){
         this.http.request('comparison-configuration/description.md')
@@ -71,4 +71,4 @@ import { ComparisonService } from './comparison.service';
             this.displayAllName = toggle? "None" : "All";
         }
     }
-
+}
