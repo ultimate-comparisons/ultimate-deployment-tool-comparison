@@ -1,57 +1,57 @@
+[
+    {
+        "name": "Host OS",
+        "tag": "hostos",
+        "description": "The operating system running on the managing machine.",
 
+        "and_search": true,
+        "values": [
+            {
+                "name": "Windows",
+                "description": "Windows"
+            },
+            {
+                "name": "Linux",
+                "description": "Linux"    
+            },
+            {
+                "name": "Mac",
+                "description": "Mac OS X"    
+            }
+        ]
+    },
+    {
+        "name": "Guest OS",
+        "tag": "guestos",
+        "description": "The operating system running on the managed machines.",
 
+        "and_search": true,
+        "values": [
+            {
+                "name": "Win",
+                "description": "Windows"
+            },
+            {
+                "name": "Lin",
+                "description": "Linux"    
+            },
+            {
+                "name": "Mac",
+                "description": "Mac OS X"    
+            }
+        ]
+    },
+    {
+        "name": "Elastic Infrastructure Restrictions",
+        "tag": "elinfres",
+        "description": "The platforms on which the tool is able to run.",
 
+        "and_search": true,
+        "values": [
+            {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                "description": "There are no elastic infrastructure restrictions"
+            }
+        ]
+    }
+]

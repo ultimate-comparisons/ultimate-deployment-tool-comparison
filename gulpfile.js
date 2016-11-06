@@ -8,6 +8,9 @@
 
 
 
+    tsConfig = require('./tsconfig'),
+    bibtex2json = require('./citation/bibtex2json'),
+    fs = require('fs');
 
 
 
@@ -36,6 +39,9 @@
 
 
 
+        './comparison-configuration/*',
+        './citation/output/*',
+        './favicon.ico'
 
 
 
@@ -44,15 +50,20 @@
 
 
 
+        './node_modules/core-js/**/*',
 
 
 
 
+        './node_modules/angular-in-memory-web-api/**/*.js',
 
 
 
+        './node_modules/file-saver/**/*js',
 
 
+         "./node_modules/@vaadin/angular2-polymer/**/*",
+         "./node_modules/angular2-select/**/*"
 
 
 
@@ -81,6 +92,7 @@
 
 
 
+    run('markdown', 'json', 'citation', callback);
 
 
 
@@ -107,22 +119,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+gulp.task('citation', function(){
+    var fileContent = JSON.parse(fs.readFileSync("./citation/config.json", "utf8"));
+    bibtex2json.parse('./citation/' + fileContent.bibtex_file, 'utf8', './citation/' + fileContent.bibtex_style, './citation/output');
+})
 
 
 

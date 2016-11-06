@@ -2,6 +2,17 @@
 
 
 
+- Linux
+
+
+
+- Windows
+
+
+
+- Linux
+
+- Windows
 
 
 
@@ -24,6 +35,7 @@
 
 
 
+- SSH/SSL (L)
 
 
 
@@ -37,19 +49,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Management
 
 
 

@@ -108,14 +108,14 @@
 
 
 
+   
+th > button {
+    border: none;
+    padding: 0;
+    outline:none;
+    background-color: inherit;
+}
 
-
-
-
-
-
-
-
-
-
-
+.ltable {
+    display: none;
+}

@@ -6,8 +6,10 @@
 
 
 
+    
 
 
+            <div [innerHtml]="confServ.description|citation:[citationServ]|sanitizeHtml" class="description"></div>
 
 
 
@@ -20,6 +22,7 @@
 
 
 
+                        <select2 [options]="crit.values" [placeholder]="crit.placeholder"  (result)="criteriaChanged($event, crit)"></select2>
 
 
 
@@ -33,6 +36,13 @@
 
 
 
+                            <th valign=column.valign style=column.style name=column.tag>
+                                <button (click)="orderClick($event, column.tag)">
+                                    {{column.name}}
+                                    <iron-icon icon="hardware:keyboard-arrow-up" *ngIf="displayOrder(column.tag, -1)"></iron-icon>
+                                    <iron-icon icon="hardware:keyboard-arrow-down" *ngIf="displayOrder(column.tag, 1)"></iron-icon>
+                                </button>
+                            </th>
 
 
 
@@ -40,13 +50,17 @@
 
 
 
+                    <tr *ngFor="let dat of dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]">
 
 
+                            <td *ngIf="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ]|sanitizeHtml"></div></td>
 
 
+                                    <div class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
 
 
 
+                                            <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
 
 
 
@@ -60,10 +74,23 @@
 
 
 
+    
+    <paper-card heading="References"  style="width: 100%; margin-bottom: 20px;padding-bottom: 10px;" *ngIf="citationServ.references&&confServ.description&&confServ.tableDataSet&&confServ.comparison">
+        <div class="card-content">
+            <table>
+            <template ngFor let-entry [ngForOf]="citationServ.references">
+                <tr style="padding-left:5px;">
+                    <td style="padding-right:10px;font-size:small;padding-top:3px;width:15%;" valign="top">{{citationServ.bibEntriesInline[entry]}}:</td><td [id]=entry [innerHtml]="citationServ.bibEntriesHtml[entry]|sanitizeHtml"></td>
+                </tr>
+            </template>
+            </table>
+        </div>
+    </paper-card>
 
 
 
 
+    This is an <a href="http://ultimate-comparisons.github.io/">Ultimate Comparison</a> | content licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>    
 
 
 
@@ -75,6 +102,7 @@
 
 
 
+    <div class="col-md-12">
 
 
 
@@ -90,83 +118,55 @@
 
 
 
+                Latex
+                <paper-listbox>
+                    <paper-button raised (click)="downloadLatexTable()">Download Table</paper-button>
+                    <paper-item><paper-checkbox [(checked)]="showTable" (checkedChange)="previewLatexTable($event)">Display Latex Table</paper-checkbox></paper-item>
+                </paper-listbox>
 
 
 
+</modal-dialog>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div *ngIf="confServ.tableDataSet" class="ltable container" style="padding-bottom:100px;margin-top:-40px;" #latextable>
+<paper-card heading="Latex Table" style="width: 100%;padding-bottom: 0px;"><div class="card-content" style="overflow: auto;"><!--
+-->%\usepackage&#123;calc&#125;<br/>
+%\usepackage&#123;booktabs&#125;<br/>
+%\usepackage&#123;url&#125;<br/>
+%\usepackage&#123;hyperref&#125;<br/>
+%\usepackage&#123;footnote&#125;<br/>
+%\usepackage&#123;scrextend&#125;<br/>
+%\makesavenoteenv&#123;tabular&#125;<br/>
+%\makesavenoteenv&#123;tabule&#125;<br/>
+\begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </template>&#64;&#123;&#125;&#125;<br/>
+\toprule<br/>
+<template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!-- 
+    --><template [ngIf]="!last">&#38; </template><!--
+    --><template [ngIf]="last">\\<br/></template>
+</template>\midrule<br/>
+<!-- iterate over data rows 
+--><template ngFor let-dat [ngForOf]="dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]"><!-- 
+    iterate over data columns 
+    --><template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last"><!-- 
+        print url 
+        --><template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</template><!-- 
+        print text 
+        --><template [ngIf]="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ, true]|sanitizeHtml"></div></template><!--
+        print labels 
+        --><template [ngIf]="column.type?.tag==='label'">\begin&#123;tabular&#125;&#123;l&#125;<!--
+            iterate over labels 
+            --><template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
+                print label 
+                -->{{sitem.content}}<!--
+                    tooltip
+                    --><template [ngIf]="sitem.latexChilds"><comparison-footnote [footnote]="sitem.latexChilds"></comparison-footnote></template><!-- 
+                    label seperator --><template [ngIf]="!lastItem">\\</template><!--
+            --></template>\end&#123;tabular&#125;<!--
+        --></template><template [ngIf]="!last"> &#38; </template><template [ngIf]="last">\\<br/></template><!--
+    --></template>
+</template>\bottomrule<br/>
+\end&#123;tabular&#125;<br/>
+\newcommand\snum&#123;0&#125;
+<template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
+</template></div></paper-card>
+</div>

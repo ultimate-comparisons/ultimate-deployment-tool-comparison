@@ -2,6 +2,17 @@
 
 
 
+- Linux
+
+
+
+- Windows
+
+
+
+- Windows (L)
+    - [@JujuLoc]
+- Linux (L)
 
 
 
@@ -20,24 +31,13 @@
 
 
 
+- Scripts
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+- SSH/SSL
 
 
 

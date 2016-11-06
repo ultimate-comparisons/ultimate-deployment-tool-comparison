@@ -1,34 +1,34 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+{ "Adi:2004:ASM:988145.988150":"[Adi and Etzion 2004]",
+ "Bass:2007:MES:1266894.1266896":"[Bass 2007]",
+ "Bry07towardsformal":"[Bry 2007]",
+ "Chakravarthy:1994:CEA:645920.672994":"[Chakravarthy et al. 1994]",
+ "prolog:morgankaufman":"[Covington et al. 1987]",
+ "Dayal:1988:ROT:60295.60304":"[Dayal et al. 1988]",
+ "eckertThesisCEP":"[Eckert 2008]",
+ "raey2":"[Eckert and Bry 2009]",
+ "Eckert2011":"[Eckert et al. 2011]",
+ "esper-reference":"[Esper Team]",
+ "SurveyCEPaPA":"[Fülöp et al. 2010]",
+ "Gehani92compositeevent":"[Gehani and Jagadish 1992]",
+ "reasoningEBDS":"[Helmer et al. 2011]",
+ "ibmtivoli":"[IBM 2016]",
+ "jensenCEPEsper":"[Jensen 2008]",
+ "JZ2014":"[Jerzak and Ziekow 2014]",
+ "lambda-expl":"[Kinley 2015]",
+ "Luckham2006ESPvsCEP":"[Luckham 2006]",
+ "luckham2002power":"[Luckham 2002]",
+ "Luckham2008a":"[Luckham and Schulte 2008]",
+ "marz2015big":"[Marz and Warren 2015]",
+ "McCarthy:1989:AAD:67544.66946":"[McCarthy and Dayal 1989]",
+ "milneCEPEsper":"[Milne 2011]",
+ "Paton:1999:ADS:311531.311623":"[Paton and Díaz 1999]",
+ "PSV2014":"[Perera et al. 2014]",
+ "Schmidt2008b":"[Schmidt et al. 2008]",
+ "Suhothayan:2011:SSL:2110486.2110493":"[Suhothayan et al. 2011]",
+ "epwtbe":"[TIBCO Team 2016a]",
+ "timbuctobusinessevents":"[TIBCO Team 2016b]",
+ "timbuctoWeb":"[TIBCO Team 2016c]",
+ "siddhi":"[WSO2 2016a]",
+ "siddhiW2O":"[WSO2 2016b]",
+ "Xu:2012:AUC:2335484.2335500":"[Xu et al. 2012]",
+ "Ziekow:2013:FHE:2541596.2541598":"[Ziekow et al. 2013]" }

@@ -1,6 +1,11 @@
 
 
 
+        <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
+
+
+
+                <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
 
 
 
@@ -9,23 +14,18 @@
 
 
 
+        <div class="card-content" [innerHTML]="getBody()|citation:[citationServ]|sanitizeHtml"></div>
 
 
 
 
 
 
+                <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
 
 
 
-
-
-
-
-
-
-
-
+                        <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
 
 
 

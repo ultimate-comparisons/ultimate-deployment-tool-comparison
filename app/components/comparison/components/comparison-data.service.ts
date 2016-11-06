@@ -1,3 +1,21 @@
+import { Injectable, ChangeDetectorRef } from '@angular/core';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public loadData(tableDataSet: TableDataSet, cd: ChangeDetectorRef){
 
 
 
@@ -40,25 +58,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            cd.markForCheck();
 
 
 
