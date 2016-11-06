@@ -3,11 +3,11 @@ AutoMate is a codeless Windows only Deployment and management tool.
 
 ## hostos
 - Windows
-
+    - [@AutoMateDocs]
 
 ## guestos
 - Windows
-
+    - [@AutoMateDocs]
 
 ## elinfres
 - None (L)
@@ -27,23 +27,23 @@ AutoMate is a codeless Windows only Deployment and management tool.
 
 ## security
 - SSH/SSL
-
+    - [@AutoMateDocs]
 
 ## fullrangeprovisioning
-
-
-
-
-
-
+- Installing
+    - [@AutoMateDocs]
+- Configuring
+    - [@AutoMateDocs]
+- Starting
+    - [@AutoMateDocs]
 
 ## fullrangelifecycle
-
-
-
-
-
-
+- Provisioning
+    - [@AutoMateDocs]
+- Management
+    - [@AutoMateDocs]
+- Termination
+    - [@AutoMateDocs]
 
 ## unattendeddepl
 

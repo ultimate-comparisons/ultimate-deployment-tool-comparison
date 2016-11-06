@@ -3,7 +3,7 @@ Developed by Amazon
 
 ## hostos
 - Windows
-
+    - [@AWSCHOS]
 - Linux
     - [@AWSCHOS]
 
@@ -27,11 +27,11 @@ Developed by Amazon
 - Detailed
 
 ## migrationpaths
-
+- Yes
     - [AWSCMig]
 
 ## extensibility
-
+- Plugins
     - [@AWSCPlug]
 
 ## security
@@ -39,35 +39,35 @@ Developed by Amazon
     - [@AWSCSec]
 
 ## fullrangeprovisioning
-
-
+- Installing
+    - [@AWSCProv]
 - Configuring
-
+    - [@AWSCProv]
 - Starting
     - [@AWSCProv]
 
 ## fullrangelifecycle
-
-
+- Provisioning
+    - [@AWSCProv]
 - Management
-
+    - [@AWSCProv]
 - Termination
     - [@AWSCProv]
 
 ## unattendeddepl
-
+- Yes
     - [AWSCDep]
 
 ## scalability
-
-
+- Horizontally
+    - [@AWSCScal]
 - Vertically
     - [@AWSCScal]
 
 ## support
-
+- Free
 - Commercial
 
 ## devstatus
-
+- Active
     - [@AWSCStat]

@@ -3,18 +3,18 @@ Developed by Amazon
 
 ## hostos
 - Linux
-
+    - [@ACDOS]
 - Windows
     - [@ACDOS]
 
 ## guestos
 - Linux
-
+    - [@ACDOS]
 - Windows
     - [@ACDOS]
 
 ## elinfres
-
+- None
     - [@ACDElIn]
 
 ## fehandling
@@ -24,13 +24,13 @@ Developed by Amazon
 
 
 ## statusreport
-
+- Yes
     - [@ACEStat]
 
 ## migrationpaths
 
 ## extensibility
-
+- Plugins
     - [@ACDGitHub]
 
 ## security
@@ -38,18 +38,18 @@ Developed by Amazon
     - [@ACDSec]
 
 ## fullrangeprovisioning
-
-
+- Installing
+    - [@ACDProv]
 - Configuring
-
+    - [@ACDProv]
 - Starting
     - [@ACDProv]
 
 ## fullrangelifecycle
-
-
+- Provisioning
+    - [@ACDProv]
 - Management
-
+    - [@ACDProv]
 - Termination
     - [@ACDProv]
 
@@ -60,8 +60,8 @@ Developed by Amazon
 
 
 ## support
-
+- Commercial
 
 ## devstatus
-
+- Active
     - [@ACDStat]

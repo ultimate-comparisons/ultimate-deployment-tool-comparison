@@ -5,16 +5,16 @@ Developed by IBM
 - Windows
     - [@UrbOS]
 - Linux
-
+    - [@UrbOS]
 
 ## guestos
 - Windows
     - [@UrbOS]
 - Linux
-
+    - [@UrbOS]
 
 ## elinfres
-
+- None
     - [@UrbElIn]
 
 ## fehandling
@@ -27,7 +27,7 @@ Developed by IBM
 ## migrationpaths
 
 ## extensibility
-
+- Plugins
     - [@UrbPlug]
 
 ## security
@@ -54,15 +54,15 @@ Developed by IBM
     - [@UrbLife]
 
 ## unattendeddepl
-
+- Yes
     - [@UrDep]
 
 ## scalability
-
+- Horizontally
     - [@UrbScal]
 
 ## support
-
+- Commercial
     - [@UrbSupp]
 
 ## devstatus

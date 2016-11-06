@@ -28,7 +28,7 @@ Developed by Puppet-Labs
 
 ## migrationpaths
 
-
+## extensibility
 - Scripts
     - [@PuppetForge]
 
@@ -36,7 +36,7 @@ Developed by Puppet-Labs
 - SSH/SSL
     - [@PuppetSec]
 
-
+## fullrangeprovisioning
 - Installing
     - [@Puppet]
 - Configuring

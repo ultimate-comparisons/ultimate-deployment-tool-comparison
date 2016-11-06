@@ -25,7 +25,7 @@ Developed by Cinovo
 
 ## migrationpaths
 
-
+## extensibility
 - None
     - [@ClCond]
 
@@ -33,12 +33,12 @@ Developed by Cinovo
 - SSH/SSL
     - [@ClCondWiki]
 
-
+## fullrangeprovisioning
 - Installing (L)
     - [@ClCond]
-
+- Configuring
     - [@ClCond]
-
+- Starting
     - [@ClCond]
 
 ## fullrangelifecycle

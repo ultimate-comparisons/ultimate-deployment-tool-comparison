@@ -3,7 +3,7 @@
         "name": "Host OS",
         "tag": "hostos",
         "description": "The operating system running on the managing machine.",
-
+        "placeholder": "Select OS ...",
         "and_search": true,
         "values": [
             {
@@ -24,7 +24,7 @@
         "name": "Guest OS",
         "tag": "guestos",
         "description": "The operating system running on the managed machines.",
-
+        "placeholder": "Select OS ...",
         "and_search": true,
         "values": [
             {
@@ -45,11 +45,11 @@
         "name": "Elastic Infrastructure Restrictions",
         "tag": "elinfres",
         "description": "The platforms on which the tool is able to run.",
-
+        "placeholder": "Select Restrictions ...",
         "and_search": true,
         "values": [
             {
-
+                "name": "None",
                 "description": "There are no elastic infrastructure restrictions"
             }
         ]

@@ -18,7 +18,7 @@ Developed by HashiCorp
     - [@Vagrant]
 
 ## elinfres
-
+- None
     - [@VagrElIn]
 
 ## fehandling
@@ -31,7 +31,7 @@ Developed by HashiCorp
 ## migrationpaths
 
 ## extensibility
-
+- Plugins
     - [@VagrPlug]
 
 ## security
@@ -39,7 +39,7 @@ Developed by HashiCorp
     - [@VagrSec]
 
 ## fullrangeprovisioning
-
+- Installing
     - [@VagrProv]
 - Configuring
     - [@VagrProv]
@@ -47,7 +47,7 @@ Developed by HashiCorp
     - [@VagrProv]
 
 ## fullrangelifecycle
-
+- Provisioning
     - [@VagrProv]
 - Management
     - [@VagrProv]
@@ -60,11 +60,11 @@ Developed by HashiCorp
 - Horizontally
 
 ## support
-
+- Commercial
     - [@VagrSupp]
-
+- Free
     - [@VagrSupp]
 
 ## devstatus
-
+- Active
     - [@VagrGitHub]

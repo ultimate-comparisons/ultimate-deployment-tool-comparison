@@ -15,7 +15,7 @@
             "reversability",
 	    "statusreport",
             "migrationpaths", 
-
+            "extensibility",
             "security",
 	    "fullrangelifecycle",
             "fullrangeprovisioning",

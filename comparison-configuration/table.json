@@ -13,7 +13,7 @@
         "name": "Short Description",
         "tag":  "descr",
         "style": "width: 25%",
-
+        "display": false,
         "type": {
             "tag": "text"
         }
@@ -247,8 +247,8 @@
         }
     },
     {
-
-
+        "name": "Extensibility",
+        "tag":  "extensibility",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -396,7 +396,7 @@
         "name": "Unattended topology deployment",
         "tag":  "unattendeddepl",
         "style": "width: 5%",
-
+        "display": false,
         "type": {
             "tag": "label",
             "class": "label",
@@ -420,7 +420,7 @@
         "name": "Scalability",
         "tag":  "scalability",
         "style": "width: 5%",
-
+        "display": false,
         "type": {
             "tag": "label",
             "class": "label",
