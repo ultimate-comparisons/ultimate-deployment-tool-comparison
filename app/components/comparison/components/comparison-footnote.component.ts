@@ -7,8 +7,7 @@ import { CitationPipe } from '../pipes/citation.pipe';
 @Component({
     selector: 'comparison-footnote',
     template: '<div [innerHtml]="compiled_footnote|sanitizeHtml"></div>',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComparisonFootnoteComponent implements OnChanges, OnDestroy {
     @Input() footnote: string;
@@ -41,5 +40,8 @@ export class ComparisonFootnoteComponent implements OnChanges, OnDestroy {
     
     ngOnDestroy(){
         this.compServ.footnotes[this.footnote].count--;
+        if(this.compServ.footnotes[this.footnote].count == 0){
+            delete this.compServ.footnotes[this.footnote];
+        }
     }
 }
