@@ -9,11 +9,11 @@ Ansible is a radically simple IT automation engine that automates cloud provisio
 
 ## Guest OS
 - Windows
-    - [@AnsReqMM]
+    - [@AnsWin]
 - Mac
     - [@AnsReqMM]
 - Linux
-    - [@AnsWin]
+    - [@AnsReqMM]
 
 ## Elastic Infrastructure Restrictions
 - None

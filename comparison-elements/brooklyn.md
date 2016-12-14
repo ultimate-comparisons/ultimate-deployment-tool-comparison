@@ -11,11 +11,11 @@ Supported by Cloudsoft [@Cloudsoft]
 
 ## Guest OS
 - Windows
-    - [@BroOS]
-- Mac
     - [@BroOS2]
-- Linux
+- Mac
     - [@BroOS3]
+- Linux
+    - [@BroOS]
 
 ## Elastic Infrastructure Restrictions
 - None
