@@ -1,29 +1,29 @@
 {
     "title": "Ultimate-Comparison",
-    "subtitle": "Ultimate comparison framework",
+    "subtitle": "Ultimate Deployment Tool comparison framework",
     "selecttitle": "Criteria",
     "tabletitle": "Comparison of Cloud-Deployment and Management Tools",
     "details": {
-        "header-label": "Performance",
+        "header-label": "",
         "body-main-title": "Description",
-        "body": "Description",
+        "body": "descr",
         "body-attachment-tags": [
-            "hostos",
-            "guestos",
-	    "elinfres",
-	    "fehandling",
-            "reversability",
-	    "statusreport",
-            "migrationpaths", 
-            "extensibility",
-            "security",
-	    "fullrangelifecycle",
-            "fullrangeprovisioning",
-	    "topologydep",
-	    "scalability",
-	    "support",
-	    "devstatus"
+            "Host OS",
+            "Guest OS",
+            "Elastic Infrastructure Restrictions",
+            "Failure/Error handling",
+            "Reversability to defined state",
+            "Status Report",
+            "Support of Migration Paths",
+            "Extensibility",
+            "Secure Connection between Nodes",
+            "Covers full range of Provisioning",
+            "Covers full range of Life Cycle",
+            "Unattended topology deployment",
+            "Scalability",
+            "End user support",
+            "Development Status"
         ]
     },
-    "repository": "https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git"
+    "repository": "https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison"
 }

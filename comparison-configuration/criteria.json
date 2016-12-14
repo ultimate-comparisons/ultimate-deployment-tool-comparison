@@ -1,56 +1,283 @@
 [
     {
         "name": "Host OS",
-        "tag": "hostos",
+        "tag": "Host OS",
         "description": "The operating system running on the managing machine.",
         "placeholder": "Select OS ...",
         "and_search": true,
         "values": [
             {
                 "name": "Windows",
-                "description": "Windows"
-            },
-            {
-                "name": "Linux",
-                "description": "Linux"    
+                "description": "Windows is supported for host machines."
             },
             {
                 "name": "Mac",
-                "description": "Mac OS X"    
+                "description": "Mac OS X is supported for host machines."
+            },
+            {
+                "name": "Linux",
+                "description": "Linux is supported for host machines."
+            },
+            {
+                "name": "Windows (L)",
+                "description": "Windows support is limited for host machines."
+            },
+            {
+                "name": "Mac (L)",
+                "description": "Mac OS X support is limited  for host machines."
+            },
+            {
+                "name": "Linux (L)",
+                "description": "Linux support is limited for host machines."
             }
         ]
     },
     {
         "name": "Guest OS",
-        "tag": "guestos",
+        "tag": "Guest OS",
         "description": "The operating system running on the managed machines.",
         "placeholder": "Select OS ...",
         "and_search": true,
         "values": [
             {
-                "name": "Win",
-                "description": "Windows"
-            },
-            {
-                "name": "Lin",
-                "description": "Linux"    
+                "name": "Windows",
+                "description": "Windows is supported for guest machines."
             },
             {
                 "name": "Mac",
-                "description": "Mac OS X"    
+                "description": "Mac OS X is supported for guest machines."
+            },
+            {
+                "name": "Linux",
+                "description": "Linux is supported for guest machines."
+            },
+            {
+                "name": "Windows (L)",
+                "description": "Windows support is limited for guest machines."
+            },
+            {
+                "name": "Mac (L)",
+                "description": "Mac OS X support is limited  for guest machines."
+            },
+            {
+                "name": "Linux (L)",
+                "description": "Linux support is limited for guest machines."
             }
         ]
     },
     {
         "name": "Elastic Infrastructure Restrictions",
-        "tag": "elinfres",
+        "tag": "Elastic Infrastructure Restrictions",
         "description": "The platforms on which the tool is able to run.",
         "placeholder": "Select Restrictions ...",
+        "and_search": false,
+        "values": [
+            {
+                "name": "None",
+                "description": "There are no elastic infrastructure restrictions for this tool.",
+                "class": "label-success"
+            },
+            {
+                "name": "None (L)",
+                "description": "There are no elastic infrastructure under certain conditions.",
+                "class": "label-warning"
+            },
+            {
+                "name": "AWS",
+                "description": "This tool is only able to run on the Amazon Web Services platform.",
+                "class": "label-danger"
+            },
+            {
+                "name": "Openstack",
+                "description": "This tool is only able to run in an Openstack enviroment.",
+                "class": "label-danger"
+            }
+        ]
+    },
+    {
+        "name": "Extensibility",
+        "tag": "Extensibility",
+        "description": "",
+        "placeholder": "Select Extensibility features ...",
+        "and_search": true,
+        "values": [
+            {
+                "name": "Plugins (L)",
+                "description": "The tool has plugins.",
+                "class": "label-success"
+            },
+            {
+                "name": "Plugins",
+                "description": "The tool has plugins.",
+                "class": "label-success"
+            },
+            {
+                "name": "Scripts",
+                "description": "The tool has Scripts.",
+                "class": "label-success"
+            },
+            {
+                "name": "Store",
+                "description": "The tool has a Store.",
+                "class": "label-success"
+            },
+            {
+                "name": "None",
+                "description": "The tool is not extensible",
+                "class": "label-danger"
+            }
+        ]
+    },
+    {
+        "name": "Secure Connection between Nodes",
+        "tag": "Secure Connection between Nodes",
+        "description": "",
+        "placeholder": "Select option for Secure Connection between Nodes...",
+        "and_search": false,
+        "values": [
+            {
+                "name": "Unsecure",
+                "description": "The tool has no security measures between nodes.",
+                "class": "label-danger"
+            },
+            {
+                "name": "Reliant",
+                "description": "The tool has no inate security measures and relies on third party tools for this purpose.",
+                "class": "label-warning"
+            },
+            {
+                "name": "Self implemented",
+                "description": "The node communication is secured through an custom implementation.",
+                "class": "label-warning"
+            },
+            {
+                "name": "SSH/SSL (L)",
+                "description": "Not all connections are secured with ssh.",
+                "class": "label-warning"
+            },
+            {
+                "name": "SSH/SSL",
+                "description": "The connection between nodes is secured through SSH.",
+                "class": "label-success"
+            }
+        ]
+    },
+    {
+        "name": "Covers full range of Provisioning",
+        "tag": "Covers full range of Provisioning",
+        "description": "",
+        "placeholder": "Select provisioning features...",
+        "and_search": true,
+        "values": [
+            {
+                "name": "Installing",
+                "class": "label-success"
+            },
+            {
+                "name": "Configuring",
+                "class": "label-success"
+            },
+            {
+                "name": "Starting",
+                "class": "label-success"
+            },
+            {
+                "name": "Installing (L)",
+                "class": "label-warning"
+            },
+            {
+                "name": "Configuring (L)",
+                "class": "label-warning"
+            },
+            {
+                "name": "Starting (L)",
+                "class": "label-warning"
+            }
+        ]
+    },
+    {
+        "name": "Covers full range of Life Cycle",
+        "tag": "Covers full range of Life Cycle",
+        "description": "",
+        "placeholder": "Select life cycle features...",
+        "and_search": false,
+        "values": [
+            {
+                "name": "Provisioning",
+                "class": "label-success"
+            },
+            {
+                "name": "Management",
+                "class": "label-success"
+            },
+            {
+                "name": "Termination",
+                "class": "label-success"
+            },
+            {
+                "name": "Provisioning (L)",
+                "class": "label-warning"
+            },
+            {
+                "name": "Management (L)",
+                "class": "label-warning"
+            },
+            {
+                "name": "Termination (L)",
+                "class": "label-warning"
+            }
+        ]
+    },
+    {
+        "name": "End user support",
+        "tag": "End user support",
+        "description": "",
+        "placeholder": "Select end user support...",
         "and_search": true,
         "values": [
             {
                 "name": "None",
-                "description": "There are no elastic infrastructure restrictions"
+                "description": "No Support available.",
+                "class": "label-danger"
+            },
+            {
+                "name": "Free",
+                "description": "Free Support is available.",
+                "class": "label-warning"
+            },
+            {
+                "name": "Free (L)",
+                "description": "Free Support is available however it is very limited.",
+                "class": "label-warning"
+            },
+            {
+                "name": "Commercial (L)",
+                "description": "Commercial Support is limited available.",
+                "class": "label-success"
+            },
+            {
+                "name": "Commercial",
+                "description": "Commercial Support is available.",
+                "class": "label-success"
+            }
+        ]
+    },
+    {
+        "name": "Development Status",
+        "tag": "Development Status",
+        "description": "",
+        "placeholder": "Select end user support...",
+        "and_search": false,
+        "values": [
+            {
+                "name": "Stale",
+                "description": "No version update since 12 months.",
+                "class": "label-danger"
+            },
+            {
+                "name": "Active",
+                "description": "The tool is being actively developed",
+                "class": "label-success"
             }
         ]
     }
