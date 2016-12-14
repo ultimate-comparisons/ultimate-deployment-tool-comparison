@@ -1,39 +1,39 @@
 # Foreman
 Foreman is a life cycle management tool for physical and virtual servers and depends on Puppet [@ForeInst] [@Foreman]
 
-## hostos
+## Host OS
 - Linux
     - [@ForeInst]
 
-## guestos
+## Guest OS
 - Linux
-    - [@ForeInst]
-- Mac (L)
     - [@ForeInst]
 - Windows (L)
     - [@ForeInst]
+- Mac (L)
+    - [@ForeInst]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@ForeIntr]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@ForeGit]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@ForeSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@Foreman]
 - Configuring
@@ -41,7 +41,7 @@ Foreman is a life cycle management tool for physical and virtual servers and dep
 - Starting
     - [@Foreman]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@ForeIntr]
 - Management
@@ -49,14 +49,14 @@ Foreman is a life cycle management tool for physical and virtual servers and dep
 - Termination
     - [@ForeIntr]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@ForeSup]
 
-## devstatus
+## Development Status
 - Active
     - [@ForeGit]

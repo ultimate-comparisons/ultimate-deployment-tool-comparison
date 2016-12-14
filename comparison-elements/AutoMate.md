@@ -1,35 +1,35 @@
 #AutoMate
 AutoMate is a codeless Windows only Deployment and management tool.
 
-## hostos
+## Host OS
 - Windows
     - [@AutoMateDocs]
 
-## guestos
+## Guest OS
 - Windows
     - [@AutoMateDocs]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@AutoMateDocs]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@AutoMateDocs]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@AutoMateDocs]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@AutoMateDocs]
 - Configuring
@@ -37,7 +37,7 @@ AutoMate is a codeless Windows only Deployment and management tool.
 - Starting
     - [@AutoMateDocs]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@AutoMateDocs]
 - Management
@@ -45,14 +45,14 @@ AutoMate is a codeless Windows only Deployment and management tool.
 - Termination
     - [@AutoMateDocs]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial
     - [@AutoMate]
 
-## devstatus
-- Active
+## Development Status
+- Stale
     - [@AutoMate]

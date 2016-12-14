@@ -1,45 +1,45 @@
 # Docker
 Docker is an open source containerization platform.
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@DockerDocs]
 - Mac
     - [@DockerDocs]
-- Windows
+- Linux
     - [@DockerDocs]
 
-## guestos
-- Linux
+## Guest OS
+- Windows
     - [@DockerDocs]
 - Mac
     - [@DockerDocs]
-- Windows
+- Linux
     - [@DockerDocs]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@DockerCloudOV]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@DockerPlugins]
 - Store
     - [@DockerSt]
 
-## security
-- Reliant 
+## Secure Connection between Nodes
+- Reliant
     - [@DockerSecurity]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@DockerOV]
 - Configuring
@@ -47,7 +47,7 @@ Docker is an open source containerization platform.
 - Starting
     - [@DockerOV]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@DockerOV]
     - [@DockerDocs]
@@ -57,16 +57,16 @@ Docker is an open source containerization platform.
     - [@DockerOV]
     - [@Swarm]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@DockerSupp]
 - Commercial
     - [@DockerSupp]
 
-## devstatus
+## Development Status
 - Active
     - [@DockerGit]

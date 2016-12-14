@@ -1,43 +1,43 @@
 # Ansible
 Ansible is a radically simple IT automation engine that automates cloud provisioning, configuration management, application deployment, intra-service orchestration, and many other IT needs. [@AnsHow]
 
-## hostos
-- Linux
-    - [@AnsReqMM]
+## Host OS
 - Mac
+    - [@AnsReqMM]
+- Linux
     - [@AnsReqMM]
 
-## guestos
-- Linux
+## Guest OS
+- Windows
     - [@AnsReqMM]
 - Mac
     - [@AnsReqMM]
-- Windows
+- Linux
     - [@AnsWin]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@AnsInfr]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@AnsPlug]
 - Scripts
     - [@AnsPlug]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@AnsHow]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@AnsPB]
 - Configuring
@@ -45,24 +45,24 @@ Ansible is a radically simple IT automation engine that automates cloud provisio
 - Starting
     - [@AnsPB]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@AnsPB]
-- Management (L)
+- Management
     - [@AnsPB]
 - Termination
     - [@AnsPB]
 
-## unattendeddepl
+## Unattended topology deployment
 - Yes
     - [@AnsPB]
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial
     - [@AnsComSup]
 
-## devstatus
+## Development Status
 - Active
     - [@AnsGithub]

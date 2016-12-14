@@ -1,47 +1,47 @@
 # Kubernetes
 Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. [@Kubernetes]
 
-## hostos
-- Linux
-    - [@KubOS]
+## Host OS
 - Mac
     - [@KubOS]
-
-## guestos
 - Linux
     - [@KubOS]
 
-## elinfres
+## Guest OS
+- Linux
+    - [@KubOS]
+
+## Elastic Infrastructure Restrictions
 - None
     - [@KubGS]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@KubPlug]
 
-## security
-- SSH/SSL
-    - [@KubSec]
+## Secure Connection between Nodes
 - Self implemented
     - [@KubSec]
+- SSH/SSL
+    - [@KubSec]
 
-## fullrangeprovisioning
-- Installing (L)
-    - [@KubQS]
+## Covers full range of Provisioning
 - Configuring
     - [@KubConf]
 - Starting
     - [@KubQS]
+- Installing (L)
+    - [@KubQS]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@KubDep]
 - Management
@@ -51,18 +51,18 @@ Kubernetes is an open-source system for automating deployment, scaling, and mana
 - Termination
     - [@KubQS]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
-- Horizontal
+## Scalability
+- Horizontally
     - [@KubScale]
 
-## support
+## End user support
 - Free
     - [@KubSup]
 - Commercial
     - [@KubGS]
 
-## devstatus
+## Development Status
 - Active
     - [@KubGithub]

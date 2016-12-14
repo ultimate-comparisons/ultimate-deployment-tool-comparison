@@ -1,35 +1,38 @@
 # CFengine
 CFEngine is a distributed system for managing and monitoring computers across an IT network [@CFengGuide]
 
-## hostos
+## Host OS
 - Linux
     - [@CFengCom]
 
-## guestos
+## Guest OS
 - Linux
     - [@CFengCom]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@CFengArc]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
-    - [@CFPlug] [@CFPlug2] [@CFPlug3]
+    - [@CFPlug] 
+    - [@CFPlug2]
+    - [@CFPlug3]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
-    - [@CFSSH] [@CFSSH2]
+    - [@CFSSH] 
+    - [@CFSSH2]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@CFengArc]
 - Configuring
@@ -37,21 +40,21 @@ CFEngine is a distributed system for managing and monitoring computers across an
 - Starting
     - [@CFengArc]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@CFengArc]
 - Management
     - [@CFengProd]
     - [@CFengArc]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial (L)
     - [@CFengSup]
 
-## devstatus
+## Development Status
 - Active
     - [@CFengGit]

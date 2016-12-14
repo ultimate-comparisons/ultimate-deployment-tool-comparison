@@ -1,52 +1,52 @@
 # Picassio
 Picassio is a PowerShell v3.0+ automated provisioning/deployment tool, which uses a single JSON file to determine what commands to execute [@Picass]
 
-## hostos
+## Host OS
 - Windows
     - [@Picass]
 
-## guestos
+## Guest OS
 - Windows (L)
     - [@Picass]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@Picass]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins (L)
     - [@Picass]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@Picass]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing (L)
     - [@Picass]
 - Starting (L)
     - [@Picass]
 
-## fullrangelifecycle
-- Termination (L)
+## Covers full range of Life Cycle
+- Termination
     - [@Picass]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - None
     - [@Picass]
 
-## devstatus
+## Development Status
 - Active
     - [@Picass]

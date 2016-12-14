@@ -1,43 +1,41 @@
 #AWS CodeDeploy
 Developed by Amazon
 
-## hostos
-- Linux
-    - [@ACDOS]
+## Host OS
 - Windows
     - [@ACDOS]
-
-## guestos
 - Linux
     - [@ACDOS]
+
+## Guest OS
 - Windows
     - [@ACDOS]
+- Linux
+    - [@ACDOS]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@ACDElIn]
 
-## fehandling
+## Failure/Error handling
 
+## Reversability to defined state
 
-## reversability
-
-
-## statusreport
+## Status Report
 - Yes
     - [@ACEStat]
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@ACDGitHub]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@ACDSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@ACDProv]
 - Configuring
@@ -45,7 +43,7 @@ Developed by Amazon
 - Starting
     - [@ACDProv]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@ACDProv]
 - Management
@@ -53,15 +51,14 @@ Developed by Amazon
 - Termination
     - [@ACDProv]
 
-## unattendeddepl
+## Unattended topology deployment
 - Yes
 
-## scalability
+## Scalability
 
-
-## support
+## End user support
 - Commercial
 
-## devstatus
+## Development Status
 - Active
     - [@ACDStat]

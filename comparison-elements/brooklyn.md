@@ -1,51 +1,53 @@
 # Brooklyn
 Supported by Cloudsoft [@Cloudsoft]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@BroOS]
 - Mac
     - [@BroOS]
-- Windows
+- Linux
     - [@BroOS]
 
-## guestos
-- Linux
-    - [@BroOS]
+## Guest OS
 - Windows
-    - [@BroOS2]
+    - [@BroOS]
 - Mac
+    - [@BroOS2]
+- Linux
     - [@BroOS3]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@BroLoc]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@BroCat]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@BroBlu]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@Brooklyn]
 - Configuring
     - [@Brooklyn]
 - Starting
-    - [@Brooklyn] [@BroBlu] [@BroSS]
+    - [@Brooklyn]
+    - [@BroBlu]
+    - [@BroSS]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@Brooklyn]
     - [@BroMan]
@@ -56,14 +58,14 @@ Supported by Cloudsoft [@Cloudsoft]
 - Termination
     - [@BroSS]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial
     - [@Cloudsoft2]
 
-## devstatus
+## Development Status
 - Active
     - [@BroGit]

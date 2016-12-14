@@ -1,41 +1,41 @@
 # Fabric
 Fabric is a simple Python library and command-line tool for streamlining the use of SSH for application deployment or systems administration tasks [@Fabric]
 
-## hostos
-- Linux
-    - [@FabInst]
-- Mac
-    - [@FabInst]
+## Host OS
 - Windows
     - [@FabInst]
-
-## guestos
+- Mac
+    - [@FabInst]
 - Linux
-    - [@Fabric]
+    - [@FabInst]
+
+## Guest OS
 - Mac
     - [@Fabric]
+- Linux
+    - [@Fabric]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@Fabric]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@Fabric]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@Fabric]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@FabTut]
 - Configuring
@@ -43,23 +43,23 @@ Fabric is a simple Python library and command-line tool for streamlining the use
 - Starting
     - [@FabTut]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
+    - [@FabTut]
+- Termination
     - [@FabTut]
 - Management (L)
     - [@FabTut]
     - [@Fabric]
-- Termination
-    - [@FabTut]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@Fabric]
 
-## devstatus
+## Development Status
 - Active
     - [@FabGit]

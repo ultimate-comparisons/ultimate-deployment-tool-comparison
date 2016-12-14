@@ -1,44 +1,45 @@
 # Cloudify
 Cloudify is an open source TOSCA based cloud orchestration software platform [@ClfyAU]
 
-## hostos
-- Linux
+
+## Host OS
+- Windows
     - [@ClfyGet]
 - Mac
     - [@ClfyGet]
-- Windows
+- Linux
     - [@ClfyGet]
 
-## guestos
-- Linux
-    - [@ClfyAg]
+## Guest OS
 - Windows
     - [@ClfyAg]
+- Linux
+    - [@ClfyAg]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@ClfyInfr]
     - [@ClfyPlug]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@ClfyPlug]
 - Scripts
     - [@ClfyBlu]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL (L)
     - [@ClfySec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@ClfyHow]
 - Configuring
@@ -46,7 +47,7 @@ Cloudify is an open source TOSCA based cloud orchestration software platform [@C
 - Starting
     - [@ClfyHow]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@ClfyHow]
 - Management
@@ -54,18 +55,18 @@ Cloudify is an open source TOSCA based cloud orchestration software platform [@C
 - Termination
     - [@ClfyHow]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
-- Horizontal
+## Scalability
+- Horizontally
     - [@ClfyHow]
 
-## support
+## End user support
 - Free
     - [@ClfySup1]
 - Commercial
     - [@ClfySup2]
 
-## devstatus
+## Development Status
 - Active
     - [@ClfyGit]

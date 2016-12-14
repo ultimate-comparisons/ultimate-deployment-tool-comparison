@@ -1,42 +1,42 @@
 # Puppet
 Developed by Puppet-Labs
 
-## hostos
+## Host OS
 - Linux
     - [@PuppetReq]
 
-## guestos
+## Guest OS
 - Windows
-    - [@PuppetReq]
-- Linux
     - [@PuppetReq]
 - Mac
     - [@PuppetReq]
+- Linux
+    - [@PuppetReq]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@Puppet]
     - [@PuppetReq]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 - Detailed
     - [@PuppetRep]
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Scripts
     - [@PuppetForge]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@PuppetSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@Puppet]
 - Configuring
@@ -44,7 +44,7 @@ Developed by Puppet-Labs
 - Starting
     - [@Puppet]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@PuppetOrch]
 - Management
@@ -52,16 +52,16 @@ Developed by Puppet-Labs
 - Termination
     - [@PuppetOrch]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 - Horizontally
     - [@Puppet]
 
-## support
+## End user support
 - Commercial
     - [@PuppetSup]
 
-## devstatus
+## Development Status
 - Active
     - [@PuppetGit]

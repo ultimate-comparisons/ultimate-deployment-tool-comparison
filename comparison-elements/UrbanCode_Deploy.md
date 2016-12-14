@@ -1,51 +1,51 @@
 #UrbanCode Deploy
 Developed by IBM
 
-## hostos
+## Host OS
 - Windows
     - [@UrbOS]
 - Linux
     - [@UrbOS]
 
-## guestos
+## Guest OS
 - Windows
     - [@UrbOS]
 - Linux
     - [@UrbOS]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@UrbElIn]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 - Detailed
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@UrbPlug]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@UrbSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@UrbProv]
     - [@UrbDep] 
 - Configuring
     - [@UrbProv]
-    - [@UrbDep]
+    - [@UrbDep] 
 - Starting
     - [@UrbProv]
-    - [@UrbDep]
+    - [@UrbDep] 
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@UrbLife]
 - Management
@@ -53,18 +53,18 @@ Developed by IBM
 - Termination
     - [@UrbLife]
 
-## unattendeddepl
+## Unattended topology deployment
 - Yes
     - [@UrDep]
 
-## scalability
+## Scalability
 - Horizontally
     - [@UrbScal]
 
-## support
+## End user support
 - Commercial
     - [@UrbSupp]
 
-## devstatus
+## Development Status
 - Active
     - [@UrbGit]

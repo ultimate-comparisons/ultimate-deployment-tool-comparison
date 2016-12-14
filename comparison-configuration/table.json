@@ -1,17 +1,17 @@
 [
     {
         "name": "Name",
-        "tag":  "tag",
+        "tag": "tag",
         "style": "width: 5%",
         "display": true,
         "type": {
-            "tag":"text"
-            },
-        "valign": "top"    
+            "tag": "text"
+        },
+        "valign": "top"
     },
     {
         "name": "Short Description",
-        "tag":  "descr",
+        "tag": "descr",
         "style": "width: 25%",
         "display": false,
         "type": {
@@ -20,7 +20,7 @@
     },
     {
         "name": "Host OS",
-        "tag":  "hostos",
+        "tag": "Host OS",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -56,13 +56,13 @@
                     "name": "Linux (L)",
                     "description": "Linux support is limited for host machines.",
                     "class": "label-warning"
-                } 
+                }
             ]
         }
     },
     {
         "name": "Guest OS",
-        "tag":  "guestos",
+        "tag": "Guest OS",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -98,13 +98,13 @@
                     "name": "Linux (L)",
                     "description": "Linux support is limited for guest machines.",
                     "class": "label-warning"
-                } 
+                }
             ]
         }
     },
     {
         "name": "Elastic Infrastructure Restrictions",
-        "tag": "elinfres",
+        "tag": "Elastic Infrastructure Restrictions",
         "display": true,
         "type": {
             "tag": "label",
@@ -113,71 +113,71 @@
                 {
                     "name": "None",
                     "description": "There are no elastic infrastructure restrictions for this tool.",
-		    "class": "label-success"                
-		},
+                    "class": "label-success"
+                },
                 {
                     "name": "None (L)",
                     "description": "There are no elastic infrastructure under certain conditions.",
-		    "class": "label-warning" 
+                    "class": "label-warning"
                 },
                 {
                     "name": "AWS",
                     "description": "This tool is only able to run on the Amazon Web Services platform.",
-		    "class": "label-danger"
+                    "class": "label-danger"
                 },
-		{
+                {
                     "name": "Openstack",
-		    "description": "This tool is only able to run in an Openstack enviroment.",
-		    "class": "label-danger"
+                    "description": "This tool is only able to run in an Openstack enviroment.",
+                    "class": "label-danger"
                 }
             ]
         }
     },
     {
         "name": "Failure/Error handling",
-        "tag":  "fehandling",
+        "tag": "Failure/Error handling",
         "style": "width: 5%",
         "display": false,
         "type": {
             "tag": "label",
             "class": "label",
             "values": [
-		{
+                {
                     "name": "Retry other packages",
-		    "description": "The tool can check different repositories to install a functional package.",
-		    "class": "label-success"
-                },                
-		{
+                    "description": "The tool can check different repositories to install a functional package.",
+                    "class": "label-success"
+                },
+                {
                     "name": "Service: No Handling",
-		    "description": "The tool does not handle malfunctioning services.",
-		    "class": "label-danger"
+                    "description": "The tool does not handle malfunctioning services.",
+                    "class": "label-danger"
                 },
-		{
+                {
                     "name": "Service: After Deployment",
-		    "description": "The tool can restart malfunctioning Services only immediatly after their deployment.",
-		    "class": "label-warning"
+                    "description": "The tool can restart malfunctioning Services only immediatly after their deployment.",
+                    "class": "label-warning"
                 },
-		{
+                {
                     "name": "Service: Continous",
-		    "description": "The tool can handle malfunctioning Services continously.",
-		    "class": "label-success"
+                    "description": "The tool can handle malfunctioning Services continously.",
+                    "class": "label-success"
                 },
                 {
                     "name": "Unknown Error Handling",
-		    "description": "The tool can cope with unknown errors.",
-		    "class": "label-danger"
+                    "description": "The tool can cope with unknown errors.",
+                    "class": "label-danger"
                 },
-		{
+                {
                     "name": "Topology Error Handling",
-		    "description": "The tool can handle repair or restart malfunctioning nodes.",
-		    "class": "label-success"
+                    "description": "The tool can handle repair or restart malfunctioning nodes.",
+                    "class": "label-success"
                 }
             ]
         }
     },
     {
         "name": "Reversability to defined state",
-        "tag":  "reversability",
+        "tag": "Reversability to defined state",
         "style": "width: 5%",
         "display": false,
         "type": {
@@ -197,15 +197,20 @@
             ]
         }
     },
-     {
-        "name": "Statusreport",
-        "tag":  "statusreport",
+    {
+        "name": "Status Report",
+        "tag": "Status Report",
         "style": "width: 5%",
         "display": false,
         "type": {
             "tag": "label",
             "class": "label",
             "values": [
+                {
+                    "name": "Yes",
+                    "description": "The tool has reporting.",
+                    "class": "label-success"
+                },
                 {
                     "name": "No Reporting",
                     "description": "The tool has no reporting.",
@@ -216,7 +221,7 @@
                     "description": "The tool has reporting allthough it only reports the system state, not the node state",
                     "class": "label-warning"
                 },
-		{
+                {
                     "name": "Detailed",
                     "description": "The tool has in depth reporting.",
                     "class": "label-success"
@@ -226,7 +231,7 @@
     },
     {
         "name": "Support of Migration Paths",
-        "tag":  "migrationpaths",
+        "tag": "Support of Migration Paths",
         "style": "width: 5%",
         "display": false,
         "type": {
@@ -236,7 +241,7 @@
                 {
                     "name": "Yes",
                     "description": "The tool supports Migration Paths.",
-                    "class": "label-Success"
+                    "class": "label-success"
                 },
                 {
                     "name": "No",
@@ -248,7 +253,7 @@
     },
     {
         "name": "Extensibility",
-        "tag":  "extensibility",
+        "tag": "Extensibility",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -285,7 +290,7 @@
     },
     {
         "name": "Secure Connection between Nodes",
-        "tag":  "security",
+        "tag": "Secure Connection between Nodes",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -307,7 +312,7 @@
                     "description": "The node communication is secured through an custom implementation.",
                     "class": "label-warning"
                 },
-		{
+                {
                     "name": "SSH/SSL (L)",
                     "description": "Not all connections are secured with ssh.",
                     "class": "label-warning"
@@ -322,7 +327,7 @@
     },
     {
         "name": "Covers full range of Provisioning",
-        "tag":  "fullrangeprovisioning",
+        "tag": "Covers full range of Provisioning",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -358,7 +363,7 @@
     },
     {
         "name": "Covers full range of Life Cycle",
-        "tag":  "fullrangelifecycle",
+        "tag": "Covers full range of Life Cycle",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -394,13 +399,17 @@
     },
     {
         "name": "Unattended topology deployment",
-        "tag":  "unattendeddepl",
+        "tag": "Unattended topology deployment",
         "style": "width: 5%",
         "display": false,
         "type": {
             "tag": "label",
             "class": "label",
             "values": [
+                {
+                    "name": "Yes",
+                    "class": "label-success"
+                },
                 {
                     "name": "Installing",
                     "class": "label-success"
@@ -418,7 +427,7 @@
     },
     {
         "name": "Scalability",
-        "tag":  "scalability",
+        "tag": "Scalability",
         "style": "width: 5%",
         "display": false,
         "type": {
@@ -438,7 +447,7 @@
     },
     {
         "name": "End user support",
-        "tag":  "support",
+        "tag": "End user support",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -474,8 +483,8 @@
         }
     },
     {
-        "name": "Developement Status",
-        "tag":  "devstatus",
+        "name": "Development Status",
+        "tag": "Development Status",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -489,7 +498,7 @@
                 },
                 {
                     "name": "Active",
-		    "description": "The tool is being actively developed",
+                    "description": "The tool is being actively developed",
                     "class": "label-success"
                 }
             ]

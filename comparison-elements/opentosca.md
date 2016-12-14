@@ -1,36 +1,37 @@
 # Opentosca
 
-## hostos
-- Linux
-    - [@opTOSCAInstall]
+
+## Host OS
 - Windows
     - [@opTOSCAInstall]
 - Mac
     - [@opTOSCAInstall]
-
-## guestos
 - Linux
+    - [@opTOSCAInstall]
+
+## Guest OS
 - Windows
 - Mac
+- Linux
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
 
-## security
+## Secure Connection between Nodes
 - Reliant
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@opTOSCAPresentation]
 - Configuring
@@ -38,7 +39,7 @@
 - Starting
     - [@opTOSCAPresentation]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@opTOSCAPresentation]
 - Management
@@ -46,14 +47,14 @@
 - Termination
     - [@opTOSCAPresentation]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@opTOSCAGit]
 
-## devstatus
+## Development Status
 - Active
     - [@opTOSCAGit]

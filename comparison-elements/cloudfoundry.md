@@ -1,44 +1,44 @@
 # CloudFoundry
 CloudFoundry is a platform as a service, it is backed by the Cloud Foundry Foundation and is open source. [@CF]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@CFOS]
 - Mac
     - [@CFOS]
-- Windows
+- Linux
     - [@CFOS]
 
-## guestos
+## Guest OS
 - Linux
     - [@CFOS2]
     - [@CFINST]
     - [@CFBOSH]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@CFBOSH]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@CFPlug]
     - [@CFPlug2]
     - [@CFPlug3]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@CFSSH]
     - [@CFSSH2]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@CFDep]
 - Configuring
@@ -46,7 +46,7 @@ CloudFoundry is a platform as a service, it is backed by the Cloud Foundry Found
 - Starting
     - [@CFDep]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@CFDep]
 - Management
@@ -57,18 +57,18 @@ CloudFoundry is a platform as a service, it is backed by the Cloud Foundry Found
 - Termination
     - [@CFTCLC]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
-- Horizontal
+## Scalability
+- Horizontally
     - [@CFScale]
-- Vertical
+- Vertically
     - [@CFScale]
 
-## support
+## End user support
 - Commercial
     - [@CFSup]
 
-## devstatus
+## Development Status
 - Active
     - [@CFGit]

@@ -1,34 +1,34 @@
 # JuJu
 Juju is an application and service modelling tool that enables you to quickly model, configure, deploy and manage applications in the cloud with only a few commands [@Juju]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@JujuGS]
 - Mac
     - [@JujuGS]
-- Windows
+- Linux
     - [@JujuGS]
 
-## guestos
+## Guest OS
 - Windows (L)
     - [@JujuLoc]
 - Linux (L)
     - [@JujuLoc]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@JujuCl]
     - [@JujuLoc]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@JujuPlug]
 - Scripts
@@ -36,11 +36,11 @@ Juju is an application and service modelling tool that enables you to quickly mo
 - Store
     - [@JujuGS]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@JujuSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@JujuHN]
     - [@Juju]
@@ -51,7 +51,7 @@ Juju is an application and service modelling tool that enables you to quickly mo
     - [@JujuHN]
     - [@Juju]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@JujuHN]
     - [@JujuCom]
@@ -64,18 +64,18 @@ Juju is an application and service modelling tool that enables you to quickly mo
 - Termination
     - [@JujuHN]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
-- Horizontal
+## Scalability
+- Horizontally
     - [@JujuHN]
     - [@JujuCom]
     - [@Juju]
 
-## support
+## End user support
 - Commercial
     - [@JujuSup]
 
-## devstatus
+## Development Status
 - Active
     - [@JujuGit]

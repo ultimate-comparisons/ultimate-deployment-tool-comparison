@@ -1,60 +1,60 @@
 # Distelli
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@DistOS]
 - Mac
     - [@DistOS]
-- Windows
+- Linux
     - [@DistOS]
 
-## guestos
-- Linux
+## Guest OS
+- Windows
     - [@DistOS2]
 - Mac
     - [@DistOS2]
-- Windows
+- Linux
     - [@DistOS2]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@DistGS]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@DistSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
+- Starting
+    - [@DistPr]
 - Installing (L)
     - [@DistPr]
 - Configuring (L)
     - [@DistPr]
-- Starting
-    - [@DistPr]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Termination
     - [@DistTerm]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free (L)
     - [@DistSup]
 
-## devstatus
+## Development Status
 - Active
     - [@DistGit]

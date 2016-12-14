@@ -1,51 +1,51 @@
 # Alien4Cloud
  Application LIfecycle ENablement for Cloud
 
-## hostos
-- Linux
-    - [@Al4ClDocs]
+## Host OS
 - Windows
     - [@Al4ClDocs]
 - Mac
     - [@Al4ClDocs]
-
-## guestos
 - Linux
     - [@Al4ClDocs]
+
+## Guest OS
 - Windows
     - [@Al4ClDocs]
 - Mac
     - [@Al4ClDocs]
+- Linux
+    - [@Al4ClDocs]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@Al4ClDocs]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@Al4ClDocs]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@Al4ClDocs]
 
-## fullrangeprovisioning
-- Installing 
+## Covers full range of Provisioning
+- Installing
     - [@Al4ClDocs]
 - Configuring
     - [@Al4ClDocs]
 - Starting
     - [@Al4ClDocs]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@Al4ClDocs]
 - Management
@@ -53,14 +53,14 @@
 - Termination
     - [@Al4ClDocs]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@Al4Cl]
 
-## devstatus
+## Development Status
 - Active
     - [@Al4ClGit]

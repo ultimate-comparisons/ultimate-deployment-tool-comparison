@@ -1,44 +1,44 @@
 # Vagrant
 Developed by HashiCorp
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@Vagrant]
 - Mac
     - [@Vagrant]
-- Windows
+- Linux
     - [@Vagrant]
 
-## guestos
+## Guest OS
 - Windows
-    - [@Vagrant]
-- Linux
     - [@Vagrant]
 - Mac
     - [@Vagrant]
+- Linux
+    - [@Vagrant]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@VagrElIn]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 - Detailed
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@VagrPlug]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@VagrSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@VagrProv]
 - Configuring
@@ -46,7 +46,7 @@ Developed by HashiCorp
 - Starting
     - [@VagrProv]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@VagrProv]
 - Management
@@ -54,17 +54,17 @@ Developed by HashiCorp
 - Termination
     - [@VagrProv]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 - Horizontally
 
-## support
-- Commercial
-    - [@VagrSupp]
+## End user support
 - Free
     - [@VagrSupp]
+- Commercial
+    - [@VagrSupp]
 
-## devstatus
+## Development Status
 - Active
     - [@VagrGitHub]

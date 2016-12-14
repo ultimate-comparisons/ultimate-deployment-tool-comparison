@@ -2,48 +2,48 @@
 Apache Mesos abstracts away from (physical or virtual) machines, adding an another layer of abstraction between applications and the machines
 This enables fault-tolerant and elastic distributed systems to easily built and run effectively [@Mesos]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@MesosGS]
 - Mac
     - [@MesosGS]
-- Windows
+- Linux
     - [@MesosGS]
 
-## guestos
+## Guest OS
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@Mesos]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@Mesos]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@MesosSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@Mesos]
 
-## devstatus
+## Development Status
 - Active
     - [@MesosGit]

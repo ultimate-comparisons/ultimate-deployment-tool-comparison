@@ -1,42 +1,42 @@
 # Saltstack
 
-## hostos
+## Host OS
 - Windows
-    - [@SaltInst]
-- Linux
     - [@SaltInst]
 - Mac
     - [@SaltInst]
-
-## guestos
 - Linux
     - [@SaltInst]
+
+## Guest OS
 - Windows
     - [@SaltInst]
 - Mac
     - [@SaltModules]
+- Linux
+    - [@SaltInst]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@SaltDocs]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@SaltPlug]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@SaltSSH]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@SaltDocs]
 - Configuring
@@ -44,22 +44,22 @@
 - Starting
     - [@SaltDocs]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@SaltDocs]
 - Management
     - [@SaltDocs]
 
-## unattendeddepl
+## Unattended topology deployment
 - Yes
     - [@SaltDocs]
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial
     - [@SaltSup]
 
-## devstatus
+## Development Status
 - Active
     - [@SaltGit]

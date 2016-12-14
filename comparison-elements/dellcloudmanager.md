@@ -1,38 +1,38 @@
 # Dell Cloud Manager
 
-## hostos
-- Linux
-    - [@DeClMaGetStarted]
+## Host OS
 - Windows
     - [@DeClMaGetStarted]
-
-## guestos
 - Linux
     - [@DeClMaGetStarted]
+
+## Guest OS
 - Windows
     - [@DeClMaGetStarted]
+- Linux
+    - [@DeClMaGetStarted]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@DeClMaGetStarted]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@DeClMaGetStarted]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@DeClMaGetStarted]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@DeClMaGetStarted]
 - Configuring
@@ -40,7 +40,7 @@
 - Starting
     - [@DeClMaGetStarted]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@DeClMaGetStarted]
 - Management
@@ -48,14 +48,14 @@
 - Termination
     - [@DeClMaGetStarted]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial
     - [@DeClMaStat]
 
-## devstatus
+## Development Status
 - Stale
     - [@DeClMaStat]

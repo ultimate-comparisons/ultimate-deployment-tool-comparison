@@ -1,39 +1,39 @@
 # Aria
 ARIA is an agile reference implementation of automation based on OASIS TOSCA Specification [@Aria]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@AriaGet]
 - Mac
     - [@AriaGet]
-- Windows
+- Linux
     - [@AriaGet]
 
-## guestos
+## Guest OS
 - Linux
     - [@AriaAb]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@Aria]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@Aria]
 
-## security
+## Secure Connection between Nodes
 - Reliant
-     - [@Aria]
+    - [@Aria]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@AriaAb]
 - Configuring
@@ -41,7 +41,7 @@ ARIA is an agile reference implementation of automation based on OASIS TOSCA Spe
 - Starting
     - [@AriaAb]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@AriaAb]
 - Management
@@ -49,12 +49,12 @@ ARIA is an agile reference implementation of automation based on OASIS TOSCA Spe
 - Termination
     - [@AriaAb]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - None
 
-## devstatus
+## Development Status
 - Active

@@ -1,44 +1,44 @@
 # AWS CloudFormation
 Developed by Amazon
 
-## hostos
+## Host OS
 - Windows
     - [@AWSCHOS]
 - Linux
     - [@AWSCHOS]
 
-## guestos
+## Guest OS
 - Windows
     - [@AWSCHOS]
 - Linux
     - [@AWSCHOS]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - AWS
     - [@AWSCHOS]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 - Yes
     - [@AWSCProv]
 
-## statusreport
+## Status Report
 - Detailed
 
-## migrationpaths
+## Support of Migration Paths
 - Yes
-    - [AWSCMig]
+    - [@AWSCMig]
 
-## extensibility
+## Extensibility
 - Plugins
     - [@AWSCPlug]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@AWSCSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@AWSCProv]
 - Configuring
@@ -46,7 +46,7 @@ Developed by Amazon
 - Starting
     - [@AWSCProv]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@AWSCProv]
 - Management
@@ -54,20 +54,18 @@ Developed by Amazon
 - Termination
     - [@AWSCProv]
 
-## unattendeddepl
+## Unattended topology deployment
 - Yes
-    - [AWSCDep]
+    - [@AWSCDep]
 
-## scalability
+## Scalability
 - Horizontally
     - [@AWSCScal]
-- Vertically
-    - [@AWSCScal]
 
-## support
+## End user support
 - Free
 - Commercial
 
-## devstatus
+## Development Status
 - Active
     - [@AWSCStat]

@@ -1,39 +1,39 @@
 # Commando
 Commando is a distributed web based SSH platform for managing servers [@Commando]
 
-## hostos
+## Host OS
 - Windows (L)
-    - [@Commando]
-- Linux (L)
     - [@Commando]
 - Mac (L)
     - [@Commando]
+- Linux (L)
+    - [@Commando]
 
-## guestos
+## Guest OS
 - Linux
     - [@Commando]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@Commando]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@Commando]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@Commando]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing (L)
     - [@Commando]
 - Configuring (L)
@@ -41,22 +41,22 @@ Commando is a distributed web based SSH platform for managing servers [@Commando
 - Starting (L)
     - [@Commando]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning (L)
     - [@Commando]
 - Management (L)
     - [@Commando]
 - Termination (L)
-    - [@Commando] 
+    - [@Commando]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Commercial (L)
     - [@CommandoPr]
 
-## devstatus
+## Development Status
 - Active
     - [@CommandoGit]

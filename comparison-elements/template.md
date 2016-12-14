@@ -1,76 +1,97 @@
-# Chef
-Chef is an automation platform that transforms infrastructure into code.
+# Template - http://www.example.com
+Default short description
 
 ## Host OS
 - Windows
-    - [@ChefPlat]
 - Mac
-    - [@ChefOV]
 - Linux
-    - [@ChefPlat]
+- Windows (L)
+- Mac (L)
+- Linux (L)
 
 ## Guest OS
 - Windows
-    - [@ChefPlat]
 - Mac
-    - [@ChefPlat]
 - Linux
-    - [@ChefPlat]
+- Windows (L)
+- Mac (L)
+- Linux (L)
 
 ## Elastic Infrastructure Restrictions
+- None
 - None (L)
-    - [@ChefOV]
+- AWS
+- Openstack
 
 ## Failure/Error handling
 - Retry other packages
-    - [@ChefHandlers]
+- Service: No Handling
+- Service: After Deployment
+- Service: Continous
+- Unknown Error Handling
+- Topology Error Handling
 
 ## Reversability to defined state
+- Yes
+- No
 
 ## Status Report
+- No Reporting
+- Not Detailed
 - Detailed
-    - [@ChefHandlers]
+- Yes
 
 ## Support of Migration Paths
+- Yes
+- No
 
 ## Extensibility
 - Plugins
-    - [@ChefCommu]
 - Scripts
-    - [@ChefStore]
 - Store
-    - [@ChefStore]
+- None
+- Plugins (L)
 
 ## Secure Connection between Nodes
+- Unsecure
+- Reliant
+- Self implemented
 - SSH/SSL
-    - [@ChefSec]
+- SSH/SSL (L)
 
 ## Covers full range of Provisioning
 - Installing
-    - [@ChefOV]
 - Configuring
-    - [@ChefOV]
 - Starting
-    - [@ChefOV]
+- Installing (L)
+- Configuring (L)
+- Starting (L)
 
 ## Covers full range of Life Cycle
 - Provisioning
-    - [@ChefOV]
 - Management
-    - [@ChefOV]
 - Termination
-    - [@ChefServ]
+- Provisioning (L)
+- Management (L)
+- Termination (L)
 
 ## Unattended topology deployment
+- Yes
+- Installing
+- Configuring
+- Starting
 
 ## Scalability
+- Horizontally
+- Vertically
 
 ## End user support
+- None
 - Free
-    - [@ChefSup]
 - Commercial
-    - [@ChefSup]
+- Free (L)
+- Commercial (L)
 
 ## Development Status
+- Stale
 - Active
-    - [@ChefGit]

@@ -1,39 +1,39 @@
 # SeaClouds
 An open source platform for Adaptive Multi-cloud Management of Service-based application.
 
-## hostos
-- Linux
-    - [@SeaClDocs]
+## Host OS
 - Windows
     - [@SeaClDocs]
-
-## guestos
 - Linux
     - [@SeaClDocs]
+
+## Guest OS
 - Windows
     - [@SeaClDocs]
+- Linux
+    - [@SeaClDocs]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@SeaClDocs]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@SeaClDocs]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@SeaClDocs]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@SeaClDocs]
 - Configuring
@@ -41,7 +41,7 @@ An open source platform for Adaptive Multi-cloud Management of Service-based app
 - Starting
     - [@SeaClDocs]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@SeaClDocs]
 - Management
@@ -49,15 +49,15 @@ An open source platform for Adaptive Multi-cloud Management of Service-based app
 - Termination
     - [@SeaClDocs]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
-     - [@SeaCl]
-     - [@SeaClGit]
+    - [@SeaCl]
+    - [@SeaClGit]
 
-## devstatus
+## Development Status
 - Active
-     - [@SeaClGit]
+    - [@SeaClGit]

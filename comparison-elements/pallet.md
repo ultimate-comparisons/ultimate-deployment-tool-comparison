@@ -1,41 +1,41 @@
 # Pallet
 Pallet is platform for agile and programmatic automation of infrastructure in the cloud, on server racks or directly on virtual machines [@Pallet]
 
-## hostos
-- Linux
+## Host OS
+- Windows
     - [@PalletFS]
 - Mac
     - [@PalletFS]
-- Windows
+- Linux
     - [@PalletFS]
 
-## guestos
+## Guest OS
 - Linux
     - [@Pallet]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@Pallet]
     - [@PalletProv]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@Pallet]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@PalletSec]
     - [@PalletFS]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@PalletFS]
 - Configuring
@@ -45,23 +45,23 @@ Pallet is platform for agile and programmatic automation of infrastructure in th
     - [@PalletFS]
     - [@PalletOv]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@Pallet]
     - [@PalletFS]
 - Termination
     - [@PalletOv]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@PalletSup]
 - Commercial
     - [@PalletSup]
 
-## devstatus
+## Development Status
 - Active
     - [@PalletGit]

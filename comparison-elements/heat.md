@@ -1,37 +1,37 @@
 # Heat
 Heat is a Service for Application Lifecycle Management in an Openstack enviroment.
 
-## hostos
+## Host OS
 - Linux
     - [@HeatDocs]
 
-## guestos
-- Linux
-    - [@HeatDocs]
+## Guest OS
 - Windows
     - [@HeatDocs]
+- Linux
+    - [@HeatDocs]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - Openstack
     - [@Heat]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - Plugins
     - [@HeatPlugins]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@HeatSec]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@Heat]
 - Configuring
@@ -39,7 +39,7 @@ Heat is a Service for Application Lifecycle Management in an Openstack enviromen
 - Starting
     - [@Heat]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@Heat]
 - Management
@@ -47,14 +47,14 @@ Heat is a Service for Application Lifecycle Management in an Openstack enviromen
 - Termination
     - [@Heat]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@Heat]
 
-## devstatus
+## Development Status
 - Active
     - [@HeatGit]

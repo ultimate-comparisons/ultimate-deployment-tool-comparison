@@ -1,68 +1,67 @@
 # CloudConductor
 Developed by Cinovo 
 
-## hostos
-- Linux
-    - [@ClCondWiki]
+## Host OS
 - Windows
     - [@ClCondWiki]
 - Mac
     - [@ClCondWiki]
-
-## guestos
 - Linux
     - [@ClCondWiki]
 
-## elinfres
+## Guest OS
+- Linux
+    - [@ClCondWiki]
+
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@ClCondWiki]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@ClCond]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@ClCondWiki]
 
-## fullrangeprovisioning
-- Installing (L)
-    - [@ClCond]
+## Covers full range of Provisioning
 - Configuring
     - [@ClCond]
 - Starting
     - [@ClCond]
+- Installing (L)
+    - [@ClCond]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
+- Termination
+    - [@ClCond]
+    - [@ClCondWiki]
 - Provisioning (L)
     - [@ClCond]
     - [@ClCondWiki]
 - Management (L)
     - [@ClCond]
     - [@ClCondWiki]
-- Termination
-    - [@ClCond]
-    - [@ClCondWiki]
 
-## unattendeddepl
+## Unattended topology deployment
 
-
-## scalability
+## Scalability
 - Horizontally
     - [@ClCond]
 
-## support
+## End user support
 - Commercial
     - [@ClCond]
 
-## devstatus
+## Development Status
 - Active
     - [@ClCond]

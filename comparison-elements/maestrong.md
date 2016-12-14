@@ -1,41 +1,41 @@
 # MaestroNG
 MaestroNG is an orchestrator of Docker-based, multi hosts enviroments.
 
-## hostos
-- Linux
-    - [@MaeNG]
+## Host OS
 - Mac
+    - [@MaeNG]
+- Linux
     - [@MaeNG]
 
-## guestos
-- Linux
-    - [@MaeNG]
-- Mac
-    - [@MaeNG]
+## Guest OS
 - Windows
     - [@MaeNG]
+- Mac
+    - [@MaeNG]
+- Linux
+    - [@MaeNG]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None
     - [@MaeNG]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@MaeNG]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@MaeNG]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
 - Installing
     - [@MaeNG]
 - Configuring
@@ -43,20 +43,20 @@ MaestroNG is an orchestrator of Docker-based, multi hosts enviroments.
 - Starting
     - [@MaeNG]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning
     - [@MaeNG]
 - Management
     - [@MaeNG]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@MaeNGGit]
 
-## devstatus
+## Development Status
 - Active
     - [@MaeNGGit]

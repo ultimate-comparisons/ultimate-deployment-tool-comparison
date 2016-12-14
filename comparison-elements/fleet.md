@@ -1,60 +1,60 @@
 # Fleet
 fleet ties together systemd and etcd into a simple distributed init system [@FleetGit]
 
-## hostos
+## Host OS
 - Linux
     - [@FleetGit]
 
-## guestos
+## Guest OS
 - Linux
     - [@FleetGit]
 
-## elinfres
+## Elastic Infrastructure Restrictions
 - None (L)
     - [@FleetDep]
 
-## fehandling
+## Failure/Error handling
 
-## reversability
+## Reversability to defined state
 
-## statusreport
+## Status Report
 
-## migrationpaths
+## Support of Migration Paths
 
-## extensibility
+## Extensibility
 - None
     - [@Fleet]
 
-## security
+## Secure Connection between Nodes
 - SSH/SSL
     - [@FleetDep]
 
-## fullrangeprovisioning
+## Covers full range of Provisioning
+- Starting
+    - [@FleetGit]
 - Installing (L)
     - [@FleetGit]
     - [@FleetDoc]
 - Configuring (L)
     - [@FleetGit]
     - [@FleetDoc]
-- Starting
-    - [@FleetGit]
 
-## fullrangelifecycle
+## Covers full range of Life Cycle
 - Provisioning (L)
     - [@FleetGit]
 - Management (L)
     - [@FleetGit]
 
-## unattendeddepl
+## Unattended topology deployment
 
-## scalability
+## Scalability
 
-## support
+## End user support
 - Free
     - [@FleetSup]
 - Commercial
     - [@FleetSup]
 
-## devstatus
+## Development Status
 - Active
     - [@FleetGit]
