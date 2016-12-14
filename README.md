@@ -26,20 +26,66 @@ This is an ultimate comparison of deployment tools.
 ## Ultimate-Deployment-Tool-Comparison Element Specification
 The code below shows a sample element.
 
-    # THING Element - http://example.com
+    # Deployment Tool Element - http://example.com
     Element short description ...
+    
+    ## Host OS
+    - Windows
+    - Mac
+    - Linux
+    
+    ## Guest OS
+    - Windows
+    - Mac
+    - Linux
+    
+    ## Elastic Infrastructure Restrictions
+    - None
+    
+    ## Failure/Error handling
+    - Topology Error Handling
+    
+    ## Reversability to defined state
+    - Yes
 
-    ## Description
-    Element long __markdown__ description ...
+    ## Status Report
+    - Detailed
     
-    ## Property 1
-    - label 1
-    - label 2
+    ## Support of Migration Paths
+    - Yes
     
-    ## Property 2
-    - label 3
-    - label 4
-    - label 5
+    ## Extensibility
+    - Plugins
+    - Scripts
+    - Store
+    
+    ## Secure Connection between Nodes
+    - Self implemented
+    - SSH/SSL
+    
+    ## Covers full range of Provisioning
+    - Installing
+    - Configuring
+    - Starting
+    
+    ## Covers full range of Life Cycle
+    - Provisioning
+    - Management
+    - Termination
+
+    ## Unattended topology deployment
+    - Yes
+    
+    ## Scalability
+    - Vertically
+
+    ## End user support
+    - Free
+    - Commercial
+
+    ## Development Status
+    - Stale
+
 
 
 ## License
