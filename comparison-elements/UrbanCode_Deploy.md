@@ -55,7 +55,7 @@ Developed by IBM
 
 ## Unattended topology deployment
 - Yes
-    - [@UrDep]
+    - [@UrbDep]
 
 ## Scalability
 - Horizontally

@@ -60,7 +60,7 @@ Developed by Amazon
 
 ## Scalability
 - Horizontally
-    - [@AWSCScal]
+    - [@AWSCScale]
 
 ## End user support
 - Free
