@@ -4214,7 +4214,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -4641,6 +4641,14 @@ webpackJsonp([0],[
 	            return isEmptyInputValue(control.value) ? { 'required': true } : null;
 	        };
 	        /**
+	         *  Validator that requires control value to be true.
+	         * @param {?} control
+	         * @return {?}
+	         */
+	        Validators.requiredTrue = function (control) {
+	            return control.value === true ? null : { 'required': true };
+	        };
+	        /**
 	         *  Validator that requires controls to have a value of a minimum length.
 	         * @param {?} minLength
 	         * @return {?}
@@ -4650,7 +4658,7 @@ webpackJsonp([0],[
 	                if (isEmptyInputValue(control.value)) {
 	                    return null; // don't validate empty values to allow optional controls
 	                }
-	                var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+	                var /** @type {?} */ length = control.value ? control.value.length : 0;
 	                return length < minLength ?
 	                    { 'minlength': { 'requiredLength': minLength, 'actualLength': length } } :
 	                    null;
@@ -4663,7 +4671,7 @@ webpackJsonp([0],[
 	         */
 	        Validators.maxLength = function (maxLength) {
 	            return function (control) {
-	                var /** @type {?} */ length = typeof control.value === 'string' ? control.value.length : 0;
+	                var /** @type {?} */ length = control.value ? control.value.length : 0;
 	                return length > maxLength ?
 	                    { 'maxlength': { 'requiredLength': maxLength, 'actualLength': length } } :
 	                    null;
@@ -5616,12 +5624,16 @@ webpackJsonp([0],[
 	        SelectMultipleControlValueAccessor.prototype.writeValue = function (value) {
 	            var _this = this;
 	            this.value = value;
-	            if (value == null)
-	                return;
-	            var /** @type {?} */ values = (value);
-	            // convert values to ids
-	            var /** @type {?} */ ids = values.map(function (v) { return _this._getOptionId(v); });
-	            this._optionMap.forEach(function (opt, o) { opt._setSelected(ids.indexOf(o.toString()) > -1); });
+	            var /** @type {?} */ optionSelectedStateSetter;
+	            if (Array.isArray(value)) {
+	                // convert values to ids
+	                var /** @type {?} */ ids_1 = value.map(function (v) { return _this._getOptionId(v); });
+	                optionSelectedStateSetter = function (opt, o) { opt._setSelected(ids_1.indexOf(o.toString()) > -1); };
+	            }
+	            else {
+	                optionSelectedStateSetter = function (opt, o) { opt._setSelected(false); };
+	            }
+	            this._optionMap.forEach(optionSelectedStateSetter);
 	        };
 	        /**
 	         * @param {?} fn
@@ -5649,6 +5661,7 @@ webpackJsonp([0],[
 	                        }
 	                    }
 	                }
+	                _this.value = selected;
 	                fn(selected);
 	            };
 	        };
@@ -9449,9 +9462,19 @@ webpackJsonp([0],[
 	        return FormControlName;
 	    }(NgControl));
 	
+	    var __extends$13 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
 	    var /** @type {?} */ REQUIRED_VALIDATOR = {
 	        provide: NG_VALIDATORS,
 	        useExisting: _angular_core.forwardRef(function () { return RequiredValidator; }),
+	        multi: true
+	    };
+	    var /** @type {?} */ CHECKBOX_REQUIRED_VALIDATOR = {
+	        provide: NG_VALIDATORS,
+	        useExisting: _angular_core.forwardRef(function () { return CheckboxRequiredValidator; }),
 	        multi: true
 	    };
 	    /**
@@ -9499,7 +9522,7 @@ webpackJsonp([0],[
 	        RequiredValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
 	        RequiredValidator.decorators = [
 	            { type: _angular_core.Directive, args: [{
-	                        selector: '[required][formControlName],[required][formControl],[required][ngModel]',
+	                        selector: ':not([type=checkbox])[required][formControlName],:not([type=checkbox])[required][formControl],:not([type=checkbox])[required][ngModel]',
 	                        providers: [REQUIRED_VALIDATOR],
 	                        host: { '[attr.required]': 'required ? "" : null' }
 	                    },] },
@@ -9511,6 +9534,40 @@ webpackJsonp([0],[
 	        };
 	        return RequiredValidator;
 	    }());
+	    /**
+	     *  A Directive that adds the `required` validator to checkbox controls marked with the
+	      * `required` attribute, via the {@link NG_VALIDATORS} binding.
+	      * *
+	      * ### Example
+	      * *
+	      * ```
+	      * <input type="checkbox" name="active" ngModel required>
+	      * ```
+	      * *
+	     */
+	    var CheckboxRequiredValidator = (function (_super) {
+	        __extends$13(CheckboxRequiredValidator, _super);
+	        function CheckboxRequiredValidator() {
+	            _super.apply(this, arguments);
+	        }
+	        /**
+	         * @param {?} c
+	         * @return {?}
+	         */
+	        CheckboxRequiredValidator.prototype.validate = function (c) {
+	            return this.required ? Validators.requiredTrue(c) : null;
+	        };
+	        CheckboxRequiredValidator.decorators = [
+	            { type: _angular_core.Directive, args: [{
+	                        selector: 'input[type=checkbox][required][formControlName],input[type=checkbox][required][formControl],input[type=checkbox][required][ngModel]',
+	                        providers: [CHECKBOX_REQUIRED_VALIDATOR],
+	                        host: { '[attr.required]': 'required ? "" : null' }
+	                    },] },
+	        ];
+	        /** @nocollapse */
+	        CheckboxRequiredValidator.ctorParameters = function () { return []; };
+	        return CheckboxRequiredValidator;
+	    }(RequiredValidator));
 	    /**
 	     * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
 	     *
@@ -9808,13 +9865,25 @@ webpackJsonp([0],[
 	    /**
 	     * @stable
 	     */
-	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0');
+	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.1');
 	
 	    var /** @type {?} */ SHARED_FORM_DIRECTIVES = [
-	        NgSelectOption, NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor,
-	        RangeValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor,
-	        SelectMultipleControlValueAccessor, RadioControlValueAccessor, NgControlStatus,
-	        NgControlStatusGroup, RequiredValidator, MinLengthValidator, MaxLengthValidator, PatternValidator
+	        NgSelectOption,
+	        NgSelectMultipleOption,
+	        DefaultValueAccessor,
+	        NumberValueAccessor,
+	        RangeValueAccessor,
+	        CheckboxControlValueAccessor,
+	        SelectControlValueAccessor,
+	        SelectMultipleControlValueAccessor,
+	        RadioControlValueAccessor,
+	        NgControlStatus,
+	        NgControlStatusGroup,
+	        RequiredValidator,
+	        MinLengthValidator,
+	        MaxLengthValidator,
+	        PatternValidator,
+	        CheckboxRequiredValidator,
 	    ];
 	    var /** @type {?} */ TEMPLATE_DRIVEN_DIRECTIVES = [NgModel, NgModelGroup, NgForm];
 	    var /** @type {?} */ REACTIVE_DRIVEN_DIRECTIVES = [FormControlDirective, FormGroupDirective, FormControlName, FormGroupName, FormArrayName];
@@ -9891,6 +9960,7 @@ webpackJsonp([0],[
 	    exports.NgSelectOption = NgSelectOption;
 	    exports.SelectControlValueAccessor = SelectControlValueAccessor;
 	    exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
+	    exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
 	    exports.MaxLengthValidator = MaxLengthValidator;
 	    exports.MinLengthValidator = MinLengthValidator;
 	    exports.PatternValidator = PatternValidator;
@@ -12063,4 +12133,4 @@ webpackJsonp([0],[
 
 /***/ }
 ]);
-//# sourceMappingURL=app.299b11c0e9f9e7ff32e9.js.map
+//# sourceMappingURL=app.4a466f8eaeb2afcdff8f.js.map

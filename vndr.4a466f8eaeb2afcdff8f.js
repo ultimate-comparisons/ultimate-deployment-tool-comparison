@@ -21,7 +21,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -171,7 +171,7 @@ webpackJsonp([2],[
 	    /**
 	     * @stable
 	     */
-	    var VERSION = new _angular_core.Version('2.3.0');
+	    var VERSION = new _angular_core.Version('2.3.1');
 	
 	    /**
 	     * @experimental
@@ -195,7 +195,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -208,7 +208,7 @@ webpackJsonp([2],[
 	  /**
 	   * @stable
 	   */
-	  var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0');
+	  var /** @type {?} */ VERSION = new _angular_core.Version('2.3.1');
 	
 	  /**
 	   * @license
@@ -724,10 +724,10 @@ webpackJsonp([2],[
 	          return '' + token;
 	      }
 	      if (token.overriddenName) {
-	          return token.overriddenName;
+	          return "" + token.overriddenName;
 	      }
 	      if (token.name) {
-	          return token.name;
+	          return "" + token.name;
 	      }
 	      var /** @type {?} */ res = token.toString();
 	      var /** @type {?} */ newLineIndex = res.indexOf('\n');
@@ -1659,12 +1659,12 @@ webpackJsonp([2],[
 	          if (!map || typeof name !== 'string') {
 	              return false;
 	          }
-	          var /** @type {?} */ selectables = map.get(name);
+	          var /** @type {?} */ selectables = map.get(name) || [];
 	          var /** @type {?} */ starSelectables = map.get('*');
 	          if (starSelectables) {
 	              selectables = selectables.concat(starSelectables);
 	          }
-	          if (!selectables) {
+	          if (selectables.length === 0) {
 	              return false;
 	          }
 	          var /** @type {?} */ selectable;
@@ -4322,7 +4322,7 @@ webpackJsonp([2],[
 	                  while (this.optionalCharacter($COLON)) {
 	                      args.push(this.parseExpression());
 	                  }
-	                  result = new BindingPipe(this.span(result.span.start - this.offset), result, name_1, args);
+	                  result = new BindingPipe(this.span(result.span.start), result, name_1, args);
 	              } while (this.optionalOperator('|'));
 	          }
 	          return result;
@@ -4935,6 +4935,43 @@ webpackJsonp([2],[
 	       */
 	      ParseLocation.prototype.toString = function () {
 	          return isPresent(this.offset) ? this.file.url + "@" + this.line + ":" + this.col : this.file.url;
+	      };
+	      /**
+	       * @param {?} delta
+	       * @return {?}
+	       */
+	      ParseLocation.prototype.moveBy = function (delta) {
+	          var /** @type {?} */ source = this.file.content;
+	          var /** @type {?} */ len = source.length;
+	          var /** @type {?} */ offset = this.offset;
+	          var /** @type {?} */ line = this.line;
+	          var /** @type {?} */ col = this.col;
+	          while (offset > 0 && delta < 0) {
+	              offset--;
+	              delta++;
+	              var /** @type {?} */ ch = source.charCodeAt(offset);
+	              if (ch == $LF) {
+	                  line--;
+	                  var /** @type {?} */ priorLine = source.substr(0, offset - 1).lastIndexOf(String.fromCharCode($LF));
+	                  col = priorLine > 0 ? offset - priorLine : offset;
+	              }
+	              else {
+	                  col--;
+	              }
+	          }
+	          while (offset < len && delta > 0) {
+	              var /** @type {?} */ ch = source.charCodeAt(offset);
+	              offset++;
+	              delta--;
+	              if (ch == $LF) {
+	                  line++;
+	                  col = 0;
+	              }
+	              else {
+	                  col++;
+	              }
+	          }
+	          return new ParseLocation(this.file, offset, line, col);
 	      };
 	      return ParseLocation;
 	  }());
@@ -10724,17 +10761,11 @@ webpackJsonp([2],[
 	          }
 	          var /** @type {?} */ unit = null;
 	          var /** @type {?} */ bindingType;
-	          var /** @type {?} */ boundPropertyName;
+	          var /** @type {?} */ boundPropertyName = null;
 	          var /** @type {?} */ parts = boundProp.name.split(PROPERTY_PARTS_SEPARATOR);
 	          var /** @type {?} */ securityContexts;
-	          if (parts.length === 1) {
-	              var /** @type {?} */ partValue = parts[0];
-	              boundPropertyName = this._schemaRegistry.getMappedPropName(partValue);
-	              securityContexts = calcPossibleSecurityContexts(this._schemaRegistry, elementSelector, boundPropertyName, false);
-	              bindingType = PropertyBindingType.Property;
-	              this._validatePropertyOrAttributeName(boundPropertyName, boundProp.sourceSpan, false);
-	          }
-	          else {
+	          // Check check for special cases (prefix style, attr, class)
+	          if (parts.length > 1) {
 	              if (parts[0] == ATTRIBUTE_PREFIX) {
 	                  boundPropertyName = parts[1];
 	                  this._validatePropertyOrAttributeName(boundPropertyName, boundProp.sourceSpan, true);
@@ -10758,11 +10789,13 @@ webpackJsonp([2],[
 	                  bindingType = PropertyBindingType.Style;
 	                  securityContexts = [_angular_core.SecurityContext.STYLE];
 	              }
-	              else {
-	                  this._reportError("Invalid property name '" + boundProp.name + "'", boundProp.sourceSpan);
-	                  bindingType = null;
-	                  securityContexts = [];
-	              }
+	          }
+	          // If not a special case, use the full property name
+	          if (boundPropertyName === null) {
+	              boundPropertyName = this._schemaRegistry.getMappedPropName(boundProp.name);
+	              securityContexts = calcPossibleSecurityContexts(this._schemaRegistry, elementSelector, boundPropertyName, false);
+	              bindingType = PropertyBindingType.Property;
+	              this._validatePropertyOrAttributeName(boundPropertyName, boundProp.sourceSpan, false);
 	          }
 	          return new BoundElementPropertyAst(boundPropertyName, bindingType, securityContexts.length === 1 ? securityContexts[0] : null, securityContexts.length > 1, boundProp.expression, unit, boundProp.sourceSpan);
 	      };
@@ -10882,9 +10915,9 @@ webpackJsonp([2],[
 	          if (isPresent(ast)) {
 	              var /** @type {?} */ collector = new PipeCollector();
 	              ast.visit(collector);
-	              collector.pipes.forEach(function (pipeName) {
+	              collector.pipes.forEach(function (ast, pipeName) {
 	                  if (!_this.pipesByName.has(pipeName)) {
-	                      _this._reportError("The pipe '" + pipeName + "' could not be found", sourceSpan);
+	                      _this._reportError("The pipe '" + pipeName + "' could not be found", new ParseSourceSpan(sourceSpan.start.moveBy(ast.span.start), sourceSpan.start.moveBy(ast.span.end)));
 	                  }
 	              });
 	          }
@@ -10908,7 +10941,7 @@ webpackJsonp([2],[
 	      __extends$12(PipeCollector, _super);
 	      function PipeCollector() {
 	          _super.apply(this, arguments);
-	          this.pipes = new Set();
+	          this.pipes = new Map();
 	      }
 	      /**
 	       * @param {?} ast
@@ -10916,7 +10949,7 @@ webpackJsonp([2],[
 	       * @return {?}
 	       */
 	      PipeCollector.prototype.visitPipe = function (ast, context) {
-	          this.pipes.add(ast.name);
+	          this.pipes.set(ast.name, ast);
 	          ast.exp.visit(this);
 	          this.visitAll(ast.args, context);
 	          return null;
@@ -11749,7 +11782,7 @@ webpackJsonp([2],[
 	              this._reportError("Components on an embedded template: " + componentTypeNames.join(','), sourceSpan);
 	          }
 	          elementProps.forEach(function (prop) {
-	              _this._reportError("Property binding " + prop.name + " not used by any directive on an embedded template. Make sure that the property name is spelled correctly and all directives are listed in the \"directives\" section.", sourceSpan);
+	              _this._reportError("Property binding " + prop.name + " not used by any directive on an embedded template. Make sure that the property name is spelled correctly and all directives are listed in the \"@NgModule.declarations\".", sourceSpan);
 	          });
 	      };
 	      /**
@@ -11768,7 +11801,7 @@ webpackJsonp([2],[
 	          });
 	          events.forEach(function (event) {
 	              if (isPresent(event.target) || !allDirectiveEvents.has(event.name)) {
-	                  _this._reportError("Event binding " + event.fullName + " not emitted by any directive on an embedded template. Make sure that the event name is spelled correctly and all directives are listed in the \"directives\" section.", event.sourceSpan);
+	                  _this._reportError("Event binding " + event.fullName + " not emitted by any directive on an embedded template. Make sure that the event name is spelled correctly and all directives are listed in the \"@NgModule.declarations\".", event.sourceSpan);
 	              }
 	          });
 	      };
@@ -12619,6 +12652,10 @@ webpackJsonp([2],[
 	   * @return {?}
 	   */
 	  function _normalizeStyleMetadata(entry, stateStyles, schema, errors, permitStateReferences) {
+	      var /** @type {?} */ offset = entry.offset;
+	      if (offset > 1 || offset < 0) {
+	          errors.push(new AnimationParseError("Offset values for animations must be between 0 and 1"));
+	      }
 	      var /** @type {?} */ normalizedStyles = [];
 	      entry.styles.forEach(function (styleEntry) {
 	          if (typeof styleEntry === 'string') {
@@ -13735,8 +13772,8 @@ webpackJsonp([2],[
 	                      outputs.push(propName);
 	                  }
 	              }
-	              var /** @type {?} */ hostBinding = ListWrapper.findLast(propertyMetadata[propName], function (a) { return a instanceof _angular_core.HostBinding; });
-	              if (hostBinding) {
+	              var /** @type {?} */ hostBindings = propertyMetadata[propName].filter(function (a) { return a && a instanceof _angular_core.HostBinding; });
+	              hostBindings.forEach(function (hostBinding) {
 	                  if (hostBinding.hostPropertyName) {
 	                      var /** @type {?} */ startWith = hostBinding.hostPropertyName[0];
 	                      if (startWith === '(') {
@@ -13750,12 +13787,12 @@ webpackJsonp([2],[
 	                  else {
 	                      host[("[" + propName + "]")] = propName;
 	                  }
-	              }
-	              var /** @type {?} */ hostListener = ListWrapper.findLast(propertyMetadata[propName], function (a) { return a instanceof _angular_core.HostListener; });
-	              if (hostListener) {
+	              });
+	              var /** @type {?} */ hostListeners = propertyMetadata[propName].filter(function (a) { return a && a instanceof _angular_core.HostListener; });
+	              hostListeners.forEach(function (hostListener) {
 	                  var /** @type {?} */ args = hostListener.args || [];
 	                  host[("(" + hostListener.eventName + ")")] = propName + "(" + args.join(',') + ")";
-	              }
+	              });
 	              var /** @type {?} */ query = ListWrapper.findLast(propertyMetadata[propName], function (a) { return a instanceof _angular_core.Query; });
 	              if (query) {
 	                  queries[propName] = query;
@@ -14687,6 +14724,20 @@ webpackJsonp([2],[
 	      };
 	      return LiteralArrayExpr;
 	  }(Expression));
+	  var LiteralMapEntry = (function () {
+	      /**
+	       * @param {?} key
+	       * @param {?} value
+	       * @param {?=} quoted
+	       */
+	      function LiteralMapEntry(key, value, quoted) {
+	          if (quoted === void 0) { quoted = false; }
+	          this.key = key;
+	          this.value = value;
+	          this.quoted = quoted;
+	      }
+	      return LiteralMapEntry;
+	  }());
 	  var LiteralMapExpr = (function (_super) {
 	      __extends$15(LiteralMapExpr, _super);
 	      /**
@@ -15170,7 +15221,7 @@ webpackJsonp([2],[
 	       */
 	      ExpressionTransformer.prototype.visitLiteralMapExpr = function (ast, context) {
 	          var _this = this;
-	          var /** @type {?} */ entries = ast.entries.map(function (entry) { return [entry[0], entry[1].visitExpression(_this, context),]; });
+	          var /** @type {?} */ entries = ast.entries.map(function (entry) { return new LiteralMapEntry(entry.key, entry.value.visitExpression(_this, context), entry.quoted); });
 	          return new LiteralMapExpr(entries);
 	      };
 	      /**
@@ -15426,7 +15477,7 @@ webpackJsonp([2],[
 	       */
 	      RecursiveExpressionVisitor.prototype.visitLiteralMapExpr = function (ast, context) {
 	          var _this = this;
-	          ast.entries.forEach(function (entry) { return ((entry[1])).visitExpression(_this, context); });
+	          ast.entries.forEach(function (entry) { return entry.value.visitExpression(_this, context); });
 	          return ast;
 	      };
 	      /**
@@ -15643,7 +15694,7 @@ webpackJsonp([2],[
 	   */
 	  function literalMap(values, type) {
 	      if (type === void 0) { type = null; }
-	      return new LiteralMapExpr(values, type);
+	      return new LiteralMapExpr(values.map(function (entry) { return new LiteralMapEntry(entry[0], entry[1]); }), type);
 	  }
 	  /**
 	   * @param {?} expr
@@ -16790,13 +16841,14 @@ webpackJsonp([2],[
 	   * @param {?} view
 	   * @param {?} componentView
 	   * @param {?} boundProp
+	   * @param {?} boundOutputs
 	   * @param {?} eventListener
 	   * @param {?} renderElement
 	   * @param {?} renderValue
 	   * @param {?} lastRenderValue
 	   * @return {?}
 	   */
-	  function triggerAnimation(view, componentView, boundProp, eventListener, renderElement, renderValue, lastRenderValue) {
+	  function triggerAnimation(view, componentView, boundProp, boundOutputs, eventListener, renderElement, renderValue, lastRenderValue) {
 	      var /** @type {?} */ detachStmts = [];
 	      var /** @type {?} */ updateStmts = [];
 	      var /** @type {?} */ animationName = boundProp.name;
@@ -16816,14 +16868,19 @@ webpackJsonp([2],[
 	      detachStmts.push(animationTransitionVar
 	          .set(animationFnExpr.callFn([view, renderElement, lastRenderValue, emptyStateValue]))
 	          .toDeclStmt());
-	      var /** @type {?} */ registerStmts = [
-	          animationTransitionVar
+	      var /** @type {?} */ registerStmts = [];
+	      var /** @type {?} */ animationStartMethodExists = boundOutputs.find(function (event) { return event.isAnimation && event.name == animationName && event.phase == 'start'; });
+	      if (animationStartMethodExists) {
+	          registerStmts.push(animationTransitionVar
 	              .callMethod('onStart', [eventListener.callMethod(BuiltinMethod.Bind, [view, literal(BoundEventAst.calcFullName(animationName, null, 'start'))])])
-	              .toStmt(),
-	          animationTransitionVar
+	              .toStmt());
+	      }
+	      var /** @type {?} */ animationDoneMethodExists = boundOutputs.find(function (event) { return event.isAnimation && event.name == animationName && event.phase == 'done'; });
+	      if (animationDoneMethodExists) {
+	          registerStmts.push(animationTransitionVar
 	              .callMethod('onDone', [eventListener.callMethod(BuiltinMethod.Bind, [view, literal(BoundEventAst.calcFullName(animationName, null, 'done'))])])
-	              .toStmt(),
-	      ];
+	              .toStmt());
+	      }
 	      updateStmts.push.apply(updateStmts, registerStmts);
 	      detachStmts.push.apply(detachStmts, registerStmts);
 	      return { updateStmts: updateStmts, detachStmts: detachStmts };
@@ -16918,7 +16975,7 @@ webpackJsonp([2],[
 	              addCheckInputMethod(inputFieldName, builder);
 	          });
 	          addNgDoCheckMethod(builder);
-	          addCheckHostMethod(hostParseResult.hostProps, builder);
+	          addCheckHostMethod(hostParseResult.hostProps, hostParseResult.hostListeners, builder);
 	          addHandleEventMethod(hostParseResult.hostListeners, builder);
 	          addSubscribeMethod(dirMeta, builder);
 	          var /** @type {?} */ classStmt = builder.build();
@@ -17068,10 +17125,11 @@ webpackJsonp([2],[
 	  }
 	  /**
 	   * @param {?} hostProps
+	   * @param {?} hostEvents
 	   * @param {?} builder
 	   * @return {?}
 	   */
-	  function addCheckHostMethod(hostProps, builder) {
+	  function addCheckHostMethod(hostProps, hostEvents, builder) {
 	      var /** @type {?} */ stmts = [];
 	      var /** @type {?} */ methodParams = [
 	          new FnParam(VIEW_VAR.name, importType(createIdentifier(Identifiers.AppView), [DYNAMIC_TYPE])),
@@ -17092,7 +17150,7 @@ webpackJsonp([2],[
 	          }
 	          var /** @type {?} */ checkBindingStmts;
 	          if (hostProp.isAnimation) {
-	              var _a = triggerAnimation(VIEW_VAR, COMPONENT_VIEW_VAR, hostProp, THIS_EXPR.prop(EVENT_HANDLER_FIELD_NAME)
+	              var _a = triggerAnimation(VIEW_VAR, COMPONENT_VIEW_VAR, hostProp, hostEvents, THIS_EXPR.prop(EVENT_HANDLER_FIELD_NAME)
 	                  .or(importExpr(createIdentifier(Identifiers.noop))), RENDER_EL_VAR, evalResult.currValExpr, field.expression), updateStmts = _a.updateStmts, detachStmts = _a.detachStmts;
 	              checkBindingStmts = updateStmts;
 	              (_b = builder.detachStmts).push.apply(_b, detachStmts);
@@ -18524,6 +18582,7 @@ webpackJsonp([2],[
 	      return _CompileValueConverter;
 	  }(ValueTransformer));
 	
+	  var /** @type {?} */ QUOTED_KEYS = '$quoted$';
 	  /**
 	   * @param {?} value
 	   * @param {?=} type
@@ -18553,8 +18612,11 @@ webpackJsonp([2],[
 	      _ValueOutputAstTransformer.prototype.visitStringMap = function (map, type) {
 	          var _this = this;
 	          var /** @type {?} */ entries = [];
-	          Object.keys(map).forEach(function (key) { entries.push([key, visitValue(map[key], _this, null)]); });
-	          return literalMap(entries, type);
+	          var /** @type {?} */ quotedSet = new Set(map && map[QUOTED_KEYS]);
+	          Object.keys(map).forEach(function (key) {
+	              entries.push(new LiteralMapEntry(key, visitValue(map[key], _this, null), quotedSet.has(key)));
+	          });
+	          return new LiteralMapExpr(entries, type);
 	      };
 	      /**
 	       * @param {?} value
@@ -19377,8 +19439,8 @@ webpackJsonp([2],[
 	          ctx.print("{", useNewLine);
 	          ctx.incIndent();
 	          this.visitAllObjects(function (entry) {
-	              ctx.print(escapeIdentifier(entry[0], _this._escapeDollarInStrings, false) + ": ");
-	              entry[1].visitExpression(_this, ctx);
+	              ctx.print(escapeIdentifier(entry.key, _this._escapeDollarInStrings, entry.quoted) + ": ");
+	              entry.value.visitExpression(_this, ctx);
 	          }, ast.entries, ctx, ',', useNewLine);
 	          ctx.decIndent();
 	          ctx.print("}", useNewLine);
@@ -22626,11 +22688,12 @@ webpackJsonp([2],[
 	  }
 	  /**
 	   * @param {?} boundProps
+	   * @param {?} boundOutputs
 	   * @param {?} hasEvents
 	   * @param {?} compileElement
 	   * @return {?}
 	   */
-	  function bindRenderInputs(boundProps, hasEvents, compileElement) {
+	  function bindRenderInputs(boundProps, boundOutputs, hasEvents, compileElement) {
 	      var /** @type {?} */ view = compileElement.view;
 	      var /** @type {?} */ renderNode = compileElement.renderNode;
 	      boundProps.forEach(function (boundProp) {
@@ -22651,7 +22714,7 @@ webpackJsonp([2],[
 	                  break;
 	              case PropertyBindingType.Animation:
 	                  compileMethod = view.animationBindingsMethod;
-	                  var _a = triggerAnimation(THIS_EXPR, THIS_EXPR, boundProp, (hasEvents ? THIS_EXPR.prop(getHandleEventMethodName(compileElement.nodeIndex)) :
+	                  var _a = triggerAnimation(THIS_EXPR, THIS_EXPR, boundProp, boundOutputs, (hasEvents ? THIS_EXPR.prop(getHandleEventMethodName(compileElement.nodeIndex)) :
 	                      importExpr(createIdentifier(Identifiers.noop)))
 	                      .callMethod(BuiltinMethod.Bind, [THIS_EXPR]), compileElement.renderNode, evalResult.currValExpr, bindingField.expression), updateStmts = _a.updateStmts, detachStmts = _a.detachStmts;
 	                  checkBindingStmts.push.apply(checkBindingStmts, updateStmts);
@@ -22779,7 +22842,7 @@ webpackJsonp([2],[
 	          var _this = this;
 	          var /** @type {?} */ compileElement = (this.view.nodes[this._nodeIndex++]);
 	          var /** @type {?} */ hasEvents = bindOutputs(ast.outputs, ast.directives, compileElement, true);
-	          bindRenderInputs(ast.inputs, hasEvents, compileElement);
+	          bindRenderInputs(ast.inputs, ast.outputs, hasEvents, compileElement);
 	          ast.directives.forEach(function (directiveAst, dirIndex) {
 	              var /** @type {?} */ directiveWrapperInstance = compileElement.directiveWrapperInstance.get(directiveAst.directive.type.reference);
 	              bindDirectiveInputs(directiveAst, directiveWrapperInstance, dirIndex, compileElement);
@@ -23453,7 +23516,7 @@ webpackJsonp([2],[
 	      }
 	      stmts.push.apply(stmts, view.detectChangesRenderPropertiesMethod.finish());
 	      view.viewChildren.forEach(function (viewChild) {
-	          stmts.push(viewChild.callMethod('detectChanges', [DetectChangesVars.throwOnChange]).toStmt());
+	          stmts.push(viewChild.callMethod('internalDetectChanges', [DetectChangesVars.throwOnChange]).toStmt());
 	      });
 	      var /** @type {?} */ afterViewStmts = view.updateViewQueriesMethod.finish().concat(view.afterViewLifecycleCallbacksMethod.finish());
 	      if (afterViewStmts.length > 0) {
@@ -23860,8 +23923,9 @@ webpackJsonp([2],[
 	          var /** @type {?} */ statements = [];
 	          statements.push(_PREVIOUS_ANIMATION_PLAYERS
 	              .set(_ANIMATION_FACTORY_VIEW_CONTEXT.callMethod('getAnimationPlayers', [
-	              _ANIMATION_FACTORY_ELEMENT_VAR, literal(this.animationName),
+	              _ANIMATION_FACTORY_ELEMENT_VAR,
 	              _ANIMATION_NEXT_STATE_VAR.equals(literal(EMPTY_STATE))
+	                  .conditional(NULL_EXPR, literal(this.animationName))
 	          ]))
 	              .toDeclStmt());
 	          statements.push(_ANIMATION_COLLECTED_STYLES.set(_EMPTY_MAP).toDeclStmt());
@@ -24335,7 +24399,7 @@ webpackJsonp([2],[
 	   * @return {?}
 	   */
 	  function _stylesModuleUrl(stylesheetUrl, shim, suffix) {
-	      return shim ? stylesheetUrl + ".shim" + suffix : "" + stylesheetUrl + suffix;
+	      return "" + stylesheetUrl + (shim ? '.shim' : '') + ".ngstyle" + suffix;
 	  }
 	  /**
 	   * @param {?} meta
@@ -24620,7 +24684,7 @@ webpackJsonp([2],[
 	      function __() { this.constructor = d; }
 	      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	  };
-	  var /** @type {?} */ SUPPORTED_SCHEMA_VERSION = 2;
+	  var /** @type {?} */ SUPPORTED_SCHEMA_VERSION = 3;
 	  var /** @type {?} */ ANGULAR_IMPORT_LOCATIONS = {
 	      coreDecorators: '@angular/core/src/metadata',
 	      diDecorators: '@angular/core/src/di/metadata',
@@ -24629,6 +24693,7 @@ webpackJsonp([2],[
 	      animationMetadata: '@angular/core/src/animation/metadata',
 	      provider: '@angular/core/src/di/provider'
 	  };
+	  var /** @type {?} */ HIDDEN_KEY = /^\$.*\$$/;
 	  /**
 	   *  A cache of static symbol used by the StaticReflector to return the same symbol for the
 	    * same symbol values.
@@ -25305,6 +25370,9 @@ webpackJsonp([2],[
 	                                      return simplifyInContext(selectContext, selectTarget[member], depth + 1);
 	                                  return null;
 	                              case 'reference':
+	                                  if (!expression['name']) {
+	                                      return context;
+	                                  }
 	                                  if (!expression.module) {
 	                                      var /** @type {?} */ name_1 = expression['name'];
 	                                      var /** @type {?} */ localValue = scope.resolve(name_1);
@@ -25412,7 +25480,10 @@ webpackJsonp([2],[
 	                      { __symbolic: 'module', version: SUPPORTED_SCHEMA_VERSION, module: module, metadata: {} };
 	              }
 	              if (moduleMetadata['version'] != SUPPORTED_SCHEMA_VERSION) {
-	                  this.reportError(new Error("Metadata version mismatch for module " + module + ", found version " + moduleMetadata['version'] + ", expected " + SUPPORTED_SCHEMA_VERSION), null);
+	                  var /** @type {?} */ errorMessage = moduleMetadata['version'] == 2 ?
+	                      "Unsupported metadata version " + moduleMetadata['version'] + " for module " + module + ". This module should be compiled with a newer version of ngc" :
+	                      "Metadata version mismatch for module " + module + ", found version " + moduleMetadata['version'] + ", expected " + SUPPORTED_SCHEMA_VERSION;
+	                  this.reportError(new Error(errorMessage), null);
 	              }
 	              this.metadataCache.set(module, moduleMetadata);
 	          }
@@ -25479,7 +25550,12 @@ webpackJsonp([2],[
 	      Object.keys(input).forEach(function (key) {
 	          var /** @type {?} */ value = transform(input[key], key);
 	          if (!shouldIgnore(value)) {
-	              result[key] = value;
+	              if (HIDDEN_KEY.test(key)) {
+	                  Object.defineProperty(result, key, { enumerable: false, configurable: true, value: value });
+	              }
+	              else {
+	                  result[key] = value;
+	              }
 	          }
 	      });
 	      return result;
@@ -26178,8 +26254,7 @@ webpackJsonp([2],[
 	      StatementInterpreter.prototype.visitLiteralMapExpr = function (ast, ctx) {
 	          var _this = this;
 	          var /** @type {?} */ result = {};
-	          ast.entries.forEach(function (entry) { return ((result))[(entry[0])] =
-	              ((entry[1])).visitExpression(_this, ctx); });
+	          ast.entries.forEach(function (entry) { return ((result))[entry.key] = entry.value.visitExpression(_this, ctx); });
 	          return result;
 	      };
 	      /**
@@ -26612,6 +26687,17 @@ webpackJsonp([2],[
 	          return this._compileModuleAndAllComponents(moduleType, false).asyncResult;
 	      };
 	      /**
+	       * @param {?} component
+	       * @return {?}
+	       */
+	      JitCompiler.prototype.getNgContentSelectors = function (component) {
+	          var /** @type {?} */ template = this._compiledTemplateCache.get(component);
+	          if (!template) {
+	              throw new Error("The component " + stringify(component) + " is not yet compiled!");
+	          }
+	          return template.compMeta.template.ngContentSelectors;
+	      };
+	      /**
 	       * @param {?} moduleType
 	       * @param {?} isSync
 	       * @return {?}
@@ -26774,17 +26860,9 @@ webpackJsonp([2],[
 	          if (!compiledTemplate) {
 	              var /** @type {?} */ compMeta = this._metadataResolver.getDirectiveMetadata(compType);
 	              assertComponent(compMeta);
-	              var HostClass_1 = (function () {
-	                  function HostClass_1() {
-	                  }
-	                  HostClass_1.overriddenName = identifierName(compMeta.type) + "_Host";
-	                  return HostClass_1;
-	              }());
-	              function HostClass_tsickle_Closure_declarations() {
-	                  /** @type {?} */
-	                  HostClass_1.overriddenName;
-	              }
-	              var /** @type {?} */ hostMeta = createHostComponentMeta(HostClass_1, compMeta);
+	              var /** @type {?} */ HostClass = function HostClass() { };
+	              ((HostClass)).overriddenName = identifierName(compMeta.type) + "_Host";
+	              var /** @type {?} */ hostMeta = createHostComponentMeta(HostClass, compMeta);
 	              compiledTemplate = new CompiledTemplate(true, compMeta.selector, compMeta.type, hostMeta, ngModule, [compMeta.type]);
 	              this._compiledHostTemplateCache.set(compType, compiledTemplate);
 	          }
@@ -26918,7 +26996,7 @@ webpackJsonp([2],[
 	              return interpretStatements(result.statements, result.stylesVar);
 	          }
 	          else {
-	              return jitStatements("/" + result.meta.moduleUrl + ".css.js", result.statements, result.stylesVar);
+	              return jitStatements("/" + result.meta.moduleUrl + ".ngstyle.js", result.statements, result.stylesVar);
 	          }
 	      };
 	      JitCompiler.decorators = [
@@ -27033,6 +27111,13 @@ webpackJsonp([2],[
 	       */
 	      ModuleBoundCompiler.prototype.compileModuleAndAllComponentsAsync = function (moduleType) {
 	          return this._delegate.compileModuleAndAllComponentsAsync(moduleType);
+	      };
+	      /**
+	       * @param {?} component
+	       * @return {?}
+	       */
+	      ModuleBoundCompiler.prototype.getNgContentSelectors = function (component) {
+	          return this._delegate.getNgContentSelectors(component);
 	      };
 	      /**
 	       *  Clears all caches
@@ -27454,6 +27539,7 @@ webpackJsonp([2],[
 	  exports.TemplateParseResult = TemplateParseResult;
 	  exports.TemplateParser = TemplateParser;
 	  exports.splitClasses = splitClasses;
+	  exports.createElementCssSelector = createElementCssSelector;
 	  exports.removeSummaryDuplicates = removeSummaryDuplicates;
 	  exports.ViewCompiler = ViewCompiler;
 	  exports.AnimationParser = AnimationParser;
@@ -27465,7 +27551,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -27544,10 +27630,10 @@ webpackJsonp([2],[
 	            return '' + token;
 	        }
 	        if (token.overriddenName) {
-	            return token.overriddenName;
+	            return "" + token.overriddenName;
 	        }
 	        if (token.name) {
-	            return token.name;
+	            return "" + token.name;
 	        }
 	        var /** @type {?} */ res = token.toString();
 	        var /** @type {?} */ newLineIndex = res.indexOf('\n');
@@ -28615,7 +28701,7 @@ webpackJsonp([2],[
 	    /**
 	     * @stable
 	     */
-	    var /** @type {?} */ VERSION = new Version('2.3.0');
+	    var /** @type {?} */ VERSION = new Version('2.3.1');
 	
 	    /**
 	     *  Allows to refer to references which are not yet defined.
@@ -28683,9 +28769,12 @@ webpackJsonp([2],[
 	         * @param {?} message
 	         */
 	        function BaseError(message) {
+	            _super.call(this, message);
 	            // Errors don't use current this, instead they create a new instance.
 	            // We have to do forward all of our api to the nativeInstance.
-	            var nativeError = _super.call(this, message);
+	            // TODO(bradfordcsmith): Remove this hack when
+	            //     google/closure-compiler/issues/2102 is fixed.
+	            var nativeError = new Error(message);
 	            this._nativeError = nativeError;
 	        }
 	        Object.defineProperty(BaseError.prototype, "message", {
@@ -31415,6 +31504,15 @@ webpackJsonp([2],[
 	            throw _throwError();
 	        };
 	        /**
+	         *  Exposes the CSS-style selectors that have been used in `ngContent` directives within
+	          * the template of the given component.
+	          * This is used by the `upgrade` library to compile the appropriate transclude content
+	          * in the Angular 1 wrapper component.
+	         * @param {?} component
+	         * @return {?}
+	         */
+	        Compiler.prototype.getNgContentSelectors = function (component) { throw _throwError(); };
+	        /**
 	         *  Clears all caches.
 	         * @return {?}
 	         */
@@ -31480,6 +31578,503 @@ webpackJsonp([2],[
 	            this.nativeElement = nativeElement;
 	        }
 	        return ElementRef;
+	    }());
+	
+	    /**
+	     * @license
+	     * Copyright Google Inc. All Rights Reserved.
+	     *
+	     * Use of this source code is governed by an MIT-style license that can be
+	     * found in the LICENSE file at https://angular.io/license
+	     */
+	    var __extends$6 = (this && this.__extends) || function (d, b) {
+	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	    /**
+	     *  Use by directives and components to emit custom Events.
+	      * *
+	      * ### Examples
+	      * *
+	      * In the following example, `Zippy` alternatively emits `open` and `close` events when its
+	      * title gets clicked:
+	      * *
+	      * ```
+	      * selector: 'zippy',
+	      * template: `
+	      * <div class="zippy">
+	      * <div (click)="toggle()">Toggle</div>
+	      * <div [hidden]="!visible">
+	      * <ng-content></ng-content>
+	      * </div>
+	      * </div>`})
+	      * export class Zippy {
+	      * visible: boolean = true;
+	      * @Output() open: EventEmitter<any> = new EventEmitter();
+	      * @Output() close: EventEmitter<any> = new EventEmitter();
+	      * *
+	      * toggle() {
+	      * this.visible = !this.visible;
+	      * if (this.visible) {
+	      * this.open.emit(null);
+	      * } else {
+	      * this.close.emit(null);
+	      * }
+	      * }
+	      * }
+	      * ```
+	      * *
+	      * The events payload can be accessed by the parameter `$event` on the components output event
+	      * handler:
+	      * *
+	      * ```
+	      * <zippy (open)="onOpen($event)" (close)="onClose($event)"></zippy>
+	      * ```
+	      * *
+	      * Uses Rx.Observable but provides an adapter to make it work as specified here:
+	      * https://github.com/jhusain/observable-spec
+	      * *
+	      * Once a reference implementation of the spec is available, switch to it.
+	     */
+	    var EventEmitter = (function (_super) {
+	        __extends$6(EventEmitter, _super);
+	        /**
+	         *  Creates an instance of [EventEmitter], which depending on [isAsync],
+	          * delivers events synchronously or asynchronously.
+	         * @param {?=} isAsync
+	         */
+	        function EventEmitter(isAsync) {
+	            if (isAsync === void 0) { isAsync = false; }
+	            _super.call(this);
+	            this.__isAsync = isAsync;
+	        }
+	        /**
+	         * @param {?=} value
+	         * @return {?}
+	         */
+	        EventEmitter.prototype.emit = function (value) { _super.prototype.next.call(this, value); };
+	        /**
+	         * @param {?=} generatorOrNext
+	         * @param {?=} error
+	         * @param {?=} complete
+	         * @return {?}
+	         */
+	        EventEmitter.prototype.subscribe = function (generatorOrNext, error, complete) {
+	            var /** @type {?} */ schedulerFn;
+	            var /** @type {?} */ errorFn = function (err) { return null; };
+	            var /** @type {?} */ completeFn = function () { return null; };
+	            if (generatorOrNext && typeof generatorOrNext === 'object') {
+	                schedulerFn = this.__isAsync ? function (value) {
+	                    setTimeout(function () { return generatorOrNext.next(value); });
+	                } : function (value) { generatorOrNext.next(value); };
+	                if (generatorOrNext.error) {
+	                    errorFn = this.__isAsync ? function (err) { setTimeout(function () { return generatorOrNext.error(err); }); } :
+	                        function (err) { generatorOrNext.error(err); };
+	                }
+	                if (generatorOrNext.complete) {
+	                    completeFn = this.__isAsync ? function () { setTimeout(function () { return generatorOrNext.complete(); }); } :
+	                        function () { generatorOrNext.complete(); };
+	                }
+	            }
+	            else {
+	                schedulerFn = this.__isAsync ? function (value) { setTimeout(function () { return generatorOrNext(value); }); } :
+	                    function (value) { generatorOrNext(value); };
+	                if (error) {
+	                    errorFn =
+	                        this.__isAsync ? function (err) { setTimeout(function () { return error(err); }); } : function (err) { error(err); };
+	                }
+	                if (complete) {
+	                    completeFn =
+	                        this.__isAsync ? function () { setTimeout(function () { return complete(); }); } : function () { complete(); };
+	                }
+	            }
+	            return _super.prototype.subscribe.call(this, schedulerFn, errorFn, completeFn);
+	        };
+	        return EventEmitter;
+	    }(rxjs_Subject.Subject));
+	
+	    /**
+	     *  An injectable service for executing work inside or outside of the Angular zone.
+	      * *
+	      * The most common use of this service is to optimize performance when starting a work consisting of
+	      * one or more asynchronous tasks that don't require UI updates or error handling to be handled by
+	      * Angular. Such tasks can be kicked off via {@link runOutsideAngular} and if needed, these tasks
+	      * can reenter the Angular zone via {@link run}.
+	      * *
+	      * <!-- TODO: add/fix links to:
+	      * - docs explaining zones and the use of zones in Angular and change-detection
+	      * - link to runOutsideAngular/run (throughout this file!)
+	      * -->
+	      * *
+	      * ### Example
+	      * ```
+	      * import {Component, NgZone} from '@angular/core';
+	      * import {NgIf} from '@angular/common';
+	      * *
+	      * selector: 'ng-zone-demo'.
+	      * template: `
+	      * <h2>Demo: NgZone</h2>
+	      * *
+	      * <p>Progress: {{progress}}%</p>
+	      * <p *ngIf="progress >= 100">Done processing {{label}} of Angular zone!</p>
+	      * *
+	      * <button (click)="processWithinAngularZone()">Process within Angular zone</button>
+	      * <button (click)="processOutsideOfAngularZone()">Process outside of Angular zone</button>
+	      * `,
+	      * })
+	      * export class NgZoneDemo {
+	      * progress: number = 0;
+	      * label: string;
+	      * *
+	      * constructor(private _ngZone: NgZone) {}
+	      * *
+	      * // Loop inside the Angular zone
+	      * // so the UI DOES refresh after each setTimeout cycle
+	      * processWithinAngularZone() {
+	      * this.label = 'inside';
+	      * this.progress = 0;
+	      * this._increaseProgress(() => console.log('Inside Done!'));
+	      * }
+	      * *
+	      * // Loop outside of the Angular zone
+	      * // so the UI DOES NOT refresh after each setTimeout cycle
+	      * processOutsideOfAngularZone() {
+	      * this.label = 'outside';
+	      * this.progress = 0;
+	      * this._ngZone.runOutsideAngular(() => {
+	      * this._increaseProgress(() => {
+	      * // reenter the Angular zone and display done
+	      * this._ngZone.run(() => {console.log('Outside Done!') });
+	      * }}));
+	      * }
+	      * *
+	      * _increaseProgress(doneCallback: () => void) {
+	      * this.progress += 1;
+	      * console.log(`Current progress: ${this.progress}%`);
+	      * *
+	      * if (this.progress < 100) {
+	      * window.setTimeout(() => this._increaseProgress(doneCallback)), 10)
+	      * } else {
+	      * doneCallback();
+	      * }
+	      * }
+	      * }
+	      * ```
+	     */
+	    var NgZone = (function () {
+	        /**
+	         * @param {?} __0
+	         */
+	        function NgZone(_a) {
+	            var _b = _a.enableLongStackTrace, enableLongStackTrace = _b === void 0 ? false : _b;
+	            this._hasPendingMicrotasks = false;
+	            this._hasPendingMacrotasks = false;
+	            this._isStable = true;
+	            this._nesting = 0;
+	            this._onUnstable = new EventEmitter(false);
+	            this._onMicrotaskEmpty = new EventEmitter(false);
+	            this._onStable = new EventEmitter(false);
+	            this._onErrorEvents = new EventEmitter(false);
+	            if (typeof Zone == 'undefined') {
+	                throw new Error('Angular requires Zone.js prolyfill.');
+	            }
+	            Zone.assertZonePatched();
+	            this.outer = this.inner = Zone.current;
+	            if (Zone['wtfZoneSpec']) {
+	                this.inner = this.inner.fork(Zone['wtfZoneSpec']);
+	            }
+	            if (enableLongStackTrace && Zone['longStackTraceZoneSpec']) {
+	                this.inner = this.inner.fork(Zone['longStackTraceZoneSpec']);
+	            }
+	            this.forkInnerZoneWithAngularBehavior();
+	        }
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.isInAngularZone = function () { return Zone.current.get('isAngularZone') === true; };
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.assertInAngularZone = function () {
+	            if (!NgZone.isInAngularZone()) {
+	                throw new Error('Expected to be in Angular Zone, but it is not!');
+	            }
+	        };
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.assertNotInAngularZone = function () {
+	            if (NgZone.isInAngularZone()) {
+	                throw new Error('Expected to not be in Angular Zone, but it is!');
+	            }
+	        };
+	        /**
+	         *  Executes the `fn` function synchronously within the Angular zone and returns value returned by
+	          * the function.
+	          * *
+	          * Running functions via `run` allows you to reenter Angular zone from a task that was executed
+	          * outside of the Angular zone (typically started via {@link runOutsideAngular}).
+	          * *
+	          * Any future tasks or microtasks scheduled from within this function will continue executing from
+	          * within the Angular zone.
+	          * *
+	          * If a synchronous error happens it will be rethrown and not reported via `onError`.
+	         * @param {?} fn
+	         * @return {?}
+	         */
+	        NgZone.prototype.run = function (fn) { return this.inner.run(fn); };
+	        /**
+	         *  Same as `run`, except that synchronous errors are caught and forwarded via `onError` and not
+	          * rethrown.
+	         * @param {?} fn
+	         * @return {?}
+	         */
+	        NgZone.prototype.runGuarded = function (fn) { return this.inner.runGuarded(fn); };
+	        /**
+	         *  Executes the `fn` function synchronously in Angular's parent zone and returns value returned by
+	          * the function.
+	          * *
+	          * Running functions via `runOutsideAngular` allows you to escape Angular's zone and do work that
+	          * doesn't trigger Angular change-detection or is subject to Angular's error handling.
+	          * *
+	          * Any future tasks or microtasks scheduled from within this function will continue executing from
+	          * outside of the Angular zone.
+	          * *
+	          * Use {@link run} to reenter the Angular zone and do work that updates the application model.
+	         * @param {?} fn
+	         * @return {?}
+	         */
+	        NgZone.prototype.runOutsideAngular = function (fn) { return this.outer.run(fn); };
+	        Object.defineProperty(NgZone.prototype, "onUnstable", {
+	            /**
+	             *  Notifies when code enters Angular Zone. This gets fired first on VM Turn.
+	             * @return {?}
+	             */
+	            get: function () { return this._onUnstable; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "onMicrotaskEmpty", {
+	            /**
+	             *  Notifies when there is no more microtasks enqueue in the current VM Turn.
+	              * This is a hint for Angular to do change detection, which may enqueue more microtasks.
+	              * For this reason this event can fire multiple times per VM Turn.
+	             * @return {?}
+	             */
+	            get: function () { return this._onMicrotaskEmpty; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "onStable", {
+	            /**
+	             *  Notifies when the last `onMicrotaskEmpty` has run and there are no more microtasks, which
+	              * implies we are about to relinquish VM turn.
+	              * This event gets called just once.
+	             * @return {?}
+	             */
+	            get: function () { return this._onStable; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "onError", {
+	            /**
+	             *  Notify that an error has been delivered.
+	             * @return {?}
+	             */
+	            get: function () { return this._onErrorEvents; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "isStable", {
+	            /**
+	             *  Whether there are no outstanding microtasks or macrotasks.
+	             * @return {?}
+	             */
+	            get: function () { return this._isStable; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "hasPendingMicrotasks", {
+	            /**
+	             * @return {?}
+	             */
+	            get: function () { return this._hasPendingMicrotasks; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        Object.defineProperty(NgZone.prototype, "hasPendingMacrotasks", {
+	            /**
+	             * @return {?}
+	             */
+	            get: function () { return this._hasPendingMacrotasks; },
+	            enumerable: true,
+	            configurable: true
+	        });
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.prototype.checkStable = function () {
+	            var _this = this;
+	            if (this._nesting == 0 && !this._hasPendingMicrotasks && !this._isStable) {
+	                try {
+	                    this._nesting++;
+	                    this._onMicrotaskEmpty.emit(null);
+	                }
+	                finally {
+	                    this._nesting--;
+	                    if (!this._hasPendingMicrotasks) {
+	                        try {
+	                            this.runOutsideAngular(function () { return _this._onStable.emit(null); });
+	                        }
+	                        finally {
+	                            this._isStable = true;
+	                        }
+	                    }
+	                }
+	            }
+	        };
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.prototype.forkInnerZoneWithAngularBehavior = function () {
+	            var _this = this;
+	            this.inner = this.inner.fork({
+	                name: 'angular',
+	                properties: /** @type {?} */ ({ 'isAngularZone': true }),
+	                onInvokeTask: function (delegate, current, target, task, applyThis, applyArgs) {
+	                    try {
+	                        _this.onEnter();
+	                        return delegate.invokeTask(target, task, applyThis, applyArgs);
+	                    }
+	                    finally {
+	                        _this.onLeave();
+	                    }
+	                },
+	                onInvoke: function (delegate, current, target, callback, applyThis, applyArgs, source) {
+	                    try {
+	                        _this.onEnter();
+	                        return delegate.invoke(target, callback, applyThis, applyArgs, source);
+	                    }
+	                    finally {
+	                        _this.onLeave();
+	                    }
+	                },
+	                onHasTask: function (delegate, current, target, hasTaskState) {
+	                    delegate.hasTask(target, hasTaskState);
+	                    if (current === target) {
+	                        // We are only interested in hasTask events which originate from our zone
+	                        // (A child hasTask event is not interesting to us)
+	                        if (hasTaskState.change == 'microTask') {
+	                            _this.setHasMicrotask(hasTaskState.microTask);
+	                        }
+	                        else if (hasTaskState.change == 'macroTask') {
+	                            _this.setHasMacrotask(hasTaskState.macroTask);
+	                        }
+	                    }
+	                },
+	                onHandleError: function (delegate, current, target, error) {
+	                    delegate.handleError(target, error);
+	                    _this.triggerError(error);
+	                    return false;
+	                }
+	            });
+	        };
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.prototype.onEnter = function () {
+	            this._nesting++;
+	            if (this._isStable) {
+	                this._isStable = false;
+	                this._onUnstable.emit(null);
+	            }
+	        };
+	        /**
+	         * @return {?}
+	         */
+	        NgZone.prototype.onLeave = function () {
+	            this._nesting--;
+	            this.checkStable();
+	        };
+	        /**
+	         * @param {?} hasMicrotasks
+	         * @return {?}
+	         */
+	        NgZone.prototype.setHasMicrotask = function (hasMicrotasks) {
+	            this._hasPendingMicrotasks = hasMicrotasks;
+	            this.checkStable();
+	        };
+	        /**
+	         * @param {?} hasMacrotasks
+	         * @return {?}
+	         */
+	        NgZone.prototype.setHasMacrotask = function (hasMacrotasks) { this._hasPendingMacrotasks = hasMacrotasks; };
+	        /**
+	         * @param {?} error
+	         * @return {?}
+	         */
+	        NgZone.prototype.triggerError = function (error) { this._onErrorEvents.emit(error); };
+	        return NgZone;
+	    }());
+	
+	    var AnimationQueue = (function () {
+	        /**
+	         * @param {?} _zone
+	         */
+	        function AnimationQueue(_zone) {
+	            this._zone = _zone;
+	            this.entries = [];
+	        }
+	        /**
+	         * @param {?} player
+	         * @return {?}
+	         */
+	        AnimationQueue.prototype.enqueue = function (player) { this.entries.push(player); };
+	        /**
+	         * @return {?}
+	         */
+	        AnimationQueue.prototype.flush = function () {
+	            var _this = this;
+	            // given that each animation player may set aside
+	            // microtasks and rely on DOM-based events, this
+	            // will cause Angular to run change detection after
+	            // each request. This sidesteps the issue. If a user
+	            // hooks into an animation via (@anim.start) or (@anim.done)
+	            // then those methods will automatically trigger change
+	            // detection by wrapping themselves inside of a zone
+	            if (this.entries.length) {
+	                this._zone.runOutsideAngular(function () {
+	                    // this code is wrapped into a single promise such that the
+	                    // onStart and onDone player callbacks are triggered outside
+	                    // of the digest cycle of animations
+	                    Promise.resolve(null).then(function () { return _this._triggerAnimations(); });
+	                });
+	            }
+	        };
+	        /**
+	         * @return {?}
+	         */
+	        AnimationQueue.prototype._triggerAnimations = function () {
+	            NgZone.assertNotInAngularZone();
+	            while (this.entries.length) {
+	                var /** @type {?} */ player = this.entries.shift();
+	                // in the event that an animation throws an error then we do
+	                // not want to re-run animations on any previous animations
+	                // if they have already been kicked off beforehand
+	                if (!player.hasStarted()) {
+	                    player.play();
+	                }
+	            }
+	        };
+	        AnimationQueue.decorators = [
+	            { type: Injectable },
+	        ];
+	        /** @nocollapse */
+	        AnimationQueue.ctorParameters = function () { return [
+	            { type: NgZone, },
+	        ]; };
+	        return AnimationQueue;
 	    }());
 	
 	    var DefaultIterableDifferFactory = (function () {
@@ -33457,7 +34052,7 @@ webpackJsonp([2],[
 	     * Use of this source code is governed by an MIT-style license that can be
 	     * found in the LICENSE file at https://angular.io/license
 	     */
-	    var __extends$6 = (this && this.__extends) || function (d, b) {
+	    var __extends$7 = (this && this.__extends) || function (d, b) {
 	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	        function __() { this.constructor = d; }
 	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -33491,7 +34086,7 @@ webpackJsonp([2],[
 	      * ```
 	     */
 	    var ExpressionChangedAfterItHasBeenCheckedError = (function (_super) {
-	        __extends$6(ExpressionChangedAfterItHasBeenCheckedError, _super);
+	        __extends$7(ExpressionChangedAfterItHasBeenCheckedError, _super);
 	        /**
 	         * @param {?} oldValue
 	         * @param {?} currValue
@@ -33514,7 +34109,7 @@ webpackJsonp([2],[
 	      * be useful for debugging.
 	     */
 	    var ViewWrappedError = (function (_super) {
-	        __extends$6(ViewWrappedError, _super);
+	        __extends$7(ViewWrappedError, _super);
 	        /**
 	         * @param {?} originalError
 	         * @param {?} context
@@ -33533,7 +34128,7 @@ webpackJsonp([2],[
 	      * This is an internal Angular error.
 	     */
 	    var ViewDestroyedError = (function (_super) {
-	        __extends$6(ViewDestroyedError, _super);
+	        __extends$7(ViewDestroyedError, _super);
 	        /**
 	         * @param {?} details
 	         */
@@ -33547,9 +34142,11 @@ webpackJsonp([2],[
 	        /**
 	         * @param {?} _renderer
 	         * @param {?} sanitizer
+	         * @param {?} animationQueue
 	         */
-	        function ViewUtils(_renderer, sanitizer) {
+	        function ViewUtils(_renderer, sanitizer, animationQueue) {
 	            this._renderer = _renderer;
+	            this.animationQueue = animationQueue;
 	            this._nextCompTypeId = 0;
 	            this.sanitizer = sanitizer;
 	        }
@@ -33567,6 +34164,7 @@ webpackJsonp([2],[
 	        ViewUtils.ctorParameters = function () { return [
 	            { type: RootRenderer, },
 	            { type: Sanitizer, },
+	            { type: AnimationQueue, },
 	        ]; };
 	        return ViewUtils;
 	    }());
@@ -34668,7 +35266,7 @@ webpackJsonp([2],[
 	     * Use of this source code is governed by an MIT-style license that can be
 	     * found in the LICENSE file at https://angular.io/license
 	     */
-	    var __extends$7 = (this && this.__extends) || function (d, b) {
+	    var __extends$8 = (this && this.__extends) || function (d, b) {
 	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	        function __() { this.constructor = d; }
 	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -34677,7 +35275,7 @@ webpackJsonp([2],[
 	     * @stable
 	     */
 	    var NoComponentFactoryError = (function (_super) {
-	        __extends$7(NoComponentFactoryError, _super);
+	        __extends$8(NoComponentFactoryError, _super);
 	        /**
 	         * @param {?} component
 	         */
@@ -34865,444 +35463,6 @@ webpackJsonp([2],[
 	     * @experimental
 	     */
 	    var /** @type {?} */ wtfEndTimeRange = wtfEnabled ? endTimeRange : function (r) { return null; };
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
-	    var __extends$8 = (this && this.__extends) || function (d, b) {
-	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	    /**
-	     *  Use by directives and components to emit custom Events.
-	      * *
-	      * ### Examples
-	      * *
-	      * In the following example, `Zippy` alternatively emits `open` and `close` events when its
-	      * title gets clicked:
-	      * *
-	      * ```
-	      * selector: 'zippy',
-	      * template: `
-	      * <div class="zippy">
-	      * <div (click)="toggle()">Toggle</div>
-	      * <div [hidden]="!visible">
-	      * <ng-content></ng-content>
-	      * </div>
-	      * </div>`})
-	      * export class Zippy {
-	      * visible: boolean = true;
-	      * @Output() open: EventEmitter<any> = new EventEmitter();
-	      * @Output() close: EventEmitter<any> = new EventEmitter();
-	      * *
-	      * toggle() {
-	      * this.visible = !this.visible;
-	      * if (this.visible) {
-	      * this.open.emit(null);
-	      * } else {
-	      * this.close.emit(null);
-	      * }
-	      * }
-	      * }
-	      * ```
-	      * *
-	      * The events payload can be accessed by the parameter `$event` on the components output event
-	      * handler:
-	      * *
-	      * ```
-	      * <zippy (open)="onOpen($event)" (close)="onClose($event)"></zippy>
-	      * ```
-	      * *
-	      * Uses Rx.Observable but provides an adapter to make it work as specified here:
-	      * https://github.com/jhusain/observable-spec
-	      * *
-	      * Once a reference implementation of the spec is available, switch to it.
-	     */
-	    var EventEmitter = (function (_super) {
-	        __extends$8(EventEmitter, _super);
-	        /**
-	         *  Creates an instance of [EventEmitter], which depending on [isAsync],
-	          * delivers events synchronously or asynchronously.
-	         * @param {?=} isAsync
-	         */
-	        function EventEmitter(isAsync) {
-	            if (isAsync === void 0) { isAsync = false; }
-	            _super.call(this);
-	            this.__isAsync = isAsync;
-	        }
-	        /**
-	         * @param {?=} value
-	         * @return {?}
-	         */
-	        EventEmitter.prototype.emit = function (value) { _super.prototype.next.call(this, value); };
-	        /**
-	         * @param {?=} generatorOrNext
-	         * @param {?=} error
-	         * @param {?=} complete
-	         * @return {?}
-	         */
-	        EventEmitter.prototype.subscribe = function (generatorOrNext, error, complete) {
-	            var /** @type {?} */ schedulerFn;
-	            var /** @type {?} */ errorFn = function (err) { return null; };
-	            var /** @type {?} */ completeFn = function () { return null; };
-	            if (generatorOrNext && typeof generatorOrNext === 'object') {
-	                schedulerFn = this.__isAsync ? function (value) {
-	                    setTimeout(function () { return generatorOrNext.next(value); });
-	                } : function (value) { generatorOrNext.next(value); };
-	                if (generatorOrNext.error) {
-	                    errorFn = this.__isAsync ? function (err) { setTimeout(function () { return generatorOrNext.error(err); }); } :
-	                        function (err) { generatorOrNext.error(err); };
-	                }
-	                if (generatorOrNext.complete) {
-	                    completeFn = this.__isAsync ? function () { setTimeout(function () { return generatorOrNext.complete(); }); } :
-	                        function () { generatorOrNext.complete(); };
-	                }
-	            }
-	            else {
-	                schedulerFn = this.__isAsync ? function (value) { setTimeout(function () { return generatorOrNext(value); }); } :
-	                    function (value) { generatorOrNext(value); };
-	                if (error) {
-	                    errorFn =
-	                        this.__isAsync ? function (err) { setTimeout(function () { return error(err); }); } : function (err) { error(err); };
-	                }
-	                if (complete) {
-	                    completeFn =
-	                        this.__isAsync ? function () { setTimeout(function () { return complete(); }); } : function () { complete(); };
-	                }
-	            }
-	            return _super.prototype.subscribe.call(this, schedulerFn, errorFn, completeFn);
-	        };
-	        return EventEmitter;
-	    }(rxjs_Subject.Subject));
-	
-	    /**
-	     *  An injectable service for executing work inside or outside of the Angular zone.
-	      * *
-	      * The most common use of this service is to optimize performance when starting a work consisting of
-	      * one or more asynchronous tasks that don't require UI updates or error handling to be handled by
-	      * Angular. Such tasks can be kicked off via {@link runOutsideAngular} and if needed, these tasks
-	      * can reenter the Angular zone via {@link run}.
-	      * *
-	      * <!-- TODO: add/fix links to:
-	      * - docs explaining zones and the use of zones in Angular and change-detection
-	      * - link to runOutsideAngular/run (throughout this file!)
-	      * -->
-	      * *
-	      * ### Example
-	      * ```
-	      * import {Component, NgZone} from '@angular/core';
-	      * import {NgIf} from '@angular/common';
-	      * *
-	      * selector: 'ng-zone-demo'.
-	      * template: `
-	      * <h2>Demo: NgZone</h2>
-	      * *
-	      * <p>Progress: {{progress}}%</p>
-	      * <p *ngIf="progress >= 100">Done processing {{label}} of Angular zone!</p>
-	      * *
-	      * <button (click)="processWithinAngularZone()">Process within Angular zone</button>
-	      * <button (click)="processOutsideOfAngularZone()">Process outside of Angular zone</button>
-	      * `,
-	      * })
-	      * export class NgZoneDemo {
-	      * progress: number = 0;
-	      * label: string;
-	      * *
-	      * constructor(private _ngZone: NgZone) {}
-	      * *
-	      * // Loop inside the Angular zone
-	      * // so the UI DOES refresh after each setTimeout cycle
-	      * processWithinAngularZone() {
-	      * this.label = 'inside';
-	      * this.progress = 0;
-	      * this._increaseProgress(() => console.log('Inside Done!'));
-	      * }
-	      * *
-	      * // Loop outside of the Angular zone
-	      * // so the UI DOES NOT refresh after each setTimeout cycle
-	      * processOutsideOfAngularZone() {
-	      * this.label = 'outside';
-	      * this.progress = 0;
-	      * this._ngZone.runOutsideAngular(() => {
-	      * this._increaseProgress(() => {
-	      * // reenter the Angular zone and display done
-	      * this._ngZone.run(() => {console.log('Outside Done!') });
-	      * }}));
-	      * }
-	      * *
-	      * _increaseProgress(doneCallback: () => void) {
-	      * this.progress += 1;
-	      * console.log(`Current progress: ${this.progress}%`);
-	      * *
-	      * if (this.progress < 100) {
-	      * window.setTimeout(() => this._increaseProgress(doneCallback)), 10)
-	      * } else {
-	      * doneCallback();
-	      * }
-	      * }
-	      * }
-	      * ```
-	     */
-	    var NgZone = (function () {
-	        /**
-	         * @param {?} __0
-	         */
-	        function NgZone(_a) {
-	            var _b = _a.enableLongStackTrace, enableLongStackTrace = _b === void 0 ? false : _b;
-	            this._hasPendingMicrotasks = false;
-	            this._hasPendingMacrotasks = false;
-	            this._isStable = true;
-	            this._nesting = 0;
-	            this._onUnstable = new EventEmitter(false);
-	            this._onMicrotaskEmpty = new EventEmitter(false);
-	            this._onStable = new EventEmitter(false);
-	            this._onErrorEvents = new EventEmitter(false);
-	            if (typeof Zone == 'undefined') {
-	                throw new Error('Angular requires Zone.js prolyfill.');
-	            }
-	            Zone.assertZonePatched();
-	            this.outer = this.inner = Zone.current;
-	            if (Zone['wtfZoneSpec']) {
-	                this.inner = this.inner.fork(Zone['wtfZoneSpec']);
-	            }
-	            if (enableLongStackTrace && Zone['longStackTraceZoneSpec']) {
-	                this.inner = this.inner.fork(Zone['longStackTraceZoneSpec']);
-	            }
-	            this.forkInnerZoneWithAngularBehavior();
-	        }
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.isInAngularZone = function () { return Zone.current.get('isAngularZone') === true; };
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.assertInAngularZone = function () {
-	            if (!NgZone.isInAngularZone()) {
-	                throw new Error('Expected to be in Angular Zone, but it is not!');
-	            }
-	        };
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.assertNotInAngularZone = function () {
-	            if (NgZone.isInAngularZone()) {
-	                throw new Error('Expected to not be in Angular Zone, but it is!');
-	            }
-	        };
-	        /**
-	         *  Executes the `fn` function synchronously within the Angular zone and returns value returned by
-	          * the function.
-	          * *
-	          * Running functions via `run` allows you to reenter Angular zone from a task that was executed
-	          * outside of the Angular zone (typically started via {@link runOutsideAngular}).
-	          * *
-	          * Any future tasks or microtasks scheduled from within this function will continue executing from
-	          * within the Angular zone.
-	          * *
-	          * If a synchronous error happens it will be rethrown and not reported via `onError`.
-	         * @param {?} fn
-	         * @return {?}
-	         */
-	        NgZone.prototype.run = function (fn) { return this.inner.run(fn); };
-	        /**
-	         *  Same as `run`, except that synchronous errors are caught and forwarded via `onError` and not
-	          * rethrown.
-	         * @param {?} fn
-	         * @return {?}
-	         */
-	        NgZone.prototype.runGuarded = function (fn) { return this.inner.runGuarded(fn); };
-	        /**
-	         *  Executes the `fn` function synchronously in Angular's parent zone and returns value returned by
-	          * the function.
-	          * *
-	          * Running functions via `runOutsideAngular` allows you to escape Angular's zone and do work that
-	          * doesn't trigger Angular change-detection or is subject to Angular's error handling.
-	          * *
-	          * Any future tasks or microtasks scheduled from within this function will continue executing from
-	          * outside of the Angular zone.
-	          * *
-	          * Use {@link run} to reenter the Angular zone and do work that updates the application model.
-	         * @param {?} fn
-	         * @return {?}
-	         */
-	        NgZone.prototype.runOutsideAngular = function (fn) { return this.outer.run(fn); };
-	        Object.defineProperty(NgZone.prototype, "onUnstable", {
-	            /**
-	             *  Notifies when code enters Angular Zone. This gets fired first on VM Turn.
-	             * @return {?}
-	             */
-	            get: function () { return this._onUnstable; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "onMicrotaskEmpty", {
-	            /**
-	             *  Notifies when there is no more microtasks enqueue in the current VM Turn.
-	              * This is a hint for Angular to do change detection, which may enqueue more microtasks.
-	              * For this reason this event can fire multiple times per VM Turn.
-	             * @return {?}
-	             */
-	            get: function () { return this._onMicrotaskEmpty; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "onStable", {
-	            /**
-	             *  Notifies when the last `onMicrotaskEmpty` has run and there are no more microtasks, which
-	              * implies we are about to relinquish VM turn.
-	              * This event gets called just once.
-	             * @return {?}
-	             */
-	            get: function () { return this._onStable; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "onError", {
-	            /**
-	             *  Notify that an error has been delivered.
-	             * @return {?}
-	             */
-	            get: function () { return this._onErrorEvents; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "isStable", {
-	            /**
-	             *  Whether there are no outstanding microtasks or macrotasks.
-	             * @return {?}
-	             */
-	            get: function () { return this._isStable; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "hasPendingMicrotasks", {
-	            /**
-	             * @return {?}
-	             */
-	            get: function () { return this._hasPendingMicrotasks; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        Object.defineProperty(NgZone.prototype, "hasPendingMacrotasks", {
-	            /**
-	             * @return {?}
-	             */
-	            get: function () { return this._hasPendingMacrotasks; },
-	            enumerable: true,
-	            configurable: true
-	        });
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.prototype.checkStable = function () {
-	            var _this = this;
-	            if (this._nesting == 0 && !this._hasPendingMicrotasks && !this._isStable) {
-	                try {
-	                    this._nesting++;
-	                    this._onMicrotaskEmpty.emit(null);
-	                }
-	                finally {
-	                    this._nesting--;
-	                    if (!this._hasPendingMicrotasks) {
-	                        try {
-	                            this.runOutsideAngular(function () { return _this._onStable.emit(null); });
-	                        }
-	                        finally {
-	                            this._isStable = true;
-	                        }
-	                    }
-	                }
-	            }
-	        };
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.prototype.forkInnerZoneWithAngularBehavior = function () {
-	            var _this = this;
-	            this.inner = this.inner.fork({
-	                name: 'angular',
-	                properties: /** @type {?} */ ({ 'isAngularZone': true }),
-	                onInvokeTask: function (delegate, current, target, task, applyThis, applyArgs) {
-	                    try {
-	                        _this.onEnter();
-	                        return delegate.invokeTask(target, task, applyThis, applyArgs);
-	                    }
-	                    finally {
-	                        _this.onLeave();
-	                    }
-	                },
-	                onInvoke: function (delegate, current, target, callback, applyThis, applyArgs, source) {
-	                    try {
-	                        _this.onEnter();
-	                        return delegate.invoke(target, callback, applyThis, applyArgs, source);
-	                    }
-	                    finally {
-	                        _this.onLeave();
-	                    }
-	                },
-	                onHasTask: function (delegate, current, target, hasTaskState) {
-	                    delegate.hasTask(target, hasTaskState);
-	                    if (current === target) {
-	                        // We are only interested in hasTask events which originate from our zone
-	                        // (A child hasTask event is not interesting to us)
-	                        if (hasTaskState.change == 'microTask') {
-	                            _this.setHasMicrotask(hasTaskState.microTask);
-	                        }
-	                        else if (hasTaskState.change == 'macroTask') {
-	                            _this.setHasMacrotask(hasTaskState.macroTask);
-	                        }
-	                    }
-	                },
-	                onHandleError: function (delegate, current, target, error) {
-	                    delegate.handleError(target, error);
-	                    _this.triggerError(error);
-	                    return false;
-	                }
-	            });
-	        };
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.prototype.onEnter = function () {
-	            this._nesting++;
-	            if (this._isStable) {
-	                this._isStable = false;
-	                this._onUnstable.emit(null);
-	            }
-	        };
-	        /**
-	         * @return {?}
-	         */
-	        NgZone.prototype.onLeave = function () {
-	            this._nesting--;
-	            this.checkStable();
-	        };
-	        /**
-	         * @param {?} hasMicrotasks
-	         * @return {?}
-	         */
-	        NgZone.prototype.setHasMicrotask = function (hasMicrotasks) {
-	            this._hasPendingMicrotasks = hasMicrotasks;
-	            this.checkStable();
-	        };
-	        /**
-	         * @param {?} hasMacrotasks
-	         * @return {?}
-	         */
-	        NgZone.prototype.setHasMacrotask = function (hasMacrotasks) { this._hasPendingMacrotasks = hasMacrotasks; };
-	        /**
-	         * @param {?} error
-	         * @return {?}
-	         */
-	        NgZone.prototype.triggerError = function (error) { this._onErrorEvents.emit(error); };
-	        return NgZone;
-	    }());
 	
 	    /**
 	     *  The Testability service provides testing hooks that can be accessed from
@@ -37035,43 +37195,6 @@ webpackJsonp([2],[
 	     * Use of this source code is governed by an MIT-style license that can be
 	     * found in the LICENSE file at https://angular.io/license
 	     */
-	    var /** @type {?} */ _queuedAnimations = [];
-	    /**
-	     * @param {?} player
-	     * @return {?}
-	     */
-	    function queueAnimationGlobally(player) {
-	        _queuedAnimations.push(player);
-	    }
-	    /**
-	     * @return {?}
-	     */
-	    function triggerQueuedAnimations() {
-	        // this code is wrapped into a single promise such that the
-	        // onStart and onDone player callbacks are triggered outside
-	        // of the digest cycle of animations
-	        if (_queuedAnimations.length) {
-	            Promise.resolve(null).then(_triggerAnimations);
-	        }
-	    }
-	    /**
-	     * @return {?}
-	     */
-	    function _triggerAnimations() {
-	        for (var /** @type {?} */ i = 0; i < _queuedAnimations.length; i++) {
-	            var /** @type {?} */ player = _queuedAnimations[i];
-	            player.play();
-	        }
-	        _queuedAnimations = [];
-	    }
-	
-	    /**
-	     * @license
-	     * Copyright Google Inc. All Rights Reserved.
-	     *
-	     * Use of this source code is governed by an MIT-style license that can be
-	     * found in the LICENSE file at https://angular.io/license
-	     */
 	    var __extends$11 = (this && this.__extends) || function (d, b) {
 	        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	        function __() { this.constructor = d; }
@@ -37188,9 +37311,11 @@ webpackJsonp([2],[
 	    var ViewRef_ = (function () {
 	        /**
 	         * @param {?} _view
+	         * @param {?} animationQueue
 	         */
-	        function ViewRef_(_view) {
+	        function ViewRef_(_view, animationQueue) {
 	            this._view = _view;
+	            this.animationQueue = animationQueue;
 	            this._view = _view;
 	            this._originalMode = this._view.cdMode;
 	        }
@@ -37239,7 +37364,7 @@ webpackJsonp([2],[
 	         */
 	        ViewRef_.prototype.detectChanges = function () {
 	            this._view.detectChanges(false);
-	            triggerQueuedAnimations();
+	            this.animationQueue.flush();
 	        };
 	        /**
 	         * @return {?}
@@ -37603,6 +37728,7 @@ webpackJsonp([2],[
 	                            Compiler,
 	                            APP_ID_RANDOM_PROVIDER,
 	                            ViewUtils,
+	                            AnimationQueue,
 	                            { provide: IterableDiffers, useFactory: _iterableDiffersFactory },
 	                            { provide: KeyValueDiffers, useFactory: _keyValueDiffersFactory },
 	                            { provide: LOCALE_ID, useValue: 'en-US' },
@@ -39008,16 +39134,18 @@ webpackJsonp([2],[
 	         * @return {?}
 	         */
 	        AnimationTransition.prototype.onStart = function (callback) {
-	            var /** @type {?} */ event = this._createEvent('start');
-	            this._player.onStart(function () { return callback(event); });
+	            var _this = this;
+	            var /** @type {?} */ fn = (Zone.current.wrap(function () { return callback(_this._createEvent('start')); }, 'player.onStart'));
+	            this._player.onStart(fn);
 	        };
 	        /**
 	         * @param {?} callback
 	         * @return {?}
 	         */
 	        AnimationTransition.prototype.onDone = function (callback) {
-	            var /** @type {?} */ event = this._createEvent('done');
-	            this._player.onDone(function () { return callback(event); });
+	            var _this = this;
+	            var /** @type {?} */ fn = (Zone.current.wrap(function () { return callback(_this._createEvent('done')); }, 'player.onDone'));
+	            this._player.onDone(fn);
 	        };
 	        return AnimationTransition;
 	    }());
@@ -39469,17 +39597,21 @@ webpackJsonp([2],[
 	        /**
 	         * @param {?} element
 	         * @param {?} animationName
+	         * @param {?=} targetPlayer
 	         * @return {?}
 	         */
-	        ViewAnimationMap.prototype.remove = function (element, animationName) {
+	        ViewAnimationMap.prototype.remove = function (element, animationName, targetPlayer) {
+	            if (targetPlayer === void 0) { targetPlayer = null; }
 	            var /** @type {?} */ playersByAnimation = this._map.get(element);
 	            if (playersByAnimation) {
 	                var /** @type {?} */ player = playersByAnimation[animationName];
-	                delete playersByAnimation[animationName];
-	                var /** @type {?} */ index = this._allPlayers.indexOf(player);
-	                this._allPlayers.splice(index, 1);
-	                if (Object.keys(playersByAnimation).length === 0) {
-	                    this._map.delete(element);
+	                if (!targetPlayer || player === targetPlayer) {
+	                    delete playersByAnimation[animationName];
+	                    var /** @type {?} */ index = this._allPlayers.indexOf(player);
+	                    this._allPlayers.splice(index, 1);
+	                    if (Object.keys(playersByAnimation).length === 0) {
+	                        this._map.delete(element);
+	                    }
 	                }
 	            }
 	        };
@@ -39487,7 +39619,11 @@ webpackJsonp([2],[
 	    }());
 	
 	    var AnimationViewContext = (function () {
-	        function AnimationViewContext() {
+	        /**
+	         * @param {?} _animationQueue
+	         */
+	        function AnimationViewContext(_animationQueue) {
+	            this._animationQueue = _animationQueue;
 	            this._players = new ViewAnimationMap();
 	        }
 	        /**
@@ -39512,26 +39648,27 @@ webpackJsonp([2],[
 	         * @return {?}
 	         */
 	        AnimationViewContext.prototype.queueAnimation = function (element, animationName, player) {
-	            queueAnimationGlobally(player);
+	            var _this = this;
+	            this._animationQueue.enqueue(player);
 	            this._players.set(element, animationName, player);
+	            player.onDone(function () { return _this._players.remove(element, animationName, player); });
 	        };
 	        /**
 	         * @param {?} element
-	         * @param {?} animationName
-	         * @param {?=} removeAllAnimations
+	         * @param {?=} animationName
 	         * @return {?}
 	         */
-	        AnimationViewContext.prototype.getAnimationPlayers = function (element, animationName, removeAllAnimations) {
-	            if (removeAllAnimations === void 0) { removeAllAnimations = false; }
+	        AnimationViewContext.prototype.getAnimationPlayers = function (element, animationName) {
+	            if (animationName === void 0) { animationName = null; }
 	            var /** @type {?} */ players = [];
-	            if (removeAllAnimations) {
-	                this._players.findAllPlayersByElement(element).forEach(function (player) { _recursePlayers(player, players); });
-	            }
-	            else {
+	            if (animationName) {
 	                var /** @type {?} */ currentPlayer = this._players.find(element, animationName);
 	                if (currentPlayer) {
 	                    _recursePlayers(currentPlayer, players);
 	                }
+	            }
+	            else {
+	                this._players.findAllPlayersByElement(element).forEach(function (player) { return _recursePlayers(player, players); });
 	            }
 	            return players;
 	        };
@@ -39633,7 +39770,7 @@ webpackJsonp([2],[
 	            this.cdMode = cdMode;
 	            this.declaredViewContainer = declaredViewContainer;
 	            this.numberOfChecks = 0;
-	            this.ref = new ViewRef_(this);
+	            this.ref = new ViewRef_(this, viewUtils.animationQueue);
 	            if (type === ViewType.COMPONENT || type === ViewType.HOST) {
 	                this.renderer = viewUtils.renderComponent(componentType);
 	            }
@@ -39648,7 +39785,7 @@ webpackJsonp([2],[
 	             */
 	            get: function () {
 	                if (!this._animationContext) {
-	                    this._animationContext = new AnimationViewContext();
+	                    this._animationContext = new AnimationViewContext(this.viewUtils.animationQueue);
 	                }
 	                return this._animationContext;
 	            },
@@ -39809,7 +39946,8 @@ webpackJsonp([2],[
 	            else {
 	                this._renderDetach();
 	            }
-	            if (this.declaredViewContainer && this.declaredViewContainer !== this.viewContainer) {
+	            if (this.declaredViewContainer && this.declaredViewContainer !== this.viewContainer &&
+	                this.declaredViewContainer.projectedViews) {
 	                var /** @type {?} */ projectedViews = this.declaredViewContainer.projectedViews;
 	                var /** @type {?} */ index = projectedViews.indexOf(this);
 	                // perf: pop is faster than splice!
@@ -39981,11 +40119,19 @@ webpackJsonp([2],[
 	         * @param {?} throwOnChange
 	         * @return {?}
 	         */
+	        AppView.prototype.internalDetectChanges = function (throwOnChange) {
+	            if (this.cdMode !== ChangeDetectorStatus.Detached) {
+	                this.detectChanges(throwOnChange);
+	            }
+	        };
+	        /**
+	         * @param {?} throwOnChange
+	         * @return {?}
+	         */
 	        AppView.prototype.detectChanges = function (throwOnChange) {
 	            var /** @type {?} */ s = _scope_check(this.clazz);
 	            if (this.cdMode === ChangeDetectorStatus.Checked ||
-	                this.cdMode === ChangeDetectorStatus.Errored ||
-	                this.cdMode === ChangeDetectorStatus.Detached)
+	                this.cdMode === ChangeDetectorStatus.Errored)
 	                return;
 	            if (this.cdMode === ChangeDetectorStatus.Destroyed) {
 	                this.throwDestroyedError('detectChanges');
@@ -41536,7 +41682,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -41549,8 +41695,11 @@ webpackJsonp([2],[
 	  var /** @type {?} */ DebugDomRootRenderer = core.__core_private__.DebugDomRootRenderer;
 	  var /** @type {?} */ NoOpAnimationPlayer = core.__core_private__.NoOpAnimationPlayer;
 	
-	  var _NoOpAnimationDriver = (function () {
-	      function _NoOpAnimationDriver() {
+	  /**
+	   * @experimental
+	   */
+	  var NoOpAnimationDriver = (function () {
+	      function NoOpAnimationDriver() {
 	      }
 	      /**
 	       * @param {?} element
@@ -41562,11 +41711,11 @@ webpackJsonp([2],[
 	       * @param {?=} previousPlayers
 	       * @return {?}
 	       */
-	      _NoOpAnimationDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) {
+	      NoOpAnimationDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) {
 	          if (previousPlayers === void 0) { previousPlayers = []; }
 	          return new NoOpAnimationPlayer();
 	      };
-	      return _NoOpAnimationDriver;
+	      return NoOpAnimationDriver;
 	  }());
 	  /**
 	   * @abstract
@@ -41586,7 +41735,7 @@ webpackJsonp([2],[
 	       * @return {?}
 	       */
 	      AnimationDriver.prototype.animate = function (element, startingStyles, keyframes, duration, delay, easing, previousPlayers) { };
-	      AnimationDriver.NOOP = new _NoOpAnimationDriver();
+	      AnimationDriver.NOOP = new NoOpAnimationDriver();
 	      return AnimationDriver;
 	  }());
 	
@@ -41645,10 +41794,10 @@ webpackJsonp([2],[
 	          return '' + token;
 	      }
 	      if (token.overriddenName) {
-	          return token.overriddenName;
+	          return "" + token.overriddenName;
 	      }
 	      if (token.name) {
-	          return token.name;
+	          return "" + token.name;
 	      }
 	      var /** @type {?} */ res = token.toString();
 	      var /** @type {?} */ newLineIndex = res.indexOf('\n');
@@ -42734,7 +42883,7 @@ webpackJsonp([2],[
 	          }
 	          keyframes.forEach(function (keyframe) {
 	              var /** @type {?} */ data = _populateStyles(keyframe.styles, startingStyleLookup);
-	              data['offset'] = keyframe.offset;
+	              data['offset'] = Math.max(0, Math.min(1, keyframe.offset));
 	              formattedSteps.push(data);
 	          });
 	          // this is a special case when only styles are applied as an
@@ -42994,7 +43143,13 @@ webpackJsonp([2],[
 	       */
 	      BrowserDomAdapter.prototype.logError = function (error) {
 	          if (window.console) {
-	              (window.console.error || window.console.log)(error);
+	              if (console.error) {
+	                  console.error(error);
+	              }
+	              else {
+	                  // tslint:disable-next-line:no-console
+	                  console.log(error);
+	              }
 	          }
 	      };
 	      /**
@@ -43014,7 +43169,6 @@ webpackJsonp([2],[
 	      BrowserDomAdapter.prototype.logGroup = function (error) {
 	          if (window.console) {
 	              window.console.group && window.console.group(error);
-	              this.logError(error);
 	          }
 	      };
 	      /**
@@ -46183,7 +46337,7 @@ webpackJsonp([2],[
 	  /**
 	   * @stable
 	   */
-	  var /** @type {?} */ VERSION = new core.Version('2.3.0');
+	  var /** @type {?} */ VERSION = new core.Version('2.3.1');
 	
 	  exports.BrowserModule = BrowserModule;
 	  exports.platformBrowser = platformBrowser;
@@ -46210,7 +46364,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -46322,7 +46476,7 @@ webpackJsonp([2],[
 	    /**
 	     *  `LocationStrategy` is responsible for representing and reading route state
 	      * from the browser's URL. Angular provides two strategies:
-	      * {@link HashLocationStrategy} and {@link PathLocationStrategy} (default).
+	      * {@link HashLocationStrategy} and {@link PathLocationStrategy}.
 	      * *
 	      * This is used under the hood of the {@link Location} service.
 	      * *
@@ -46486,10 +46640,10 @@ webpackJsonp([2],[
 	            return '' + token;
 	        }
 	        if (token.overriddenName) {
-	            return token.overriddenName;
+	            return "" + token.overriddenName;
 	        }
 	        if (token.name) {
-	            return token.name;
+	            return "" + token.name;
 	        }
 	        var /** @type {?} */ res = token.toString();
 	        var /** @type {?} */ newLineIndex = res.indexOf('\n');
@@ -46548,8 +46702,7 @@ webpackJsonp([2],[
 	    }
 	
 	    /**
-	     *  `Location` is a service that applications can use to interact with a browser's URL.
-	      * Depending on which {@link LocationStrategy} is used, `Location` will either persist
+	     *  Depending on which {@link LocationStrategy} is used, `Location` will either persist
 	      * to the URL's path or the URL's hash segment.
 	      * *
 	      * Note: it's better to use {@link Router#navigate} service to trigger route changes. Use
@@ -46564,18 +46717,7 @@ webpackJsonp([2],[
 	      * - `/my/app/user/123/` **is not** normalized
 	      * *
 	      * ### Example
-	      * *
-	      * ```
-	      * import {Component} from '@angular/core';
-	      * import {Location} from '@angular/common';
-	      * *
-	      * class AppCmp {
-	      * constructor(location: Location) {
-	      * location.go('/foo');
-	      * }
-	      * }
-	      * ```
-	      * *
+	      * {@example common/location/ts/path_location_component.ts region='LocationComponent'}
 	     */
 	    var Location = (function () {
 	        /**
@@ -46772,17 +46914,7 @@ webpackJsonp([2],[
 	      * *
 	      * ### Example
 	      * *
-	      * ```
-	      * import {Component, NgModule} from '@angular/core';
-	      * import {
-	      * LocationStrategy,
-	      * HashLocationStrategy
-	      * } from '@angular/common';
-	      * *
-	      * providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}]
-	      * })
-	      * class AppModule {}
-	      * ```
+	      * {@example common/location/ts/hash_location_component.ts region='LocationComponent'}
 	      * *
 	     */
 	    var HashLocationStrategy = (function (_super) {
@@ -46897,9 +47029,6 @@ webpackJsonp([2],[
 	      * [path](https://en.wikipedia.org/wiki/Uniform_Resource_Locator#Syntax) of the
 	      * browser's URL.
 	      * *
-	      * `PathLocationStrategy` is the default binding for {@link LocationStrategy}
-	      * provided in {@link ROUTER_PROVIDERS}.
-	      * *
 	      * If you're using `PathLocationStrategy`, you must provide a {@link APP_BASE_HREF}
 	      * or add a base element to the document. This URL prefix that will be preserved
 	      * when generating and recognizing URLs.
@@ -46911,6 +47040,10 @@ webpackJsonp([2],[
 	      * Similarly, if you add `<base href='/my/app'/>` to the document and call
 	      * `location.go('/foo')`, the browser's URL will become
 	      * `example.com/my/app/foo`.
+	      * *
+	      * ### Example
+	      * *
+	      * {@example common/location/ts/path_location_component.ts region='LocationComponent'}
 	      * *
 	     */
 	    var PathLocationStrategy = (function (_super) {
@@ -48562,9 +48695,12 @@ webpackJsonp([2],[
 	         * @param {?} message
 	         */
 	        function BaseError(message) {
+	            _super.call(this, message);
 	            // Errors don't use current this, instead they create a new instance.
 	            // We have to do forward all of our api to the nativeInstance.
-	            var nativeError = _super.call(this, message);
+	            // TODO(bradfordcsmith): Remove this hack when
+	            //     google/closure-compiler/issues/2102 is fixed.
+	            var nativeError = new Error(message);
 	            this._nativeError = nativeError;
 	        }
 	        Object.defineProperty(BaseError.prototype, "message", {
@@ -49689,7 +49825,7 @@ webpackJsonp([2],[
 	    /**
 	     * @stable
 	     */
-	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0');
+	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.1');
 	
 	    exports.NgLocalization = NgLocalization;
 	    exports.CommonModule = CommonModule;
@@ -49737,7 +49873,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v2.3.0
+	 * @license Angular v2.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */
@@ -50521,7 +50657,7 @@ webpackJsonp([2],[
 	            if (this._body instanceof ArrayBuffer) {
 	                return String.fromCharCode.apply(null, new Uint16Array(/** @type {?} */ (this._body)));
 	            }
-	            if (this._body === null) {
+	            if (this._body == null) {
 	                return '';
 	            }
 	            if (typeof this._body === 'object') {
@@ -51163,7 +51299,7 @@ webpackJsonp([2],[
 	        RequestOptions.prototype.merge = function (options) {
 	            return new RequestOptions({
 	                method: options && options.method != null ? options.method : this.method,
-	                headers: options && options.headers != null ? options.headers : this.headers,
+	                headers: options && options.headers != null ? options.headers : new Headers(this.headers),
 	                body: options && options.body != null ? options.body : this.body,
 	                url: options && options.url != null ? options.url : this.url,
 	                search: options && options.search != null ?
@@ -51733,7 +51869,7 @@ webpackJsonp([2],[
 	    /**
 	     * @stable
 	     */
-	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.0');
+	    var /** @type {?} */ VERSION = new _angular_core.Version('2.3.1');
 	
 	    exports.BrowserXhr = BrowserXhr;
 	    exports.JSONPBackend = JSONPBackend;
@@ -52268,7 +52404,7 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * @license Angular v3.3.0
+	 * @license Angular v3.3.1
 	 * (c) 2010-2016 Google, Inc. https://angular.io/
 	 * License: MIT
 	 */(function (global, factory) {
@@ -52460,9 +52596,7 @@ webpackJsonp([2],[
 	          var /** @type {?} */ last$ = l.last.call(concatted$);
 	          return rxjs_operator_map.map.call(last$, function () { return res; });
 	      }
-	      else {
-	          return rxjs_observable_of.of(res);
-	      }
+	      return rxjs_observable_of.of(res);
 	  }
 	  /**
 	   * @param {?} observables
@@ -52480,12 +52614,10 @@ webpackJsonp([2],[
 	      if (value instanceof rxjs_Observable.Observable) {
 	          return value;
 	      }
-	      else if (value instanceof Promise) {
+	      if (value instanceof Promise) {
 	          return rxjs_observable_fromPromise.fromPromise(value);
 	      }
-	      else {
-	          return rxjs_observable_of.of(value);
-	      }
+	      return rxjs_observable_of.of(value);
 	  }
 	
 	  /**
@@ -52562,10 +52694,8 @@ webpackJsonp([2],[
 	          return equalQueryParams(container.queryParams, containee.queryParams) &&
 	              equalSegmentGroups(container.root, containee.root);
 	      }
-	      else {
-	          return containsQueryParams(container.queryParams, containee.queryParams) &&
-	              containsSegmentGroup(container.root, containee.root);
-	      }
+	      return containsQueryParams(container.queryParams, containee.queryParams) &&
+	          containsSegmentGroup(container.root, containee.root);
 	  }
 	  /**
 	   * @param {?} container
@@ -52701,17 +52831,18 @@ webpackJsonp([2],[
 	          var _this = this;
 	          this.segments = segments;
 	          this.children = children;
+	          /** The parent node in the url tree */
 	          this.parent = null;
 	          forEach(children, function (v, k) { return v.parent = _this; });
 	      }
 	      /**
-	       *  Return true if the segment has child segments
+	       *  Wether the segment has child segments
 	       * @return {?}
 	       */
 	      UrlSegmentGroup.prototype.hasChildren = function () { return this.numberOfChildren > 0; };
 	      Object.defineProperty(UrlSegmentGroup.prototype, "numberOfChildren", {
 	          /**
-	           *  Returns the number of child sements.
+	           *  Number of child segments
 	           * @return {?}
 	           */
 	          get: function () { return Object.keys(this.children).length; },
@@ -52740,8 +52871,8 @@ webpackJsonp([2],[
 	    * ```
 	    * *
 	    * *
-	    * A UrlSegment is a part of a URL between the two slashes. It contains a path and
-	    * the matrix parameters associated with the segment.
+	    * A UrlSegment is a part of a URL between the two slashes. It contains a path and the matrix
+	    * parameters associated with the segment.
 	    * *
 	   */
 	  var UrlSegment = (function () {
@@ -52820,14 +52951,14 @@ webpackJsonp([2],[
 	      function UrlSerializer() {
 	      }
 	      /**
-	       *  Parse a url into a {@link UrlTree}.
+	       *  Parse a url into a {@link UrlTree}
 	       * @abstract
 	       * @param {?} url
 	       * @return {?}
 	       */
 	      UrlSerializer.prototype.parse = function (url) { };
 	      /**
-	       *  Converts a {@link UrlTree} into a url.
+	       *  Converts a {@link UrlTree} into a url
 	       * @abstract
 	       * @param {?} tree
 	       * @return {?}
@@ -52854,7 +52985,7 @@ webpackJsonp([2],[
 	      function DefaultUrlSerializer() {
 	      }
 	      /**
-	       *  Parse a url into a {@link UrlTree}.
+	       *  Parses a url into a {@link UrlTree}
 	       * @param {?} url
 	       * @return {?}
 	       */
@@ -52863,7 +52994,7 @@ webpackJsonp([2],[
 	          return new UrlTree(p.parseRootSegment(), p.parseQueryParams(), p.parseFragment());
 	      };
 	      /**
-	       *  Converts a {@link UrlTree} into a url.
+	       *  Converts a {@link UrlTree} into a url
 	       * @param {?} tree
 	       * @return {?}
 	       */
@@ -52953,8 +53084,12 @@ webpackJsonp([2],[
 	   * @return {?}
 	   */
 	  function serializeQueryParams(params) {
-	      var /** @type {?} */ strs = pairs(params).map(function (p) { return (encode(p.first) + "=" + encode(p.second)); });
-	      return strs.length > 0 ? "?" + strs.join("&") : '';
+	      var /** @type {?} */ strParams = Object.keys(params).map(function (name) {
+	          var /** @type {?} */ value = params[name];
+	          return Array.isArray(value) ? value.map(function (v) { return (encode(name) + "=" + encode(v)); }).join('&') :
+	              encode(name) + "=" + encode(value);
+	      });
+	      return strParams.length ? "?" + strParams.join("&") : '';
 	  }
 	  var Pair = (function () {
 	      /**
@@ -52980,7 +53115,7 @@ webpackJsonp([2],[
 	      }
 	      return res;
 	  }
-	  var /** @type {?} */ SEGMENT_RE = /^[^\/\(\)\?;=&#]+/;
+	  var /** @type {?} */ SEGMENT_RE = /^[^\/()?;=&#]+/;
 	  /**
 	   * @param {?} str
 	   * @return {?}
@@ -52990,7 +53125,7 @@ webpackJsonp([2],[
 	      var /** @type {?} */ match = str.match(SEGMENT_RE);
 	      return match ? match[0] : '';
 	  }
-	  var /** @type {?} */ QUERY_PARAM_RE = /^[^=\?&#]+/;
+	  var /** @type {?} */ QUERY_PARAM_RE = /^[^=?&#]+/;
 	  /**
 	   * @param {?} str
 	   * @return {?}
@@ -53000,7 +53135,7 @@ webpackJsonp([2],[
 	      var /** @type {?} */ match = str.match(SEGMENT_RE);
 	      return match ? match[0] : '';
 	  }
-	  var /** @type {?} */ QUERY_PARAM_VALUE_RE = /^[^\?&#]+/;
+	  var /** @type {?} */ QUERY_PARAM_VALUE_RE = /^[^?&#]+/;
 	  /**
 	   * @param {?} str
 	   * @return {?}
@@ -53043,9 +53178,7 @@ webpackJsonp([2],[
 	          if (this.remaining === '' || this.remaining.startsWith('?') || this.remaining.startsWith('#')) {
 	              return new UrlSegmentGroup([], {});
 	          }
-	          else {
-	              return new UrlSegmentGroup([], this.parseChildren());
-	          }
+	          return new UrlSegmentGroup([], this.parseChildren());
 	      };
 	      /**
 	       * @return {?}
@@ -53116,9 +53249,7 @@ webpackJsonp([2],[
 	          if (this.peekStartsWith('#')) {
 	              return decodeURI(this.remaining.substring(1));
 	          }
-	          else {
-	              return null;
-	          }
+	          return null;
 	      };
 	      /**
 	       * @return {?}
@@ -53171,7 +53302,21 @@ webpackJsonp([2],[
 	                  this.capture(value);
 	              }
 	          }
-	          params[decode(key)] = decode(value);
+	          var /** @type {?} */ decodedKey = decode(key);
+	          var /** @type {?} */ decodedVal = decode(value);
+	          if (params.hasOwnProperty(decodedKey)) {
+	              // Append to existing values
+	              var /** @type {?} */ currentVal = params[decodedKey];
+	              if (!Array.isArray(currentVal)) {
+	                  currentVal = [currentVal];
+	                  params[decodedKey] = currentVal;
+	              }
+	              currentVal.push(decodedVal);
+	          }
+	          else {
+	              // Create a new value
+	              params[decodedKey] = decodedVal;
+	          }
 	      };
 	      /**
 	       * @param {?} allowPrimary
@@ -54132,15 +54277,16 @@ webpackJsonp([2],[
 	  }
 	  /**
 	   *  outlet.
-	    * ActivatedRoute can also be used to traverse the router state tree.
+	    * An `ActivatedRoute` can also be used to traverse the router state tree.
 	    * *
 	    * *
 	    * ```
 	    * class MyComponent {
 	    * constructor(route: ActivatedRoute) {
 	    * const id: Observable<string> = route.params.map(p => p.id);
-	    * const url: Observable<string> = route.url.map(s => s.join(''));
-	    * const user = route.data.map(d => d.user); //includes `data` and `resolve`
+	    * const url: Observable<string> = route.url.map(segments => segments.join(''));
+	    * // route.data includes both `data` and `resolve`
+	    * const user = route.data.map(d => d.user);
 	    * }
 	    * }
 	    * ```
@@ -54157,8 +54303,7 @@ webpackJsonp([2],[
 	       * @param {?} component
 	       * @param {?} futureSnapshot
 	       */
-	      function ActivatedRoute(url, params, queryParams, fragment, data, outlet, component, // TODO: vsavkin: remove |string
-	          futureSnapshot) {
+	      function ActivatedRoute(url, params, queryParams, fragment, data, outlet, component, futureSnapshot) {
 	          this.url = url;
 	          this.params = params;
 	          this.queryParams = queryParams;
@@ -54170,7 +54315,7 @@ webpackJsonp([2],[
 	      }
 	      Object.defineProperty(ActivatedRoute.prototype, "routeConfig", {
 	          /**
-	           *  The configuration used to match this route.
+	           *  The configuration used to match this route
 	           * @return {?}
 	           */
 	          get: function () { return this._futureSnapshot.routeConfig; },
@@ -54179,7 +54324,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRoute.prototype, "root", {
 	          /**
-	           *  The root of the router state.
+	           *  The root of the router state
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.root; },
@@ -54188,7 +54333,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRoute.prototype, "parent", {
 	          /**
-	           *  The parent of this route in the router state tree.
+	           *  The parent of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.parent(this); },
@@ -54197,7 +54342,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRoute.prototype, "firstChild", {
 	          /**
-	           *  The first child of this route in the router state tree.
+	           *  The first child of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.firstChild(this); },
@@ -54206,7 +54351,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRoute.prototype, "children", {
 	          /**
-	           *  The children of this route in the router state tree.
+	           *  The children of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.children(this); },
@@ -54215,7 +54360,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRoute.prototype, "pathFromRoot", {
 	          /**
-	           *  The path from the root of the router state tree to this route.
+	           *  The path from the root of the router state tree to this route
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.pathFromRoot(this); },
@@ -54304,7 +54449,7 @@ webpackJsonp([2],[
 	      }
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "routeConfig", {
 	          /**
-	           *  The configuration used to match this route.
+	           *  The configuration used to match this route
 	           * @return {?}
 	           */
 	          get: function () { return this._routeConfig; },
@@ -54313,7 +54458,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "root", {
 	          /**
-	           *  The root of the router state.
+	           *  The root of the router state
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.root; },
@@ -54322,7 +54467,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "parent", {
 	          /**
-	           *  The parent of this route in the router state tree.
+	           *  The parent of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.parent(this); },
@@ -54331,7 +54476,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "firstChild", {
 	          /**
-	           *  The first child of this route in the router state tree.
+	           *  The first child of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.firstChild(this); },
@@ -54340,7 +54485,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "children", {
 	          /**
-	           *  The children of this route in the router state tree.
+	           *  The children of this route in the router state tree
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.children(this); },
@@ -54349,7 +54494,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(ActivatedRouteSnapshot.prototype, "pathFromRoot", {
 	          /**
-	           *  The path from the root of the router state tree to this route.
+	           *  The path from the root of the router state tree to this route
 	           * @return {?}
 	           */
 	          get: function () { return this._routerState.pathFromRoot(this); },
@@ -54360,7 +54505,7 @@ webpackJsonp([2],[
 	       * @return {?}
 	       */
 	      ActivatedRouteSnapshot.prototype.toString = function () {
-	          var /** @type {?} */ url = this.url.map(function (s) { return s.toString(); }).join('/');
+	          var /** @type {?} */ url = this.url.map(function (segment) { return segment.toString(); }).join('/');
 	          var /** @type {?} */ matched = this._routeConfig ? this._routeConfig.path : '';
 	          return "Route(url:'" + url + "', path:'" + matched + "')";
 	      };
@@ -54550,37 +54695,22 @@ webpackJsonp([2],[
 	      if (commands.length === 0) {
 	          return tree(urlTree.root, urlTree.root, urlTree, queryParams, fragment);
 	      }
-	      var /** @type {?} */ normalizedCommands = normalizeCommands(commands);
-	      validateCommands(normalizedCommands);
-	      if (navigateToRoot(normalizedCommands)) {
+	      var /** @type {?} */ nav = computeNavigation(commands);
+	      if (nav.toRoot()) {
 	          return tree(urlTree.root, new UrlSegmentGroup([], {}), urlTree, queryParams, fragment);
 	      }
-	      var /** @type {?} */ startingPosition = findStartingPosition(normalizedCommands, urlTree, route);
+	      var /** @type {?} */ startingPosition = findStartingPosition(nav, urlTree, route);
 	      var /** @type {?} */ segmentGroup = startingPosition.processChildren ?
-	          updateSegmentGroupChildren(startingPosition.segmentGroup, startingPosition.index, normalizedCommands.commands) :
-	          updateSegmentGroup(startingPosition.segmentGroup, startingPosition.index, normalizedCommands.commands);
+	          updateSegmentGroupChildren(startingPosition.segmentGroup, startingPosition.index, nav.commands) :
+	          updateSegmentGroup(startingPosition.segmentGroup, startingPosition.index, nav.commands);
 	      return tree(startingPosition.segmentGroup, segmentGroup, urlTree, queryParams, fragment);
-	  }
-	  /**
-	   * @param {?} n
-	   * @return {?}
-	   */
-	  function validateCommands(n) {
-	      if (n.isAbsolute && n.commands.length > 0 && isMatrixParams(n.commands[0])) {
-	          throw new Error('Root segment cannot have matrix parameters');
-	      }
-	      var /** @type {?} */ c = n.commands.filter(function (c) { return typeof c === 'object' && c.outlets !== undefined; });
-	      if (c.length > 0 && c[0] !== n.commands[n.commands.length - 1]) {
-	          throw new Error('{outlets:{}} has to be the last command');
-	      }
 	  }
 	  /**
 	   * @param {?} command
 	   * @return {?}
 	   */
 	  function isMatrixParams(command) {
-	      return typeof command === 'object' && command.outlets === undefined &&
-	          command.segmentPath === undefined;
+	      return typeof command === 'object' && !command.outlets && !command.segmentPath;
 	  }
 	  /**
 	   * @param {?} oldSegmentGroup
@@ -54594,9 +54724,7 @@ webpackJsonp([2],[
 	      if (urlTree.root === oldSegmentGroup) {
 	          return new UrlTree(newSegmentGroup, stringify(queryParams), fragment);
 	      }
-	      else {
-	          return new UrlTree(replaceSegment(urlTree.root, oldSegmentGroup, newSegmentGroup), stringify(queryParams), fragment);
-	      }
+	      return new UrlTree(replaceSegment(urlTree.root, oldSegmentGroup, newSegmentGroup), stringify(queryParams), fragment);
 	  }
 	  /**
 	   * @param {?} current
@@ -54616,86 +54744,78 @@ webpackJsonp([2],[
 	      });
 	      return new UrlSegmentGroup(current.segments, children);
 	  }
-	  /**
-	   * @param {?} normalizedChange
-	   * @return {?}
-	   */
-	  function navigateToRoot(normalizedChange) {
-	      return normalizedChange.isAbsolute && normalizedChange.commands.length === 1 &&
-	          normalizedChange.commands[0] == '/';
-	  }
-	  var NormalizedNavigationCommands = (function () {
+	  var Navigation = (function () {
 	      /**
 	       * @param {?} isAbsolute
 	       * @param {?} numberOfDoubleDots
 	       * @param {?} commands
 	       */
-	      function NormalizedNavigationCommands(isAbsolute, numberOfDoubleDots, commands) {
+	      function Navigation(isAbsolute, numberOfDoubleDots, commands) {
 	          this.isAbsolute = isAbsolute;
 	          this.numberOfDoubleDots = numberOfDoubleDots;
 	          this.commands = commands;
+	          if (isAbsolute && commands.length > 0 && isMatrixParams(commands[0])) {
+	              throw new Error('Root segment cannot have matrix parameters');
+	          }
+	          var cmdWithOutlet = commands.find(function (c) { return typeof c === 'object' && c.outlets; });
+	          if (cmdWithOutlet && cmdWithOutlet !== last(commands)) {
+	              throw new Error('{outlets:{}} has to be the last command');
+	          }
 	      }
-	      return NormalizedNavigationCommands;
+	      /**
+	       * @return {?}
+	       */
+	      Navigation.prototype.toRoot = function () {
+	          return this.isAbsolute && this.commands.length === 1 && this.commands[0] == '/';
+	      };
+	      return Navigation;
 	  }());
 	  /**
+	   *  Transforms commands to a normalized `Navigation`
 	   * @param {?} commands
 	   * @return {?}
 	   */
-	  function normalizeCommands(commands) {
-	      if ((typeof commands[0] === 'string') && commands.length === 1 && commands[0] == '/') {
-	          return new NormalizedNavigationCommands(true, 0, commands);
+	  function computeNavigation(commands) {
+	      if ((typeof commands[0] === 'string') && commands.length === 1 && commands[0] === '/') {
+	          return new Navigation(true, 0, commands);
 	      }
 	      var /** @type {?} */ numberOfDoubleDots = 0;
 	      var /** @type {?} */ isAbsolute = false;
-	      var /** @type {?} */ res = [];
-	      var _loop_1 = function(i) {
-	          var /** @type {?} */ c = commands[i];
-	          if (typeof c === 'object' && c.outlets !== undefined) {
-	              var /** @type {?} */ r_1 = {};
-	              forEach(c.outlets, function (commands, name) {
-	                  if (typeof commands === 'string') {
-	                      r_1[name] = commands.split('/');
-	                  }
-	                  else {
-	                      r_1[name] = commands;
-	                  }
-	              });
-	              res.push({ outlets: r_1 });
-	              return "continue";
-	          }
-	          if (typeof c === 'object' && c.segmentPath !== undefined) {
-	              res.push(c.segmentPath);
-	              return "continue";
-	          }
-	          if (!(typeof c === 'string')) {
-	              res.push(c);
-	              return "continue";
-	          }
-	          if (i === 0) {
-	              var /** @type {?} */ parts = c.split('/');
-	              for (var /** @type {?} */ j = 0; j < parts.length; ++j) {
-	                  var /** @type {?} */ cc = parts[j];
-	                  if (j == 0 && cc == '.') {
-	                  }
-	                  else if (j == 0 && cc == '') {
-	                      isAbsolute = true;
-	                  }
-	                  else if (cc == '..') {
-	                      numberOfDoubleDots++;
-	                  }
-	                  else if (cc != '') {
-	                      res.push(cc);
-	                  }
+	      var /** @type {?} */ res = commands.reduce(function (res, cmd, cmdIdx) {
+	          if (typeof cmd === 'object') {
+	              if (cmd.outlets) {
+	                  var /** @type {?} */ outlets_1 = {};
+	                  forEach(cmd.outlets, function (commands, name) {
+	                      outlets_1[name] = typeof commands === 'string' ? commands.split('/') : commands;
+	                  });
+	                  return res.concat([{ outlets: outlets_1 }]);
+	              }
+	              if (cmd.segmentPath) {
+	                  return res.concat([cmd.segmentPath]);
 	              }
 	          }
-	          else {
-	              res.push(c);
+	          if (!(typeof cmd === 'string')) {
+	              return res.concat([cmd]);
 	          }
-	      };
-	      for (var /** @type {?} */ i = 0; i < commands.length; ++i) {
-	          _loop_1(i);
-	      }
-	      return new NormalizedNavigationCommands(isAbsolute, numberOfDoubleDots, res);
+	          if (cmdIdx === 0) {
+	              cmd.split('/').forEach(function (urlPart, partIndex) {
+	                  if (partIndex == 0 && urlPart === '.') {
+	                  }
+	                  else if (partIndex == 0 && urlPart === '') {
+	                      isAbsolute = true;
+	                  }
+	                  else if (urlPart === '..') {
+	                      numberOfDoubleDots++;
+	                  }
+	                  else if (urlPart != '') {
+	                      res.push(urlPart);
+	                  }
+	              });
+	              return res;
+	          }
+	          return res.concat([cmd]);
+	      }, []);
+	      return new Navigation(isAbsolute, numberOfDoubleDots, res);
 	  }
 	  var Position = (function () {
 	      /**
@@ -54711,23 +54831,21 @@ webpackJsonp([2],[
 	      return Position;
 	  }());
 	  /**
-	   * @param {?} normalizedChange
-	   * @param {?} urlTree
+	   * @param {?} nav
+	   * @param {?} tree
 	   * @param {?} route
 	   * @return {?}
 	   */
-	  function findStartingPosition(normalizedChange, urlTree, route) {
-	      if (normalizedChange.isAbsolute) {
-	          return new Position(urlTree.root, true, 0);
+	  function findStartingPosition(nav, tree, route) {
+	      if (nav.isAbsolute) {
+	          return new Position(tree.root, true, 0);
 	      }
-	      else if (route.snapshot._lastPathIndex === -1) {
+	      if (route.snapshot._lastPathIndex === -1) {
 	          return new Position(route.snapshot._urlSegment, true, 0);
 	      }
-	      else {
-	          var /** @type {?} */ modifier = isMatrixParams(normalizedChange.commands[0]) ? 0 : 1;
-	          var /** @type {?} */ index = route.snapshot._lastPathIndex + modifier;
-	          return createPositionApplyingDoubleDots(route.snapshot._urlSegment, index, normalizedChange.numberOfDoubleDots);
-	      }
+	      var /** @type {?} */ modifier = isMatrixParams(nav.commands[0]) ? 0 : 1;
+	      var /** @type {?} */ index = route.snapshot._lastPathIndex + modifier;
+	      return createPositionApplyingDoubleDots(route.snapshot._urlSegment, index, nav.numberOfDoubleDots);
 	  }
 	  /**
 	   * @param {?} group
@@ -54815,15 +54933,15 @@ webpackJsonp([2],[
 	          return new UrlSegmentGroup(segmentGroup.segments, {});
 	      }
 	      else {
-	          var /** @type {?} */ outlets_1 = getOutlets(commands);
+	          var /** @type {?} */ outlets_2 = getOutlets(commands);
 	          var /** @type {?} */ children_1 = {};
-	          forEach(outlets_1, function (commands, outlet) {
+	          forEach(outlets_2, function (commands, outlet) {
 	              if (commands !== null) {
 	                  children_1[outlet] = updateSegmentGroup(segmentGroup.children[outlet], startIndex, commands);
 	              }
 	          });
 	          forEach(segmentGroup.children, function (child, childOutlet) {
-	              if (outlets_1[childOutlet] === undefined) {
+	              if (outlets_2[childOutlet] === undefined) {
 	                  children_1[childOutlet] = child;
 	              }
 	          });
@@ -54873,7 +54991,7 @@ webpackJsonp([2],[
 	      var /** @type {?} */ i = 0;
 	      while (i < commands.length) {
 	          if (typeof commands[i] === 'object' && commands[i].outlets !== undefined) {
-	              var /** @type {?} */ children = createNewSegmentChldren(commands[i].outlets);
+	              var /** @type {?} */ children = createNewSegmentChildren(commands[i].outlets);
 	              return new UrlSegmentGroup(paths, children);
 	          }
 	          // if we start with an object literal, we need to reuse the path part from the segment
@@ -54900,7 +55018,7 @@ webpackJsonp([2],[
 	   * @param {?} outlets
 	   * @return {?}
 	   */
-	  function createNewSegmentChldren(outlets) {
+	  function createNewSegmentChildren(outlets) {
 	      var /** @type {?} */ children = {};
 	      forEach(outlets, function (commands, outlet) {
 	          if (commands !== null) {
@@ -55644,7 +55762,7 @@ webpackJsonp([2],[
 	      };
 	      Object.defineProperty(Router.prototype, "routerState", {
 	          /**
-	           *  Returns the current route state.
+	           *  The current route state
 	           * @return {?}
 	           */
 	          get: function () { return this.currentRouterState; },
@@ -55653,7 +55771,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(Router.prototype, "url", {
 	          /**
-	           *  Returns the current url.
+	           *  The current url
 	           * @return {?}
 	           */
 	          get: function () { return this.serializeUrl(this.currentUrlTree); },
@@ -55662,7 +55780,7 @@ webpackJsonp([2],[
 	      });
 	      Object.defineProperty(Router.prototype, "events", {
 	          /**
-	           *  Returns an observable of route events
+	           *  An observable of router events
 	           * @return {?}
 	           */
 	          get: function () { return this.routerEvents; },
@@ -55679,7 +55797,7 @@ webpackJsonp([2],[
 	        * { path: 'team/:id', component: TeamCmp, children: [
 	        * { path: 'simple', component: SimpleCmp },
 	        * { path: 'user/:name', component: UserCmp }
-	        * ] }
+	        * ]}
 	        * ]);
 	        * ```
 	       * @param {?} config
@@ -55694,7 +55812,7 @@ webpackJsonp([2],[
 	       */
 	      Router.prototype.ngOnDestroy = function () { this.dispose(); };
 	      /**
-	       *  Disposes of the router.
+	       *  Disposes of the router
 	       * @return {?}
 	       */
 	      Router.prototype.dispose = function () {
@@ -55749,7 +55867,7 @@ webpackJsonp([2],[
 	       */
 	      Router.prototype.createUrlTree = function (commands, _a) {
 	          var _b = _a === void 0 ? {} : _a, relativeTo = _b.relativeTo, queryParams = _b.queryParams, fragment = _b.fragment, preserveQueryParams = _b.preserveQueryParams, preserveFragment = _b.preserveFragment;
-	          var /** @type {?} */ a = relativeTo ? relativeTo : this.routerState.root;
+	          var /** @type {?} */ a = relativeTo || this.routerState.root;
 	          var /** @type {?} */ q = preserveQueryParams ? this.currentUrlTree.queryParams : queryParams;
 	          var /** @type {?} */ f = preserveFragment ? this.currentUrlTree.fragment : fragment;
 	          return createUrlTree(a, this.currentUrlTree, commands, q, f);
@@ -55758,9 +55876,9 @@ webpackJsonp([2],[
 	       *  Navigate based on the provided url. This navigation is always absolute.
 	        * *
 	        * Returns a promise that:
-	        * - is resolved with 'true' when navigation succeeds
-	        * - is resolved with 'false' when navigation fails
-	        * - is rejected when an error happens
+	        * - resolves to 'true' when navigation succeeds,
+	        * - resolves to 'false' when navigation fails,
+	        * - is rejected when an error happens.
 	        * *
 	        * ### Usage
 	        * *
@@ -55782,19 +55900,17 @@ webpackJsonp([2],[
 	          if (url instanceof UrlTree) {
 	              return this.scheduleNavigation(this.urlHandlingStrategy.merge(url, this.rawUrlTree), true, extras);
 	          }
-	          else {
-	              var /** @type {?} */ urlTree = this.urlSerializer.parse(url);
-	              return this.scheduleNavigation(this.urlHandlingStrategy.merge(urlTree, this.rawUrlTree), true, extras);
-	          }
+	          var /** @type {?} */ urlTree = this.urlSerializer.parse(url);
+	          return this.scheduleNavigation(this.urlHandlingStrategy.merge(urlTree, this.rawUrlTree), true, extras);
 	      };
 	      /**
 	       *  Navigate based on the provided array of commands and a starting point.
 	        * If no starting route is provided, the navigation is absolute.
 	        * *
 	        * Returns a promise that:
-	        * - is resolved with 'true' when navigation succeeds
-	        * - is resolved with 'false' when navigation fails
-	        * - is rejected when an error happens
+	        * - resolves to 'true' when navigation succeeds,
+	        * - resolves to 'false' when navigation fails,
+	        * - is rejected when an error happens.
 	        * *
 	        * ### Usage
 	        * *
@@ -55802,11 +55918,11 @@ webpackJsonp([2],[
 	        * router.navigate(['team', 33, 'user', 11], {relativeTo: route});
 	        * *
 	        * // Navigate without updating the URL
-	        * router.navigate(['team', 33, 'user', 11], {relativeTo: route, skipLocationChange: true });
+	        * router.navigate(['team', 33, 'user', 11], {relativeTo: route, skipLocationChange: true});
 	        * ```
 	        * *
-	        * In opposite to `navigateByUrl`, `navigate` always takes a delta
-	        * that is applied to the current URL.
+	        * In opposite to `navigateByUrl`, `navigate` always takes a delta that is applied to the current
+	        * URL.
 	       * @param {?} commands
 	       * @param {?=} extras
 	       * @return {?}
@@ -55819,19 +55935,19 @@ webpackJsonp([2],[
 	          return this.navigateByUrl(this.createUrlTree(commands, extras), extras);
 	      };
 	      /**
-	       *  Serializes a {@link UrlTree} into a string.
+	       *  Serializes a {@link UrlTree} into a string
 	       * @param {?} url
 	       * @return {?}
 	       */
 	      Router.prototype.serializeUrl = function (url) { return this.urlSerializer.serialize(url); };
 	      /**
-	       *  Parses a string into a {@link UrlTree}.
+	       *  Parses a string into a {@link UrlTree}
 	       * @param {?} url
 	       * @return {?}
 	       */
 	      Router.prototype.parseUrl = function (url) { return this.urlSerializer.parse(url); };
 	      /**
-	       *  Returns if the url is activated or not.
+	       *  Returns whether the url is activated
 	       * @param {?} url
 	       * @param {?} exact
 	       * @return {?}
@@ -57231,14 +57347,14 @@ webpackJsonp([2],[
 	      function RouteReuseStrategy() {
 	      }
 	      /**
-	       *  Determines if this route (and its subtree) should be detached to be reused later.
+	       *  Determines if this route (and its subtree) should be detached to be reused later
 	       * @abstract
 	       * @param {?} route
 	       * @return {?}
 	       */
 	      RouteReuseStrategy.prototype.shouldDetach = function (route) { };
 	      /**
-	       *  Stores the detached route.
+	       *  Stores the detached route
 	       * @abstract
 	       * @param {?} route
 	       * @param {?} handle
@@ -57246,21 +57362,21 @@ webpackJsonp([2],[
 	       */
 	      RouteReuseStrategy.prototype.store = function (route, handle) { };
 	      /**
-	       *  Determines if this route (and its subtree) should be reattached.
+	       *  Determines if this route (and its subtree) should be reattached
 	       * @abstract
 	       * @param {?} route
 	       * @return {?}
 	       */
 	      RouteReuseStrategy.prototype.shouldAttach = function (route) { };
 	      /**
-	       *  Retrieves the previously stored route.
+	       *  Retrieves the previously stored route
 	       * @abstract
 	       * @param {?} route
 	       * @return {?}
 	       */
 	      RouteReuseStrategy.prototype.retrieve = function (route) { };
 	      /**
-	       *  Determines if a route should be reused.
+	       *  Determines if a route should be reused
 	       * @abstract
 	       * @param {?} future
 	       * @param {?} curr
@@ -57701,12 +57817,12 @@ webpackJsonp([2],[
 	  /**
 	   * @stable
 	   */
-	  var /** @type {?} */ VERSION = new _angular_core.Version('3.3.0');
+	  var /** @type {?} */ VERSION = new _angular_core.Version('3.3.1');
 	
 	  var /** @type {?} */ __router_private__ = {
 	      ROUTER_PROVIDERS: ROUTER_PROVIDERS,
 	      ROUTES: ROUTES,
-	      flatten: flatten
+	      flatten: flatten,
 	  };
 	
 	  exports.RouterLink = RouterLink;
@@ -74876,4 +74992,4 @@ webpackJsonp([2],[
 
 /***/ }
 ]);
-//# sourceMappingURL=vndr.299b11c0e9f9e7ff32e9.js.map
+//# sourceMappingURL=vndr.4a466f8eaeb2afcdff8f.js.map

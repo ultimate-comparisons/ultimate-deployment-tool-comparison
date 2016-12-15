@@ -324,18 +324,18 @@
       }
     },
     "Scalability": {
-      "plain": "- Horizontally\n    - [@AWSCScal]\n",
+      "plain": "- Horizontally\n    - [@AWSCScale]\n",
       "childs": {
         "0": [
           [
             {
               "content": "Horizontally",
               "plain": "Horizontally\n",
-              "plainChilds": "    - [@AWSCScal]\n",
+              "plainChilds": "    - [@AWSCScale]\n",
               "childs": [
                 {
-                  "content": ",[@AWSCScal]",
-                  "plain": "[@AWSCScal]\n",
+                  "content": ",[@AWSCScale]",
+                  "plain": "[@AWSCScale]\n",
                   "plainChilds": "",
                   "childs": []
                 }
@@ -501,18 +501,18 @@
       }
     },
     "Status Report": {
-      "plain": "- Yes\n    - [@ACEStat]\n",
+      "plain": "- Yes\n    - [@ACDStat]\n",
       "childs": {
         "0": [
           [
             {
               "content": "Yes",
               "plain": "Yes\n",
-              "plainChilds": "    - [@ACEStat]\n",
+              "plainChilds": "    - [@ACDStat]\n",
               "childs": [
                 {
-                  "content": ",[@ACEStat]",
-                  "plain": "[@ACEStat]\n",
+                  "content": ",[@ACDStat]",
+                  "plain": "[@ACDStat]\n",
                   "plainChilds": "",
                   "childs": []
                 }
@@ -1326,18 +1326,18 @@
       }
     },
     "Unattended topology deployment": {
-      "plain": "- Yes\n    - [@UrDep]\n",
+      "plain": "- Yes\n    - [@UrbDep]\n",
       "childs": {
         "0": [
           [
             {
               "content": "Yes",
               "plain": "Yes\n",
-              "plainChilds": "    - [@UrDep]\n",
+              "plainChilds": "    - [@UrbDep]\n",
               "childs": [
                 {
-                  "content": ",[@UrDep]",
-                  "plain": "[@UrDep]\n",
+                  "content": ",[@UrbDep]",
+                  "plain": "[@UrbDep]\n",
                   "plainChilds": "",
                   "childs": []
                 }
