@@ -10752,6 +10752,10 @@
     }
   },
   {
+    "tag": "Sked - https://github.com/ColDog/sked",
+    "descr": "Container scheduling and management, focused on operational simplicity"
+  },
+  {
     "tag": "Template - http://www.example.com",
     "descr": "Default short description",
     "Host OS": {
