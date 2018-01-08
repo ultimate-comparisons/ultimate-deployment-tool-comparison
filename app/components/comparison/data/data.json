@@ -8768,7 +8768,7 @@
     }
   },
   {
-    "tag": "Opentosca",
+    "tag": "OpenTOSCA",
     "descr": "",
     "Host OS": {
       "plain": "- Windows\n    - [@opTOSCAInstall]\n- Mac\n    - [@opTOSCAInstall]\n- Linux\n    - [@opTOSCAInstall]\n",
@@ -8893,13 +8893,19 @@
       }
     },
     "Extensibility": {
-      "plain": "- None\n",
+      "plain": "- Plugins\n- Scripts\n",
       "childs": {
         "0": [
           [
             {
-              "content": "None",
-              "plain": "None\n",
+              "content": "Plugins",
+              "plain": "Plugins\n",
+              "plainChilds": "",
+              "childs": []
+            },
+            {
+              "content": "Scripts",
+              "plain": "Scripts\n",
               "plainChilds": "",
               "childs": []
             }
@@ -9019,18 +9025,38 @@
       }
     },
     "Unattended topology deployment": {
-      "plain": "",
+      "plain": "- Yes\n",
       "childs": {
         "0": [
-          ""
+          [
+            {
+              "content": "Yes",
+              "plain": "Yes\n",
+              "plainChilds": "",
+              "childs": []
+            }
+          ]
         ]
       }
     },
     "Scalability": {
-      "plain": "",
+      "plain": "- Horizontally\n- Vertically\n",
       "childs": {
         "0": [
-          ""
+          [
+            {
+              "content": "Horizontally",
+              "plain": "Horizontally\n",
+              "plainChilds": "",
+              "childs": []
+            },
+            {
+              "content": "Vertically",
+              "plain": "Vertically\n",
+              "plainChilds": "",
+              "childs": []
+            }
+          ]
         ]
       }
     },
