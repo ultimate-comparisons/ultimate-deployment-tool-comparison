@@ -1,4 +1,4 @@
-# Opentosca
+# OpenTOSCA
 
 
 ## Host OS
@@ -26,7 +26,8 @@
 ## Support of Migration Paths
 
 ## Extensibility
-- None
+- Plugins
+- Scripts
 
 ## Secure Connection between Nodes
 - Reliant
@@ -48,8 +49,11 @@
     - [@opTOSCAPresentation]
 
 ## Unattended topology deployment
+- Yes
 
 ## Scalability
+- Horizontally
+- Vertically
 
 ## End user support
 - Free
