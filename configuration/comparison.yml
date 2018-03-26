@@ -1,0 +1,304 @@
+title: Ultimate-Comparison
+subtitle: Ultimate Deployment Tool comparison framework
+selectTitle: Criteria
+tableTitle: Comparison of Cloud-Deployment and Management Tools
+repository: 'https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison'
+details:
+  header:
+    nameRef: id
+    urlRef: inline
+  body:
+    title: Description
+    bodyRef: description
+citation:
+  csl: apa.csl
+  bib: literature.bib
+criteria:
+  - id:
+      name: Name
+      search: false
+      table: true
+      detail: false
+  - description:
+      table: false
+      search: false
+      detail: true
+      type: markdown
+  - Host OS:
+      table: true
+      search: true
+      description: The operating system running on the managing machine.
+      placeholder: Select OS ...
+      andSearch: true
+      type: label
+      values:
+        Windows:
+          description: Windows is supported for host machines.
+          class: label-success
+        Mac:
+          description: Mac OS X is supported for host machines.
+          class: label-success
+        Linux:
+          description: Linux is supported for host machines.
+          class: label-success
+        Windows (L):
+          description: Windows support is limited for host machines.
+          class: label-warning
+        Mac (L):
+          description: Mac OS X support is limited  for host machines.
+          class: label-warning
+        Linux (L):
+          description: Linux support is limited for host machines.
+          class: label-warning
+  - Guest OS:
+      table: true
+      search: true
+      description: The operating system running on the managed machines.
+      placeholder: Select Os ...
+      andSearch: true
+      type: label
+      values:
+        Windows:
+          description: Windows is supported for guest machines.
+          class: label-success
+        Windows (L):
+          description: Windows support is limited for guest machines.
+          class: label-warning
+        Mac:
+          description: Mac OS X is supported for guest machines.
+          class: label-success
+        Mac (L):
+          description: Mac support is limited for guest machines.
+          class: label-warning
+        Linux:
+          description: Linux is supported for guest machines.
+          class: label-success
+        Linux (L):
+          description: Linux support is limited for guest machines.
+          class: label-warning
+  - Elastic Infrastructure Restrictions:
+      table: true
+      search: true
+      description: The platforms on which the tool is able to run.
+      placeholder: Select Restrictions ...
+      andSearch: false
+      type: label
+      values:
+        None:
+          description: There are no elastic infrastructure restrictions for this tool.
+          class: label-success
+        None (L):
+          description: There are no elastic infrastructure under certain conditions.
+          class: label-warning
+        AWS:
+          description: This tool is only able to run on the Amazon Web Services platform.
+          class: label-danger
+        Openstack:
+          description: This tool is only able to run in an Openstack enviroment.
+          class: label-danger
+  - Failure/Error handling:
+      table: false
+      search: false
+      type: label
+      values:
+        Retry other packages:
+          description: The tool can check different repositories to install a functional package.
+          class: label-success
+        'Service: No Handling':
+          description: The tool does not handle malfunctioning services.
+          class: label-danger
+        'Service: After Deployment':
+          description: The tool can restart malfunctioning Services only immediatly after their deployment.
+          class: label-warning
+        'Service: Continous':
+          description: The tool can handle malfunctioning Services continously.
+          class: label-success
+        Unknown Error Handling:
+          description: The tool can cope with unknown errors.
+          class: label-danger
+        Topology Error Handling:
+          description: The tool can handle repair or restart malfunctioning nodes.
+          class: label-success
+  - Reversibility to defined state:
+      table: false
+      search: false
+      type: label
+      values:
+        Yes:
+          description: The tool can reset the system to a defined state.
+          class: label-success
+        No:
+          description: The tool can not reverse the system to a defined state
+          class: label-danger
+  - Status Report:
+      table: false
+      search: false
+      type: label
+      values:
+        Yes:
+          description: The tool has reporting.
+          class: label-success
+        No Reporting:
+          description: The tool has no reporting.
+          class: label-danger
+        Not Detailed:
+          description: The tool has reporting allthough it only reports the system state, not the node state
+          class: label-warning
+        Detailed:
+          description: The tool has in depth reporting.
+          class: label-success
+  - Support of Migration Paths:
+      table: false
+      search: false
+      type: label
+      values:
+        Yes:
+          description: The tool supports Migration Paths.
+          class: label-success
+        No:
+          description: The tool has no support for Migration Paths
+          class: label-danger
+  - Extensibility:
+      table: false
+      search: true
+      description: Extensibility features of platform.
+      placeholder: Select Extensibility features ...
+      andSearch: true
+      type: label
+      values:
+        Plugins (L):
+          description: The tool has plugins.
+          class: label-success
+        Plugins:
+          description: The tool has plugins.
+          class: label-success
+        Scripts:
+          description: The tool has Scripts.
+          class: label-success
+        Store:
+          description: The tool has a Store.
+          class: label-success
+        None:
+          description: The tool is not extensible
+          class: label-danger
+  - Secure Connection between Nodes:
+      table: true
+      search: true
+      description: Secure Connection between Nodes options.
+      placeholder: Select option for Secure Connection between Nodes...
+      andSearch: false
+      type: label
+      values:
+        Unsecure:
+          description: The tool has no security measures between nodes.
+          class: label-danger
+        Reliant:
+          description: The tool has no inate security measures and relies on third party tools for this purpose.
+          class: label-warning
+        Self implemented:
+          description: The node communication is secured through an custom implementation.
+          class: label-warning
+        SSH/SSL (L):
+          description: Not all connections are secured with ssh.
+          class: label-warning
+        SSH/SSL:
+          description: The connection between nodes is secured through SSH.
+          class: label-success
+  - Covers full range of Provisioning:
+      table: true
+      search: true
+      description: Provisioning features
+      placeholder: Select provisioning features...
+      andSearch: true
+      type: label
+      values:
+        Installing:
+          class: label-success
+        Configuring:
+          class: label-success
+        Starting:
+          class: label-success
+        Installing (L):
+          class: label-warning
+        Configuring (L):
+          class: label-warning
+        Starting (L):
+          class: label-warning
+  - Covers full range of Life Cycle:
+      table: true
+      search: true
+      description: Life Cycle features.
+      placeholder: Select life cycle features...
+      andSearch: false
+      type: label
+      values:
+        Provisioning:
+          class: label-success
+        Management:
+          class: label-success
+        Termination:
+          class: label-success
+        Provisioning (L):
+          class: label-warning
+        Management (L):
+          class: label-warning
+        Termination (L):
+          class: label-warning
+  - Unattended topology deployment:
+      table: false
+      search: false
+      type: label
+      values:
+        Yes:
+          class: label-success
+        Installing:
+          class: label-success
+        Configuring:
+          class: label-success
+        Starting:
+          class: label-success
+  - Scalability:
+      table: false
+      search: false
+      type: label
+      values:
+        Horizontally:
+          class: label-success
+        Vertically:
+          class: label-success
+  - End user support:
+      table: true
+      search: true
+      description: End user support.
+      placeholder: Select end user support...
+      andSearch: true
+      type: label
+      values:
+        None:
+          description: No Support available.
+          class: label-danger
+        Free:
+          description: Free Support is available.
+          class: label-warning
+        Free (L):
+          description: Free Support is available however it is very limited.
+          class: label-warning
+        Commercial (L):
+          description: Commercial Support is limited available.
+          class: label-success
+        Commercial:
+          description: Commercial Support is available.
+          class: label-success
+  - Development Status:
+      table: true
+      search: true
+      placeholder: Select end user support ...
+      andSearch: false
+      type: label
+      values:
+        Stale:
+          description: No version update since 12 months.
+          class: label-danger
+        Active:
+          description: The tool is being actively developed
+          class: label-success

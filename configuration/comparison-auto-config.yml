@@ -1,0 +1,1250 @@
+title: Ultimate-Comparison
+subtitle: Ultimate Deployment Tool comparison framework
+selectTitle: Criteria
+tableTitle: Comparison of Cloud-Deployment and Management Tools
+repository: 'https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison'
+details:
+  header:
+    nameRef: id
+    urlRef: inline
+  body:
+    title: Description
+    bodyRef: description
+citation:
+  csl: apa.csl
+  bib: literature.bib
+criteria:
+  - id:
+      name: Name
+      search: false
+      table: true
+      detail: false
+  - description:
+      table: false
+      search: false
+      detail: true
+      type: markdown
+  - Host OS:
+      table: true
+      search: true
+      description: The operating system running on the managing machine.
+      placeholder: Select OS ...
+      andSearch: true
+      type: label
+      values:
+        Windows:
+          description: Windows is supported for host machines.
+          class: label-success
+        Mac:
+          description: Mac OS X is supported for host machines.
+          class: label-success
+        Linux:
+          description: Linux is supported for host machines.
+          class: label-success
+        Windows (L):
+          description: Windows support is limited for host machines.
+          class: label-warning
+        Mac (L):
+          description: Mac OS X support is limited  for host machines.
+          class: label-warning
+        Linux (L):
+          description: Linux support is limited for host machines.
+          class: label-warning
+  - Guest OS:
+      table: true
+      search: true
+      description: The operating system running on the managed machines.
+      placeholder: Select Os ...
+      andSearch: true
+      type: label
+      values:
+        Windows:
+          description: Windows is supported for guest machines.
+          class: label-success
+        Windows (L):
+          description: Windows support is limited for guest machines.
+          class: label-warning
+        Mac:
+          description: Mac OS X is supported for guest machines.
+          class: label-success
+        Mac (L):
+          description: Mac support is limited for guest machines.
+          class: label-warning
+        Linux:
+          description: Linux is supported for guest machines.
+          class: label-success
+        Linux (L):
+          description: Linux support is limited for guest machines.
+          class: label-warning
+  - Elastic Infrastructure Restrictions:
+      table: true
+      search: true
+      description: The platforms on which the tool is able to run.
+      placeholder: Select Restrictions ...
+      andSearch: false
+      type: label
+      values:
+        None:
+          description: There are no elastic infrastructure restrictions for this tool.
+          class: label-success
+        None (L):
+          description: There are no elastic infrastructure under certain conditions.
+          class: label-warning
+        AWS:
+          description: This tool is only able to run on the Amazon Web Services platform.
+          class: label-danger
+        Openstack:
+          description: This tool is only able to run in an Openstack enviroment.
+          class: label-danger
+  - Failure/Error handling:
+      table: false
+      search: false
+      type: label
+      values:
+        Retry other packages:
+          description: >-
+            The tool can check different repositories to install a functional
+            package.
+          class: label-success
+        'Service: No Handling':
+          description: The tool does not handle malfunctioning services.
+          class: label-danger
+        'Service: After Deployment':
+          description: >-
+            The tool can restart malfunctioning Services only immediatly after
+            their deployment.
+          class: label-warning
+        'Service: Continous':
+          description: The tool can handle malfunctioning Services continously.
+          class: label-success
+        Unknown Error Handling:
+          description: The tool can cope with unknown errors.
+          class: label-danger
+        Topology Error Handling:
+          description: The tool can handle repair or restart malfunctioning nodes.
+          class: label-success
+  - Reversibility to defined state:
+      table: false
+      search: false
+      type: label
+      values:
+        'Yes':
+          description: The tool can reset the system to a defined state.
+          class: label-success
+        'No':
+          description: The tool can not reverse the system to a defined state
+          class: label-danger
+  - Status Report:
+      table: false
+      search: false
+      type: label
+      values:
+        'Yes':
+          description: The tool has reporting.
+          class: label-success
+        No Reporting:
+          description: The tool has no reporting.
+          class: label-danger
+        Not Detailed:
+          description: >-
+            The tool has reporting allthough it only reports the system state,
+            not the node state
+          class: label-warning
+        Detailed:
+          description: The tool has in depth reporting.
+          class: label-success
+  - Support of Migration Paths:
+      table: false
+      search: false
+      type: label
+      values:
+        'Yes':
+          description: The tool supports Migration Paths.
+          class: label-success
+        'No':
+          description: The tool has no support for Migration Paths
+          class: label-danger
+  - Extensibility:
+      table: false
+      search: true
+      description: Extensibility features of platform.
+      placeholder: Select Extensibility features ...
+      andSearch: true
+      type: label
+      values:
+        Plugins (L):
+          description: The tool has plugins.
+          class: label-success
+        Plugins:
+          description: The tool has plugins.
+          class: label-success
+        Scripts:
+          description: The tool has Scripts.
+          class: label-success
+        Store:
+          description: The tool has a Store.
+          class: label-success
+        None:
+          description: The tool is not extensible
+          class: label-danger
+  - Secure Connection between Nodes:
+      table: true
+      search: true
+      description: Secure Connection between Nodes options.
+      placeholder: Select option for Secure Connection between Nodes...
+      andSearch: false
+      type: label
+      values:
+        Unsecure:
+          description: The tool has no security measures between nodes.
+          class: label-danger
+        Reliant:
+          description: >-
+            The tool has no inate security measures and relies on third party
+            tools for this purpose.
+          class: label-warning
+        Self implemented:
+          description: The node communication is secured through an custom implementation.
+          class: label-warning
+        SSH/SSL (L):
+          description: Not all connections are secured with ssh.
+          class: label-warning
+        SSH/SSL:
+          description: The connection between nodes is secured through SSH.
+          class: label-success
+  - Covers full range of Provisioning:
+      table: true
+      search: true
+      description: Provisioning features
+      placeholder: Select provisioning features...
+      andSearch: true
+      type: label
+      values:
+        Installing:
+          class: label-success
+        Configuring:
+          class: label-success
+        Starting:
+          class: label-success
+        Installing (L):
+          class: label-warning
+        Configuring (L):
+          class: label-warning
+        Starting (L):
+          class: label-warning
+  - Covers full range of Life Cycle:
+      table: true
+      search: true
+      description: Life Cycle features.
+      placeholder: Select life cycle features...
+      andSearch: false
+      type: label
+      values:
+        Provisioning:
+          class: label-success
+        Management:
+          class: label-success
+        Termination:
+          class: label-success
+        Provisioning (L):
+          class: label-warning
+        Management (L):
+          class: label-warning
+        Termination (L):
+          class: label-warning
+  - Unattended topology deployment:
+      table: false
+      search: false
+      type: label
+      values:
+        'Yes':
+          class: label-success
+        Installing:
+          class: label-success
+        Configuring:
+          class: label-success
+        Starting:
+          class: label-success
+  - Scalability:
+      table: false
+      search: false
+      type: label
+      values:
+        Horizontally:
+          class: label-success
+        Vertically:
+          class: label-success
+  - End user support:
+      table: true
+      search: true
+      description: End user support.
+      placeholder: Select end user support...
+      andSearch: true
+      type: label
+      values:
+        None:
+          description: No Support available.
+          class: label-danger
+        Free:
+          description: Free Support is available.
+          class: label-warning
+        Free (L):
+          description: Free Support is available however it is very limited.
+          class: label-warning
+        Commercial (L):
+          description: Commercial Support is limited available.
+          class: label-success
+        Commercial:
+          description: Commercial Support is available.
+          class: label-success
+  - Development Status:
+      table: true
+      search: true
+      placeholder: Select end user support ...
+      andSearch: false
+      type: label
+      values:
+        Stale:
+          description: No version update since 12 months.
+          class: label-danger
+        Active:
+          description: The tool is being actively developed
+          class: label-success
+autoCriteria: {}
+autoColor: {}
+autoCitation:
+  ACDElIn:
+    index: 0
+    value: >-
+      AWS_CodeDeploy - Product Integration. (2016). Retrieved from
+      https://aws.amazon.com/de/codedeploy/product-integrations/
+  ACDGitHub:
+    index: 1
+    value: >-
+      AWS_CodeDeploy GitHub. (2016). Retrieved from
+      https://github.com/awslabs/aws-codedeploy-plugin
+  ACDOS:
+    index: 2
+    value: >-
+      AWS_CodeDeploy - Host Cleanup. (2016). Retrieved from
+      http://docs.aws.amazon.com/codedeploy/latest/userguide/host-cleanup.html
+  ACDProv:
+    index: 3
+    value: >-
+      AWS_CodeDeploy - User Guide. (2016). Retrieved from
+      http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html
+  ACDSec:
+    index: 4
+    value: >-
+      AWS_CodeDeploy - New Instance Setup. (2016). Retrieved from
+      http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-set-up-new-instance.html
+  ACDStat:
+    index: 5
+    value: >-
+      AWS_CodeDeploy - Document History. (2016). Retrieved from
+      http://docs.aws.amazon.com/codedeploy/latest/userguide/document-history.html
+  Al4Cl:
+    index: 6
+    value: 'Alien4Cloud. (2016). Retrieved from http://alien4cloud.org/'
+  Al4ClDocs:
+    index: 7
+    value: >-
+      Alien4Cloud Documentation. (2016). Retrieved from
+      https://alien4cloud.github.io/#/documentation/1.2.0/index.html
+  Al4ClGit:
+    index: 8
+    value: >-
+      Alien4Cloud GitHub. (2016). Retrieved from
+      https://github.com/alien4cloud/alien4cloud
+  AnsComSup:
+    index: 9
+    value: >-
+      Ansible - Paid Support. (2016). Retrieved from
+      https://www.ansible.com/pricing
+  AnsGithub:
+    index: 10
+    value: 'Ansible GitHub. (2016). Retrieved from https://github.com/ansible/ansible'
+  AnsHow:
+    index: 11
+    value: >-
+      Ansible - How it works. (2016). Retrieved from
+      https://www.ansible.com/how-ansible-works
+  AnsInfr:
+    index: 12
+    value: >-
+      Ansible - Infrastructure. (2016). Retrieved from
+      https://www.ansible.com/infrastructure
+  AnsPB:
+    index: 13
+    value: >-
+      Ansible - Playbooks. (2016). Retrieved from
+      http://docs.ansible.com/ansible/playbooks_intro.html
+  AnsPlug:
+    index: 14
+    value: >-
+      Ansible - Plugin Developement. (2016). Retrieved from
+      http://docs.ansible.com/ansible/developing_plugins.html
+  AnsReqMM:
+    index: 15
+    value: >-
+      Ansible - Installation. (2016). Retrieved from
+      http://docs.ansible.com/ansible/intro_installation.html#getting-ansible
+  AnsWin:
+    index: 16
+    value: >-
+      Ansible - Windows Introduction. (2016). Retrieved from
+      http://docs.ansible.com/ansible/intro_windows.html
+  Aria:
+    index: 17
+    value: 'ARIA. (2016). Retrieved from http://ariatosca.org/'
+  AriaAb:
+    index: 18
+    value: 'ARIA - About. (2016). Retrieved from http://ariatosca.org/about/'
+  AriaGet:
+    index: 19
+    value: 'ARIA - Get ARIA. (2016). Retrieved from http://ariatosca.org/software/'
+  AutoMate:
+    index: 20
+    value: >-
+      AutoMate. (2016). Retrieved from
+      http://www.networkautomation.com/automate/automate/
+  AutoMateDocs:
+    index: 21
+    value: >-
+      AutoMate Documentation. (2016). Retrieved from
+      http://www.networkautomation.com/automate/urc/resources/livedocs/am/10/
+  AWSCDep:
+    index: 22
+    value: >-
+      AWS_CloudFormation - Getting Started. (2016). Retrieved from
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/GettingStarted.Walkthrough.html
+  AWSCHOS:
+    index: 23
+    value: 'AWS_CloudFormation. (2016). Retrieved from https://aws.amazon.com'
+  AWSCMig:
+    index: 24
+    value: >-
+      AWS_CloudFormation - Migration. (2016). Retrieved from
+      https://aws.amazon.com/de/cloudformation/
+  AWSCPlug:
+    index: 25
+    value: >-
+      AWS_CloudFormation - Marketplace. (2016). Retrieved from
+      https://aws.amazon.com/marketplace/
+  AWSCProv:
+    index: 26
+    value: >-
+      AWS_CloudFormation - User Guide. (2016). Retrieved from
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
+  AWSCScale:
+    index: 27
+    value: >-
+      AWS_CloudFormation - Scaling. (2016). Retrieved from
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-as-scheduledaction.html
+  AWSCSec:
+    index: 28
+    value: >-
+      AWS_CloudFormation - Updating Stacks. (2016). Retrieved from
+      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/updating.stacks.walkthrough.html
+  AWSCStat:
+    index: 29
+    value: >-
+      AWS_CloudFormation - Kinesis Analytics. (2016). Retrieved from
+      https://aws.amazon.com/about-aws/whats-new/2016/08/introducing-amazon-kinesis-analytics/
+  BroBlu:
+    index: 30
+    value: >-
+      Apache Brooklyn - Blueprints. (2016). Retrieved from
+      https://brooklyn.apache.org/v/latest/start/blueprints.html
+  BroCat:
+    index: 31
+    value: >-
+      Apache Brooklyn - Catalog. (2016). Retrieved from
+      http://brooklyn.apache.org/learnmore/catalog/
+  BroGit:
+    index: 32
+    value: >-
+      Apache Brooklyn GitHub. (2016). Retrieved from
+      https://github.com/apache/brooklyn
+  BroLoc:
+    index: 33
+    value: >-
+      Apache Brooklyn - Locations. (2016). Retrieved from
+      https://brooklyn.apache.org/v/latest/ops/locations/
+  BroMan:
+    index: 34
+    value: >-
+      Apache Brooklyn - Managing. (2016). Retrieved from
+      https://brooklyn.apache.org/v/latest/start/managing.html
+  Brooklyn:
+    index: 35
+    value: 'Apache Brooklyn. (2016). Retrieved from https://brooklyn.apache.org/'
+  BroOS:
+    index: 36
+    value: >-
+      Apache Brooklyn - Running. (2016). Retrieved from
+      https://brooklyn.apache.org/v/latest/start/running.html
+  BroOS2:
+    index: 37
+    value: >-
+      Apache Brooklyn - Windows. (2016). Retrieved from
+      https://brooklyn.apache.org/v/0.9.0/yaml/winrm/
+  BroOS3:
+    index: 38
+    value: >-
+      Apache Brooklyn - Requirements. (2016). Retrieved from
+      https://brooklyn.apache.org/v/0.9.0/ops/requirements.html
+  BroPol:
+    index: 39
+    value: >-
+      Apache Brooklyn - Policies. (2016). Retrieved from
+      http://brooklyn.apache.org/v/latest/start/policies.html
+  BroSS:
+    index: 40
+    value: >-
+      Apache Brooklyn - Behaviour. (2016). Retrieved from
+      http://brooklyn.apache.org/v/latest/concepts/stop-start-restart-behaviour.html
+  CF:
+    index: 41
+    value: 'Cloud Foundry. (2016). Retrieved from https://www.cloudfoundry.org/'
+  CFBOSH:
+    index: 42
+    value: >-
+      Cloud Foundry - Bosh. (2016). Retrieved from
+      https://docs.cloudfoundry.org/deploying/index.html
+  CFDep:
+    index: 43
+    value: >-
+      Cloud Foundry - Deployment. (2016). Retrieved from
+      http://docs.cloudfoundry.org/devguide/deploy-apps/deploy-app.html
+  CFengArc:
+    index: 44
+    value: >-
+      CFEngine - Architecture. (2016). Retrieved from
+      https://docs.cfengine.com/lts/guide-introduction-architecture-design.html
+  CFengCom:
+    index: 45
+    value: >-
+      CFEngine - Community. (2016). Retrieved from
+      https://cfengine.com/product/community/
+  CFengGit:
+    index: 46
+    value: 'CFEngine GitHub. (2016). Retrieved from https://github.com/cfengine'
+  CFengGuide:
+    index: 47
+    value: >-
+      CFEngine - Guide. (2016). Retrieved from
+      https://docs.cfengine.com/lts/guide-introduction.html
+  CFengProd:
+    index: 48
+    value: >-
+      CFEngine - Production. (2016). Retrieved from
+      https://cfengine.com/product/
+  CFengSup:
+    index: 49
+    value: 'CFEngine - Support. (2016). Retrieved from https://cfengine.com/support/'
+  CFGit:
+    index: 50
+    value: >-
+      Cloud Foundry GitHub. (2016). Retrieved from
+      https://github.com/cloudfoundry
+  CFHM1:
+    index: 51
+    value: >-
+      Cloud Foundry - Architecture. (2016). Retrieved from
+      https://docs.cloudfoundry.org/concepts/architecture/
+  CFHM2:
+    index: 52
+    value: >-
+      Cloud Foundry - Diego Architecture. (2016). Retrieved from
+      https://docs.cloudfoundry.org/concepts/diego/diego-architecture.html
+  CFINST:
+    index: 53
+    value: >-
+      Cloud Foundry - Installation. (2016). Retrieved from
+      https://docs.cloudfoundry.org/deploying/
+  CFOS:
+    index: 54
+    value: >-
+      Cloud Foundry - Installation. (2016). Retrieved from
+      https://docs.cloudfoundry.org/cf-cli/install-go-cli.html
+  CFOS2:
+    index: 55
+    value: >-
+      Cloud Foundry - Stemcells. (2016). Retrieved from
+      https://bosh.io/stemcells
+  CFOv:
+    index: 56
+    value: >-
+      Cloud Foundry - Overview. (2016). Retrieved from
+      https://docs.cloudfoundry.org/concepts/overview.html
+  CFPlug:
+    index: 57
+    value: >-
+      Cloud Foundry - CLI Plugins. (2016). Retrieved from
+      https://docs.cloudfoundry.org/cf-cli/use-cli-plugins.html
+  CFPlug2:
+    index: 58
+    value: >-
+      Cloud Foundry - Plugin Developement. (2016). Retrieved from
+      https://docs.cloudfoundry.org/cf-cli/develop-cli-plugins.html
+  CFPlug3:
+    index: 59
+    value: >-
+      Cloud Foundry - Plugins. (2016). Retrieved from
+      https://plugins.cloudfoundry.org/
+  CFScale:
+    index: 60
+    value: >-
+      Cloud Foundry - Scaling. (2016). Retrieved from
+      http://docs.cloudfoundry.org/devguide/deploy-apps/cf-scale.html
+  CFSSH:
+    index: 61
+    value: >-
+      Cloud Foundry - SSH Overview. (2016). Retrieved from
+      http://docs.cloudfoundry.org/devguide/deploy-apps/app-ssh-overview.html
+  CFSSH2:
+    index: 62
+    value: >-
+      Cloud Foundry - SSH. (2016). Retrieved from
+      https://docs.cloudfoundry.org/cf-cli/self-signed.html
+  CFSup:
+    index: 63
+    value: >-
+      Cloud Foundry - Support. (2016). Retrieved from
+      https://pivotal.io/support/offerings
+  CFTCLC:
+    index: 64
+    value: >-
+      Cloud Foundry - App Lifecycle. (2016). Retrieved from
+      http://docs.cloudfoundry.org/devguide/deploy-apps/app-lifecycle.html
+  ChefCommu:
+    index: 65
+    value: >-
+      Chef - Plugin Community. (2016). Retrieved from
+      https://docs.chef.io/plugin_community.html
+  ChefGit:
+    index: 66
+    value: 'Chef GitHub. (2016). Retrieved from https://github.com/chef/chef'
+  ChefHandlers:
+    index: 67
+    value: 'Chef - Handlers. (2016). Retrieved from https://docs.chef.io/handlers.html'
+  ChefOV:
+    index: 68
+    value: >-
+      Chef - Overview. (2016). Retrieved from
+      https://docs.chef.io/platform_overview.html
+  ChefPlat:
+    index: 69
+    value: >-
+      Chef - Platforms. (2016). Retrieved from
+      https://docs.chef.io/platforms.html
+  ChefSec:
+    index: 70
+    value: >-
+      Chef - Client Security. (2016). Retrieved from
+      https://docs.chef.io/chef_client_security.html
+  ChefServ:
+    index: 71
+    value: >-
+      Chef - Server Services. (2016). Retrieved from
+      https://docs.chef.io/server_services.html
+  ChefStore:
+    index: 72
+    value: 'Chef - Store. (2016). Retrieved from https://supermarket.chef.io/'
+  ChefSup:
+    index: 73
+    value: 'Chef - Support. (2016). Retrieved from https://www.chef.io/pricing/'
+  ClCond:
+    index: 74
+    value: 'CloudConductor. (2016). Retrieved from http://www.cloudconductor.net/'
+  ClCondWiki:
+    index: 75
+    value: >-
+      CloudConductor - Wiki. (2016). Retrieved from
+      https://github.com/cinovo/cloudconductor-server/wiki
+  ClfyAg:
+    index: 76
+    value: >-
+      Cloudify - Agents. (2016). Retrieved from
+      http://docs.getcloudify.org/3.5.0/agents/overview/
+  ClfyAU:
+    index: 77
+    value: >-
+      Cloudify - About. (2016). Retrieved from
+      http://getcloudify.org/about_us.html
+  ClfyBlu:
+    index: 78
+    value: >-
+      Cloudify - Examples. (2016). Retrieved from
+      http://getcloudify.org/examples/home.html
+  ClfyGet:
+    index: 79
+    value: >-
+      Cloudify - Get Cloudify. (2016). Retrieved from
+      http://getcloudify.org/downloads/get_cloudify.html
+  ClfyGit:
+    index: 80
+    value: 'Cloudify GitHub. (2016). Retrieved from https://github.com/cloudify-cosmo'
+  ClfyHow:
+    index: 81
+    value: >-
+      Cloudify - How it Works. (2016). Retrieved from
+      http://getcloudify.org/how-it-works.html
+  ClfyInfr:
+    index: 82
+    value: >-
+      Cloudify - Cloud Automation. (2016). Retrieved from
+      http://getcloudify.org/cloud_orchestration_cloud_automation.html
+  ClfyPlug:
+    index: 83
+    value: >-
+      Cloudify - Plugins. (2016). Retrieved from
+      http://docs.getcloudify.org/3.5.0/plugins/overview/
+  ClfySec:
+    index: 84
+    value: >-
+      Cloudify - Security. (2016). Retrieved from
+      http://docs.getcloudify.org/3.4.0/manager/security/
+  ClfySup1:
+    index: 85
+    value: >-
+      Cloudify - Community Resources. (2016). Retrieved from
+      http://getcloudify.org/community-resources.html
+  ClfySup2:
+    index: 86
+    value: >-
+      Cloudify - Comercial Support. (2016). Retrieved from
+      http://getcloudify.org/goPro.html
+  Cloudsoft:
+    index: 87
+    value: 'Cloudsoft. (2016). Retrieved from http://www.cloudsoft.io/company/'
+  Cloudsoft2:
+    index: 88
+    value: >-
+      Cloudsoft - Support. (2016). Retrieved from
+      http://www.cloudsoft.io/support/
+  Commando:
+    index: 89
+    value: 'Commando. (2016). Retrieved from https://commando.io/'
+  CommandoGit:
+    index: 90
+    value: 'Commando GitHub. (2016). Retrieved from https://github.com/commando'
+  CommandoPr:
+    index: 91
+    value: >-
+      Commando - Pricing. (2016). Retrieved from
+      https://commando.io/pricing.html
+  DeClMaGetStarted:
+    index: 92
+    value: >-
+      Dell Cloud Manger - Getting Started. (2016). Retrieved from
+      https://software.dell.com/products/cloud-manager/
+  DeClMaStat:
+    index: 93
+    value: >-
+      Dell Cloud Manger - Status. (2016). Retrieved from
+      http://www.enstratius.com/home
+  DistGit:
+    index: 94
+    value: 'Distelli GitHub. (2016). Retrieved from https://github.com/Distelli'
+  DistGS:
+    index: 95
+    value: >-
+      Distelli - Getting Started. (2016). Retrieved from
+      https://www.distelli.com/docs/getting-started
+  DistOS:
+    index: 96
+    value: >-
+      Distelli - Installing CLI. (2016). Retrieved from
+      https://www.distelli.com/docs/agent/installing-the-distelli-cli
+  DistOS2:
+    index: 97
+    value: >-
+      Distelli - Installing Agent. (2016). Retrieved from
+      https://www.distelli.com/docs/getting-started/installing-the-agent
+  DistPr:
+    index: 98
+    value: >-
+      Distelli - Provisioning. (2016). Retrieved from
+      https://www.distelli.com/docs/getting-started/getting-started-builds-and-deploys#distelli-agent
+  DistSec:
+    index: 99
+    value: >-
+      Distelli - Security. (2016). Retrieved from
+      https://www.distelli.com/docs/kb/how-distelli-secures-applications
+  DistSup:
+    index: 100
+    value: >-
+      Distelli - Support. (2016). Retrieved from
+      https://www.distelli.com/support
+  DistTerm:
+    index: 101
+    value: >-
+      Distelli - Termination. (2016). Retrieved from
+      https://www.distelli.com/docs/getting-started/terminate-the-application
+  DockerCloudOV:
+    index: 102
+    value: >-
+      Docker - Cloud Overview. (2016). Retrieved from
+      https://docs.docker.com/engine/installation/cloud/overview/
+  DockerDocs:
+    index: 103
+    value: 'Docker - Documentation. (2016). Retrieved from https://docs.docker.com/'
+  DockerGit:
+    index: 104
+    value: 'Docker GitHub. (2016). Retrieved from https://github.com/docker'
+  DockerOV:
+    index: 105
+    value: >-
+      Docker - Understanding Docker. (2016). Retrieved from
+      https://docs.docker.com/engine/understanding-docker/
+  DockerPlugins:
+    index: 106
+    value: >-
+      Docker - Plugins. (2016). Retrieved from
+      https://docs.docker.com/engine/extend/plugins/
+  DockerSecurity:
+    index: 107
+    value: >-
+      Docker - Security. (2016). Retrieved from
+      https://docs.docker.com/engine/security/security/
+  DockerSt:
+    index: 108
+    value: >-
+      Docker - Store. (2016). Retrieved from
+      https://docs.docker.com/docker-store/
+  DockerSupp:
+    index: 109
+    value: 'Docker - Support. (2016). Retrieved from https://www.docker.com/pricing'
+  FabGit:
+    index: 110
+    value: 'Fabric GitHub. (2016). Retrieved from https://github.com/fabric/fabric'
+  FabInst:
+    index: 111
+    value: >-
+      Fabric - Installation. (2016). Retrieved from
+      http://www.fabfile.org/installing.html
+  Fabric:
+    index: 112
+    value: 'Fabric. (2016). Retrieved from http://www.fabfile.org/'
+  FabTut:
+    index: 113
+    value: >-
+      Fabric - Tutorial. (2016). Retrieved from
+      http://docs.fabfile.org/en/1.12/tutorial.html
+  Fleet:
+    index: 114
+    value: 'Fleet. (2016). Retrieved from https://coreos.com/fleet/docs/latest/'
+  FleetDep:
+    index: 115
+    value: >-
+      Fleet - Deployment. (2016). Retrieved from
+      https://coreos.com/fleet/docs/latest/deployment-and-configuration.html
+  FleetDoc:
+    index: 116
+    value: >-
+      Fleet - Documentation. (2016). Retrieved from
+      https://coreos.com/fleet/docs/latest/examples/example-deployment.html
+  FleetGit:
+    index: 117
+    value: 'Fleet GitHub. (2016). Retrieved from https://github.com/coreos/fleet'
+  FleetSup:
+    index: 118
+    value: >-
+      Fleet - Support. (2016). Retrieved from
+      https://coreos.com/products/premium-managed-linux/
+  ForeGit:
+    index: 119
+    value: >-
+      Foreman GitHub. (2016). Retrieved from
+      https://github.com/theforeman/foreman
+  ForeInst:
+    index: 120
+    value: >-
+      Foreman - Installation. (2016). Retrieved from
+      https://theforeman.org/manuals/1.12/index.html#3.InstallingForeman
+  ForeIntr:
+    index: 121
+    value: >-
+      Foreman - Introduction. (2016). Retrieved from
+      https://theforeman.org/introduction.html
+  Foreman:
+    index: 122
+    value: 'Foreman. (2016). Retrieved from https://theforeman.org/'
+  ForeSec:
+    index: 123
+    value: >-
+      Foreman - Security. (2016). Retrieved from
+      https://theforeman.org/manuals/1.12/index.html#5.4SecuringCommunicationswithSSL
+  ForeSup:
+    index: 124
+    value: >-
+      Foreman - Support. (2016). Retrieved from
+      https://theforeman.org/support.html
+  Heat:
+    index: 125
+    value: 'Heat. (2016). Retrieved from https://wiki.openstack.org/wiki/Heat'
+  HeatDocs:
+    index: 126
+    value: >-
+      Heat - Documentation. (2016). Retrieved from
+      http://docs.openstack.org/developer/heat/
+  HeatGit:
+    index: 127
+    value: 'Heat GitHub. (2016). Retrieved from https://github.com/openstack/heat'
+  HeatPlugins:
+    index: 128
+    value: >-
+      Heat - Plugins. (2016). Retrieved from
+      https://wiki.openstack.org/wiki/Heat/Plugins
+  HeatSec:
+    index: 129
+    value: >-
+      Heat - Security. (2016). Retrieved from
+      http://docs.openstack.org/user-guide/configure-access-and-security-for-instances.html
+  Juju:
+    index: 130
+    value: 'Juju. (2016). Retrieved from https://jujucharms.com'
+  JujuCh:
+    index: 131
+    value: >-
+      Juju - Charms. (2016). Retrieved from
+      https://jujucharms.com/docs/stable/charms
+  JujuCl:
+    index: 132
+    value: >-
+      Juju - Clouds. (2016). Retrieved from
+      https://jujucharms.com/docs/2.0/clouds
+  JujuCom:
+    index: 133
+    value: >-
+      Juju - Commands. (2016). Retrieved from
+      https://jujucharms.com/docs/2.0/commands
+  JujuGit:
+    index: 134
+    value: 'Juju GitHub. (2016). Retrieved from https://github.com/juju'
+  JujuGS:
+    index: 135
+    value: >-
+      Juju - Getting Started. (2016). Retrieved from
+      https://jujucharms.com/docs/stable/getting-started-general
+  JujuHN:
+    index: 136
+    value: >-
+      Juju - How to Node. (2016). Retrieved from
+      https://jujucharms.com/docs/2.0/howto-node
+  JujuLoc:
+    index: 137
+    value: >-
+      Juju - Local Configuration. (2016). Retrieved from
+      https://jujucharms.com/docs/1.25/config-local
+  JujuPlug:
+    index: 138
+    value: 'Juju - Plugins. (2016). Retrieved from https://github.com/juju/plugins'
+  JujuSec:
+    index: 139
+    value: >-
+      Juju - Security. (2016). Retrieved from
+      https://jujucharms.com/docs/1.20/howto-authorised-keys
+  JujuSup:
+    index: 140
+    value: >-
+      Juju - Support. (2016). Retrieved from
+      http://www.ubuntu.com/cloud/plans-and-pricing
+  JujuU:
+    index: 141
+    value: 'Juju - Ubuntu. (2016). Retrieved from http://www.ubuntu.com/cloud/jujuU'
+  KubConf:
+    index: 142
+    value: >-
+      Kubernetes - Configmap. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/configmap/
+  KubDep:
+    index: 143
+    value: >-
+      Kubernetes - Deployment. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/deploying-applications/
+  Kubernetes:
+    index: 144
+    value: 'Kubernetes. (2016). Retrieved from http://kubernetes.io/'
+  KubGithub:
+    index: 145
+    value: >-
+      Kubernetes GitHub. (2016). Retrieved from
+      https://github.com/kubernetes/kubernetes
+  KubGS:
+    index: 146
+    value: >-
+      Kubernetes - Getting Started. (2016). Retrieved from
+      http://kubernetes.io/docs/getting-started-guides/
+  KubOS:
+    index: 147
+    value: >-
+      Kubernetes - Getting Started. (2016). Retrieved from
+      http://kubernetes.io/docs/getting-started-guides/minikube/
+  KubPlug:
+    index: 148
+    value: >-
+      Kubernetes - Plugins. (2016). Retrieved from
+      http://kubernetes.io/docs/admin/network-plugins/
+  KubQS:
+    index: 149
+    value: >-
+      Kubernetes - Quick Start. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/quick-start/
+  KubScale:
+    index: 150
+    value: >-
+      Kubernetes - Autoscaling. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/walkthrough/
+  KubScale2:
+    index: 151
+    value: >-
+      Kubernetes - Resizing Replication Controller. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/resizing-a-replication-controller/
+  KubSec:
+    index: 152
+    value: >-
+      Kubernetes - Security. (2016). Retrieved from
+      http://kubernetes.io/docs/user-guide/kubeconfig-file/
+  KubSup:
+    index: 153
+    value: >-
+      Kubernetes - Support. (2016). Retrieved from
+      http://kubernetes.io/docs/troubleshooting/
+  MaeNG:
+    index: 154
+    value: >-
+      MaestroNG. (2016). Retrieved from
+      http://maestro-ng.readthedocs.io/en/latest/
+  MaeNGGit:
+    index: 155
+    value: >-
+      MaestroNG GitHub. (2016). Retrieved from
+      https://github.com/signalfx/maestro-ng
+  Mesos:
+    index: 156
+    value: 'Apache Mesos. (2016). Retrieved from http://mesos.apache.org/'
+  MesosGit:
+    index: 157
+    value: >-
+      Apache Mesos GitHub. (2016). Retrieved from
+      https://github.com/apache/mesos
+  MesosGS:
+    index: 158
+    value: >-
+      Apache Mesos. (2016). Retrieved from
+      http://mesos.apache.org/gettingstarted/
+  MesosSec:
+    index: 159
+    value: >-
+      Apache Mesos - Security. (2016). Retrieved from
+      http://mesos.apache.org/documentation/latest/ssl/
+  opTOSCAGit:
+    index: 160
+    value: 'OpenTOSCA GitHub. (2016). Retrieved from https://github.com/OpenTOSCA'
+  opTOSCAInstall:
+    index: 161
+    value: >-
+      OpenTOSCA. (2016). Retrieved from
+      http://opentosca.github.io/documentation/Documents/InstallationGuide.pdf
+  opTOSCAPresentation:
+    index: 162
+    value: >-
+      OpenTOSCA - Presentation. (2016). Retrieved from
+      http://www.opentosca.org/Documents/Presentation_OpenTOSCA.pdf
+  Pallet:
+    index: 163
+    value: 'Pallet. (2016). Retrieved from http://palletops.com/'
+  PalletFS:
+    index: 164
+    value: >-
+      Pallet - First Steps. (2016). Retrieved from
+      http://palletops.com/pallet/doc/first-steps/
+  PalletGit:
+    index: 165
+    value: 'Pallet - GitHub. (2016). Retrieved from https://github.com/pallet/pallet'
+  PalletOv:
+    index: 166
+    value: >-
+      Pallet - Overview. (2016). Retrieved from
+      http://palletops.com/pallet/doc/overview/
+  PalletProv:
+    index: 167
+    value: >-
+      Pallet - Providers. (2016). Retrieved from
+      http://palletops.com/pallet/doc/reference/providers/
+  PalletSec:
+    index: 168
+    value: >-
+      Pallet - Security. (2016). Retrieved from
+      http://palletops.com/pallet/doc/first-steps/
+  PalletSup:
+    index: 169
+    value: 'Pallet - Support. (2016). Retrieved from http://palletops.com/support/'
+  Picass:
+    index: 170
+    value: 'Picassio. (2016). Retrieved from https://github.com/Badgerati/Picassio/'
+  Puppet:
+    index: 171
+    value: 'Puppet. (2016). Retrieved from https://puppet.com/'
+  PuppetForge:
+    index: 172
+    value: 'Puppet - Forge. (2016). Retrieved from https://forge.puppet.com/'
+  PuppetGit:
+    index: 173
+    value: 'Puppet GitHub. (2016). Retrieved from https://github.com/puppetlabs/puppet'
+  PuppetOrch:
+    index: 174
+    value: >-
+      Puppet - Orchestration. (2016). Retrieved from
+      https://docs.puppet.com/pe/latest/app_orchestration_overview.html
+  PuppetRep:
+    index: 175
+    value: >-
+      Puppet - Reporting. (2016). Retrieved from
+      https://docs.puppet.com/puppet/4.5/reference/reporting_about.html
+  PuppetReq:
+    index: 176
+    value: >-
+      Puppet - System Requirements. (2016). Retrieved from
+      https://docs.puppet.com/puppet/4.5/reference/system_requirements.html
+  PuppetSec:
+    index: 177
+    value: >-
+      Puppet - Security. (2016). Retrieved from
+      https://docs.puppet.com/mcollective/security.html
+  PuppetSup:
+    index: 178
+    value: >-
+      Puppet - Support. (2016). Retrieved from
+      https://puppet.com/support-services/customer-support
+  SaltDocs:
+    index: 179
+    value: >-
+      Saltstack - Documentation. (2016). Retrieved from
+      https://docs.saltstack.com/en/latest/contents.html
+  SaltGit:
+    index: 180
+    value: 'Saltstack GitHub. (2016). Retrieved from https://github.com/saltstack/salt'
+  SaltInst:
+    index: 181
+    value: >-
+      Saltstack - Installation. (2016). Retrieved from
+      https://docs.saltstack.com/en/latest/topics/installation/index.html#quick-install
+  SaltModules:
+    index: 182
+    value: >-
+      Saltstack - Modules. (2016). Retrieved from
+      https://docs.saltstack.com/en/develop/ref/modules/all/index.html
+  SaltPlug:
+    index: 183
+    value: >-
+      Saltstack - Plugins. (2016). Retrieved from
+      https://docs.saltstack.com/en/getstarted/system/plugins.html
+  SaltSSH:
+    index: 184
+    value: >-
+      Saltstack - SSH. (2016). Retrieved from
+      https://docs.saltstack.com/en/latest/topics/ssh/index.html
+  SaltSup:
+    index: 185
+    value: 'Saltstack - Support. (2016). Retrieved from https://saltstack.com/support/'
+  SeaCl:
+    index: 186
+    value: 'SeaClouds. (2016). Retrieved from http://www.seaclouds-project.eu/'
+  SeaClDocs:
+    index: 187
+    value: >-
+      SeaClouds - Documentation. (2016). Retrieved from
+      http://www.seaclouds-project.eu/content/d46-prototype-and-detailed-documentation-seaclouds-run-time-environment-components
+  SeaClGit:
+    index: 188
+    value: 'SeaClouds GitHub. (2016). Retrieved from https://github.com/SeaCloudsEU'
+  Swarm:
+    index: 189
+    value: 'Swarm. (2016). Retrieved from https://docs.docker.com/swarm/overview/'
+  UrbDep:
+    index: 190
+    value: >-
+      UrbanCode_Deploy - Run Server. (2016). Retrieved from
+      http://www.ibm.com/support/knowledgecenter/en/SS4GSP_6.2.1/com.ibm.udeploy.install.doc/topics/run_server.html
+  UrbElIn:
+    index: 191
+    value: >-
+      UrbanCode_Deploy - Blueprint Designer. (2016). Retrieved from
+      https://developer.ibm.com/urbancode/products/urbancode-deploy/features/blueprint-designer/
+  UrbGit:
+    index: 192
+    value: >-
+      UrbanCode_Deploy - Whats New. (2016). Retrieved from
+      https://developer.ibm.com/urbancode/products/urbancode-release/whats-new/
+  UrbLife:
+    index: 193
+    value: >-
+      UrbanCode_Deploy - Life. (2016). Retrieved from
+      https://developer.ibm.com/urbancode/products/urbancode-deploy/#media/0/
+  UrbOS:
+    index: 194
+    value: >-
+      UrbanCode_Deploy - System Requirements. (2016). Retrieved from
+      http://www.ibm.com/support/knowledgecenter/en/SS4GSP_6.2.1/com.ibm.udeploy.install.doc/topics/sysRequire.html
+  UrbPlug:
+    index: 195
+    value: >-
+      UrbanCode_Deploy - Plugins. (2016). Retrieved from
+      https://developer.ibm.com/urbancode/plugins/
+  UrbProv:
+    index: 196
+    value: >-
+      UrbanCode_Deploy - Provisioning. (2016). Retrieved from
+      https://www.ibm.com/support/knowledgecenter/SSWS3W_6.1.0/com.ibm.edt.doc/topics/env_provision_edt.html
+  UrbScal:
+    index: 197
+    value: >-
+      UrbanCode_Deploy - Architecture. (2016). Retrieved from
+      https://developer.ibm.com/urbancode/products/urbancode-deploy/features/architecture/
+  UrbSec:
+    index: 198
+    value: >-
+      UrbanCode_Deploy - SSL Installation. (2016). Retrieved from
+      http://www.ibm.com/support/knowledgecenter/en/SS4GSP_6.2.1/com.ibm.udeploy.doc/topics/SSLinstall.html
+  UrbSupp:
+    index: 199
+    value: >-
+      UrbanCode_Deploy - Support. (2016). Retrieved from
+      http://www.ibm.com/support/knowledgecenter/en/SS4GSP_6.2.1/com.ibm.udeploy.doc/topics/c_latest_technote_ucd.html
+  Vagrant:
+    index: 200
+    value: 'Vagrant. (2016). Retrieved from https://www.vagrantup.com/'
+  VagrElIn:
+    index: 201
+    value: >-
+      Vagrant - Why Vagrant. (2016). Retrieved from
+      https://www.vagrantup.com/docs/why-vagrant/
+  VagrGitHub:
+    index: 202
+    value: >-
+      Vagrant GitHub. (2016). Retrieved from
+      https://github.com/mitchellh/vagrant
+  VagrPlug:
+    index: 203
+    value: >-
+      Vagrant - Plugins. (2016). Retrieved from
+      https://www.vagrantup.com/docs/plugins/
+  VagrProv:
+    index: 204
+    value: >-
+      Vagrant - Provisioning. (2016). Retrieved from
+      https://www.vagrantup.com/docs/provisioning/
+  VagrSec:
+    index: 205
+    value: >-
+      Vagrant - Security. (2016). Retrieved from
+      https://www.vagrantup.com/docs/share/
+  VagrSupp:
+    index: 206
+    value: >-
+      Vagrant - Support. (2016). Retrieved from
+      https://www.vagrantup.com/support.html
