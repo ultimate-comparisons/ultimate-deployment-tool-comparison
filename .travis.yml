@@ -12,6 +12,9 @@ deploy:
 before_install:
 - npm install -g npm
 - java -version
-- npm -version
-- npm install
+before_script:
+- npm update ultimate-comparison
+cache:
+  directories:
+    - node_modules
 dist: trusty
